@@ -1,45 +1,22 @@
-<?php session_start(); ?>
-<html>
-
-<head>
-  <?php include "head.php"; ?>
-</head>
-
 <body>
-  <?php include "header.php" ?>
-<div class="content">
-          <?php
-        if($_SESSION['logged_in']==1){
-          if ($_SESSION['user_type']=='A') {
-            $user_type="Admin";
-          }
-          else{
-            $user_type="User";
-          }
-echo '<div class="alert alert-success" role="alert">
-  Your logged in as '.$user_type.' with login name '.$_SESSION['login_name'].'
-</div>';
-        }
-        ?>
-    
+    <div class="body-container">
+    	<?php include 'left_menu.php'; ?>
+    	    <div role="main" class="main-content">
+
+          <div class="page-content container container-plus">
+            <!-- page header and toolbox -->
+            <div class="page-header pb-2">
+              <h1 class="page-title text-primary-d2 text-150">
+                Dashboard
+                <small class="page-info text-secondary-d2 text-nowrap">
+                  <i class="fa fa-angle-double-right text-80"></i>
+                  overview &amp; stats
+                </small>
+              </h1>
+            </div>
+
 </div>
-
-
-  <div class="container">
-    <div class="card-deck mb-3 text-center">
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-      
-        
-        </div>
-      </div>
-
-    </div>
-
-
-  </div>
-
-  <?php include 'footer.php';?>
+</div>
+</div>
+<?php include 'footer.php'; ?>
 </body>
-
-</html>

@@ -9,16 +9,26 @@ $lang_location_title="Location";
 
 ?>
 <html>
-    <head>
-      <?php include "head.php";?>
-    </head>
-<body>
-<?php include "header.php"; ?>
-  
-     <div class="content">
-  <center>
+   <body>
+    <div class="body-container">
+      <?php include 'left_menu.php'; ?>
+          <div role="main" class="main-content">
+
+          <div class="page-content container container-plus">
+            <!-- page header and toolbox -->
+            <div class="page-header pb-2">
+              <h1 class="page-title text-primary-d2 text-150">
+                Dashboard
+                <small class="page-info text-secondary-d2 text-nowrap">
+                  <i class="fa fa-angle-double-right text-80"></i>
+                  Settings
+                </small>
+              </h1>
+            </div>
+
+    
       <div class="container">
-       <div class="card" style="width: 80rem; height:auto; padding:inherit;">
+       <div class="card" >
   <ul class="list-group list-group-flush">
     <a href="user_list.php"><li class="list-group-item"><?php echo $lang_users_title; ?></li></a>
     <a href="group_list.php"><li class="list-group-item"><?php echo $lang_groups_title; ?></li></a>
@@ -28,17 +38,11 @@ $lang_location_title="Location";
   </ul>
 </div>
       </div>
-    </center>
-  <div class="container">
- <footer class="pt-4 my-md-5 pt-md-5 border-top">
-          <div class="row">
-             <div class="card-deck mb-3 text-center">
-           
-         </div>
-          </div>
-        </footer>
-      </div>
-    </div>
-      <?php include 'footer.php';?>
+   </div>
+
+  </div>
+ </div>
+
+<?php include 'footer.php'; ?>
 </body>
 </html>

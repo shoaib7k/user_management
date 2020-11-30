@@ -53,22 +53,28 @@ if($_GET['act']=='delete'){
 ?>
 <html>
 
-<head>
-  <?php include "head.php"; ?>
-</head>
 
-<body style="position: relative;">
-  <?php include "header.php"; ?>
+<body>
+    <div class="body-container">
+      <?php include 'left_menu.php'; ?>
+          <div role="main" class="main-content">
 
-
-  <div class="container">
-    <div class="card-deck mb-3 text-center">
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalGroupAdd">
-            New Group Add
-          </button>
+          <div class="page-content container container-plus">
+            <!-- page header and toolbox -->
+            <div class="page-header pb-2">
+              <h1 class="page-title text-primary-d2 text-150">
+                Dashboard
+                <small class="page-info text-secondary-d2 text-nowrap">
+                  <i class="fa fa-angle-double-right text-80"></i>
+                  Group List
+                </small>
+              </h1>
+            </div>
+              <div class="text-center mb-4">
+                            <a href="#aside-compose" data-toggle="modal" data-target="#exampleModalGroupAdd" class="btn btn-blue px-45 py-2 text-105 radius-2">
+                              <i class="fa fa-pencil-alt mr-1"></i>
+                            Add New Group</a>
+                          </div>
           <!-- Modal -->
           <div class="modal fade" id="exampleModalGroupAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -97,8 +103,7 @@ if($_GET['act']=='delete'){
             </div>
           </div>
         </div>
-      </div>
-    </div>
+     
 
    <div class="container">
     <h1><a href="">Group List</a></h1>
@@ -232,18 +237,15 @@ if($_GET['act']=='delete'){
     </div>
 
     <div class="clearfix"></div>
-    <footer style="
-   bottom:0;
-   width:100%;
-   height:40px;
-   background:#1D7852;
-   color: #F8F8F8">
-    <p>@Radeburger Fensterbau GmbH</p>
-</footer>
-    </div> <!--/.container-->
    
+    <!--/.container-->
+
+    </div>
+
   </div>
- <?php include 'footer.php';?>
+ </div>
+
+<?php include 'footer.php'; ?>
 </body>
 
 </html>

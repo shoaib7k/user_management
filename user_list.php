@@ -143,8 +143,7 @@ if($_GET['act']=='delete'){
 <html>
 
 <head>
-  <?php include "head.php" ;?>
-
+  
   <style type="text/css">
     .multiselect-container {
       position: absolute;
@@ -226,18 +225,28 @@ if($_GET['act']=='delete'){
   </script>
 </head>
 
-<body style="position: relative;">
-  <?php include "header.php"; ?>
 
+<body>
+    <div class="body-container">
+      <?php include 'left_menu.php'; ?>
+          <div role="main" class="main-content">
 
-  <div class="container">
-    <div class="card-deck mb-3 text-center">
-      <div class="card mb-s box-shadow">
-        <div class="card-header">
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">
-            Add New User
-          </button>
+          <div class="page-content container container-plus">
+            <!-- page header and toolbox -->
+            <div class="page-header pb-2">
+              <h1 class="page-title text-primary-d2 text-150">
+                Dashboard
+                <small class="page-info text-secondary-d2 text-nowrap">
+                  <i class="fa fa-angle-double-right text-80"></i>
+                  User List
+                </small>
+              </h1>
+            </div>
+              <div class="text-center mb-4">
+                            <a href="#aside-compose" data-toggle="modal" data-target="#userModal" class="btn btn-blue px-45 py-2 text-105 radius-2">
+                              <i class="fa fa-pencil-alt mr-1"></i>
+                            Add New User</a>
+                          </div>
 
           <!-- Modal -->
           <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -332,9 +341,9 @@ if($_GET['act']=='delete'){
               </div>
             </div>
           </div>
-        </div>
+       
 
-      </div>
+      
       <div class="container">
         <h1><a href="">User List</a></h1>
         <hr>
@@ -521,14 +530,7 @@ if($_GET['act']=='delete'){
         </div>
 
         <div class="clearfix"></div>
-        <footer style="
-   bottom:0;
-   width:100%;
-   height:40px;
-   background:#1D7852;
-   color: #F8F8F8">
-    <p> @Radeburger Fensterbau GmbH</p>
-</footer>
+      
       </div>
       <!--/.container-->
 
@@ -536,8 +538,11 @@ if($_GET['act']=='delete'){
     </div>
 
   </div>
-  <?php include 'footer.php';?>
+ </div>
+
+<?php include 'footer.php'; ?>
 </body>
+
 <script type="text/javascript">
   $(document).ready(function() {
     $('#example-getting-started').multiselect();
