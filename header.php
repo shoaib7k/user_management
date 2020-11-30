@@ -25,15 +25,31 @@
   </nav>
 </div>
 <div class="sidebar">
-  <a class="active" href="#home">Calendar</a>
+  <a class="active" href="home.php">Home</a>
+  <a  href="#home">Calendar</a>
   <a href="#news">Information</a>
   <a href="#contact">Contact</a>
   <a href="#about">Training</a>
   <a href="#about">Templates</a>
+  <a href="settings.php">Users</a>
+  <a href="logout.php">Logout</a>
 </div>
 
 <div class="content">
-  <h1>Homepage content will be here</h1>
+          <?php
+        if($_SESSION['logged_in']==1){
+          if ($_SESSION['user_type']=='A') {
+            $user_type="Admin";
+          }
+          else{
+            $user_type="User";
+          }
+echo '<div class="alert alert-success" role="alert">
+  Your logged in as '.$user_type.' with login name '.$_SESSION['login_name'].'
+</div>';
+        }
+        ?>
+    
 </div>
            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -80,17 +96,3 @@
             </div>
           </div>
         </div>
-        <?php
-        if($_SESSION['logged_in']==1){
-          if ($_SESSION['user_type']=='A') {
-            $user_type="Admin";
-          }
-          else{
-            $user_type="User";
-          }
-echo '<div class="alert alert-success" role="alert">
-  Your logged in as '.$user_type.' with login name '.$_SESSION['login_name'].'
-</div>';
-        }
-        ?>
-    

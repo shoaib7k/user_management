@@ -10,10 +10,10 @@ if ($login_result && pg_num_rows($login_result) == 1) {
 		$_SESSION['logged_in']=1;
 		$_SESSION['login_name']=$val['login_name'];
 		$_SESSION['user_type']=$val['user_type'];
-		header('location: index.php');
+		header('location: home.php');
 	}
 }
 else{
-	header('location: index.php');
+	header('location: index.php?msg');
 }
 ?>
