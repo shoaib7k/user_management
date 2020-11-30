@@ -35,23 +35,8 @@
   <a href="logout.php">Logout</a>
 </div>
 
-<div class="content">
-          <?php
-        if($_SESSION['logged_in']==1){
-          if ($_SESSION['user_type']=='A') {
-            $user_type="Admin";
-          }
-          else{
-            $user_type="User";
-          }
-echo '<div class="alert alert-success" role="alert">
-  Your logged in as '.$user_type.' with login name '.$_SESSION['login_name'].'
-</div>';
-        }
-        ?>
-    
-</div>
-           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -96,3 +81,4 @@ echo '<div class="alert alert-success" role="alert">
             </div>
           </div>
         </div>
+      -->

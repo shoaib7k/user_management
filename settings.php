@@ -15,7 +15,7 @@ $lang_location_title="Location";
 <body>
 <?php include "header.php"; ?>
   
-     
+     <div class="content">
   <center>
       <div class="container">
        <div class="card" style="width: 80rem; height:auto; padding:inherit;">
@@ -38,6 +38,7 @@ $lang_location_title="Location";
           </div>
         </footer>
       </div>
+    </div>
       <?php include 'footer.php';?>
 </body>
 </html>
