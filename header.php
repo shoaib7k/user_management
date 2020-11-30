@@ -1,3 +1,9 @@
+<?php
+session_start();
+if($_SESSION['logged_in']!=1){
+  header('location: index.php');
+}
+?>
 <div>
   <nav class="navbar navbar-default" >
     <a class="navbar-brand" href="index.php"><img src="./images/rf-logo-intranet.svg" alt="Dispute Bills">
