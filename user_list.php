@@ -17,6 +17,13 @@ if ($_GET['act'] == 'useradd') {
   $login_name = $_POST['login_name'];
   $password = $_POST['password'];
   $user_type = $_POST['user_type'];
+  $telephone1=$_POST['telephone1'];
+  $telephone2=$_POST['telephone2'];
+  $telephone3=$_POST['telephone3'];
+  $email1=$_POST['email1'];
+  $email2=$_POST['email2'];
+  $email3=$_POST['email3'];
+  $company=$_POST['company'];
   $add_to_contact = isset($_POST['add_to_contact']);
   if ($db_connection) {
     $sql = "insert into users (login_name,first_name,last_name,password,user_type) values ('" . $login_name . "','" . $first_name . "','" . $last_name . "','" . $password . "','" . $user_type . "') RETURNING id";
@@ -35,7 +42,7 @@ if ($_GET['act'] == 'useradd') {
         }
       }
       if ($add_to_contact == 1) {
-        $sql2 = "insert into kontakte (vorname,nachname,user_id) values ('" . $first_name . "','" . $last_name . "','" . $inserted_id . "')";
+        $sql2 = "insert into kontakte (vorname,nachname,user_id,telefon1,telefon2,telefon3,email1,email2,email3,firma) values ('" . $first_name . "','" . $last_name . "','" . $inserted_id . "','".$telephone1."','".$telephone2."','".$telephone3."','".$email1."','".$email2."','".$email3."','".$company."')";
         $db_result2 = pg_query($db_connection, $sql2);
         if ($db_result2) {
           pg_free_result($db_result2);
@@ -163,7 +170,7 @@ if($_GET['act']=='delete'){
 
           <!-- Modal -->
           <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-md">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">New User</h5>
@@ -173,28 +180,93 @@ if($_GET['act']=='delete'){
                 </div>
                 <div class="modal-body">
                   <form method="POST" action="user_list.php?act=useradd">
-                    <div class="form-group">
+                    <div class="form-group row">
+                   
+                    <div class="col">
+                      <div class="form-group">
                       <label for="formGroupExampleInput">First Name</label>
                       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
                     </div>
+                  </div>
+                  <div class="col">
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Last Name</label>
                       <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
                     </div>
+                    </div>
+                  </div>
+          <div class="form-group row">
+                    <div class="col">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Login Name</label>
                       <input type="text" name="login_name" class="form-control" id="login_name" aria-describedby="emailHelp" placeholder="Login Name">
                     </div>
+                  </div>
+                  <div class="col">
                     <div class="form-group">
                       <label for="exampleInputPassword1">Password</label>
                       <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                     </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                   
+                    <div class="col">
+                      <div class="form-group">
+                      <label for="formGroupExampleInput">Email-1</label>
+                      <input type="text" name="email1" class="form-control" id="email1" placeholder="Email-1">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Email-2</label>
+                      <input type="text" name="email2" class="form-control" id="email2" placeholder="Email-2">
+                    </div>
+                    </div>
+                    <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Email-3</label>
+                      <input type="text" name="email3" class="form-control" id="email3" placeholder="Email-3">
+                    </div>
+                    </div>
+                  </div>
+                   <div class="form-group row">
+                   
+                    <div class="col">
+                      <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-1</label>
+                      <input type="text" name="telephone1" class="form-control" id="telephone1" placeholder="Telephone-1">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-2</label>
+                      <input type="text" name="telephone2" class="form-control" id="telephone2" placeholder="Telephone-2">
+                    </div>
+                    </div>
+                    <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-3</label>
+                      <input type="text" name="telephone3" class="form-control" id="telephone3" placeholder="Telephone-3">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col">
                     <div class="form-group">
                       <label for="user_type">User Type</label>
                       <select class="form-control" id="user_type" name="user_type">
                         <option value="U">User</option>
                         <option value="A">Admin</option>
                       </select>
+                    </div>
+                    </div>
+                    <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Company</label>
+                      <input type="text" name="company" class="form-control" id="company" placeholder="Company">
+                    </div>
+                    </div>
                     </div>      
                     <div class="form-group">
                       <label for="group_add">Select Groups</label>
