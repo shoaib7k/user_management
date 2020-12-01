@@ -2,14 +2,14 @@
             <div class="footer-inner" style="background-color: #1D7852
 ">
               <div class="pt-3 border-none border-t-3 brc-grey-l2 border-double">
-                <span class="text-primary-m1 font-bolder text-120">Intranet</span>
-                <span class="text-white">@Radeburger Fensterbau GmbH &copy; 2020</span>
+                <!-- <span class="text-primary-m1 font-bolder text-120">Intranet</span> -->
+                <span class="text-white">@Radeburger Fensterbau GmbH</span>
 
-                <span class="mx-3 action-buttons">
+                <!-- <span class="mx-3 action-buttons">
                       <a href="#" class="text-blue-m2 text-150"><i class="fab fa-twitter-square"></i></a>
                       <a href="#" class="text-blue-d2 text-150"><i class="fab fa-facebook"></i></a>
                       <a href="#" class="text-orange-d1 text-150"><i class="fa fa-rss-square"></i></a>
-                   </span>
+                   </span> -->
               </div>
             </div><!-- .footer-inner -->
 

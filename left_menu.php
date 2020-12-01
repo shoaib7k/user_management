@@ -16,7 +16,7 @@ if($_SESSION['logged_in']!=1){
               <span class="bars"></span>
             </button><!-- mobile sidebar toggler button -->
 
-           !<!-- <a class="navbar-brand text-white" href="#">
+           <!-- <a class="navbar-brand text-white" href="#">
               <i class="fa fa-leaf"></i>
               <span>Ace</span>
               <span>App</span>
@@ -246,7 +246,7 @@ if($_SESSION['logged_in']!=1){
                 <div class="fadeinable">
                   <!-- shows this when collapsed -->
                   <div class="pos-rel">
-                    <img alt="Alexa's Photo" src="assets/image/avatar/avatar3.jpg" width="42" class="px-1px radius-round mx-2 border-2 brc-default-m2" />
+                    <!-- <img alt="Alexa's Photo" src="assets/image/avatar/avatar3.jpg" width="42" class="px-1px radius-round mx-2 border-2 brc-default-m2" /> -->
                     <span class="bgc-success radius-round border-2 brc-white p-1 position-tr mr-1 mt-2px"></span>
                   </div>
                 </div>
