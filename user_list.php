@@ -234,13 +234,13 @@ if($_GET['act']=='delete'){
           <div class="page-content container container-plus">
             <!-- page header and toolbox -->
             <div class="page-header pb-2">
-              <h1 class="page-title text-primary-d2 text-150">
-                Dashboard
-                <small class="page-info text-secondary-d2 text-nowrap">
-                  <i class="fa fa-angle-double-right text-80"></i>
-                  User List
-                </small>
-              </h1>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+              <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
+              <li class="breadcrumb-item active">User List</li>
+            </ol>
+          </nav>
             </div>
               <div class="text-center mb-4">
                             <a href="#aside-compose" data-toggle="modal" data-target="#userModal" class="btn btn-blue px-45 py-2 text-105 radius-2">
