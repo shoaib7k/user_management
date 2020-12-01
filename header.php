@@ -34,7 +34,7 @@ if($_SESSION['logged_in']!=1){
   <a class="active" href="home.php">Home</a>
   <a  href="#home">Calendar</a>
   <a href="#news">Information</a>
-  <a href="#contact">Contact</a>
+  <a href="contact_list.php">Contact</a>
   <a href="#about">Training</a>
   <a href="#about">Templates</a>
   <a href="settings.php">Users</a>

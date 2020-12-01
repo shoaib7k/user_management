@@ -30,7 +30,7 @@
 
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <!-- <link rel="icon" type="image/png" href="./assets/favicon.png" /> -->
   </head>
 
   <body>
@@ -60,25 +60,24 @@
 
                       <div class="tab-pane active show mh-100 px-3 px-lg-0 pb-3" id="id-tab-login">
                         <!-- show this in desktop -->
+                        
                         <div class="d-none d-lg-block col-md-6 offset-md-3 mt-lg-4 px-0">
-                          <h4 class="text-dark-tp4 border-b-1 brc-secondary-l2 pb-1 text-130">
-                            <i class="fa fa-coffee text-orange-m1 mr-1"></i>
-                            Welcome Back
-                          </h4>
+                        
+                        <a href="index.php">
+                          <img src="./images/rf-logo-intranet.svg" alt="Dispute Bills">
+                          </a>
                         </div>
 
                         <!-- show this in mobile device -->
                         <div class="d-lg-none text-secondary-m1 my-4 text-center">
-                          <a href="html/dashboard.html">
-                            <i class="fa fa-leaf text-success-m2 text-200 mb-4"></i>
+                          <a href="index.php">
+                          <img src="./images/rf-logo-intranet.svg" alt="Dispute Bills">
                           </a>
                           <h1 class="text-170">
-                            <span class="text-blue-d1">
-                                Intranet <span class="text-80 text-dark-tp3">Application</span>
-                            </span>
+                            
                           </h1>
 
-                          Welcome back
+                
                           <?php 
 if(isset($_GET['msg']))
 {

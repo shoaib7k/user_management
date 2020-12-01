@@ -29,8 +29,8 @@
     <link rel="stylesheet" type="text/css" href="./dist/css/ace.css">
 
 
-    <!-- favicon -->
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <!-- favicon
+    <link rel="icon" type="image/png" href="./assets/favicon.png" /> -->
 
     
   </head>
