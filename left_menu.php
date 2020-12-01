@@ -148,7 +148,16 @@ if($_SESSION['logged_in']!=1){
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item">
+                  <a href="user_list.php" class="nav-link">
+                    <i class="nav-icon fa fa-users"></i>
+                    <span class="nav-text fadeable">
+                  <span>Users</span>
+                    </span>
+                  </a>
+                  <b class="sub-arrow"></b>
+                </li>
+              <!--  <li class="nav-item">
                   <a href="#" class="nav-link dropdown-toggle collapsed">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="nav-text fadeable">
@@ -183,7 +192,8 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
 
                 </li>
-                <li class="nav-item">
+              -->
+                <!--<li class="nav-item">
                   <a href="#" class="nav-link dropdown-toggle collapsed">
                     <i class="nav-icon fa fa-object-group"></i>
                     <span class="nav-text fadeable">
@@ -217,6 +227,16 @@ if($_SESSION['logged_in']!=1){
 
                   <b class="sub-arrow"></b>
 
+                </li>
+              -->
+               <li class="nav-item">
+                  <a href="group_list.php" class="nav-link">
+                    <i class="nav-icon fa fa-object-group"></i>
+                    <span class="nav-text fadeable">
+                  <span>Groups</span>
+                    </span>
+                  </a>
+                  <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
                   <a href="settings.php" class="nav-link">

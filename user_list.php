@@ -184,6 +184,19 @@ if($_GET['act']=='delete'){
             </ol>
           </nav>
             </div>
+             <?php 
+            if($_SESSION['user_type']=='U'){
+                echo ' <div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
+                        <span class="fa-2x text-white">
+                ⚠ <!-- &#9888; -->
+              </span>
+                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+              You do not have permission to access this page!
+            </span></div>';
+            exit();
+            }
+            ?>
               <div class="text-center mb-4">
                             <a href="#aside-compose" data-toggle="modal" data-target="#userModal" class="btn btn-blue px-45 py-2 text-105 radius-2">
                               <i class="fa fa-pencil-alt mr-1"></i>
