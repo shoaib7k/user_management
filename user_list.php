@@ -360,7 +360,52 @@ if($_GET['act']=='delete'){
                         <option value="A">Admin</option>
                       </select>
                     </div>
-                 
+                    <div class="form-group">
+                      <label for="group_add">Select Groups</label>
+                      <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+     $db_sql3 = "select id, group_id from user_groups where user_id='".$val['id']."' and group_id='".$group_id."'";
+
+                        $db_result3 = pg_query($db_connection, $db_sql3);
+
+                        if (!$db_result3) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+                          if (pg_num_rows($db_result3) > 0) {
+                          echo "selected";
+                          }
+                        }
+
+    
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
                   <!--  <div class="form-group">
                       <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1">
                       <label class="form-check-label" for="exampleCheck1">I want to add this user to contact information</label>
