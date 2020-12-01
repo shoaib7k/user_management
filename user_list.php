@@ -76,7 +76,11 @@ if ($_GET['act'] == 'update_user') {
   $email2=$_POST['email2'];
   $email3=$_POST['email3'];
   $company=$_POST['company'];
-  //$add_to_contact = isset($_POST['add_to_contact']);
+  $add_to_contact = isset($_POST['add_to_contact']);
+  $show_to_contact = isset($_POST['show_to_contact']);
+  if ($show_to_contact!=1) {
+  $show_to_contact=0;
+  }
   if ($db_connection) {
     if(empty($password)){
     $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."',telephone1='".$telephone1."',telephone2='".$telephone2."',telephone3='".$telephone3."',email1='".$email1."',email2='".$email2."',email3='".$email3."',company='".$company."' where id='".$user_id."'";  
@@ -84,6 +88,16 @@ if ($_GET['act'] == 'update_user') {
     else{
     $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."',password='".$password."',telephone1='".$telephone1."',telephone2='".$telephone2."',telephone3='".$telephone3."',email1='".$email1."',email2='".$email2."',email3='".$email3."',company='".$company."' where id='".$user_id."'";
   }
+   $sql_contactu = "UPDATE kontakte SET vorname='".$first_name."',nachname='".$last_name."',telefon1='".$telephone1."',telefon2='".$telephone2."',telefon3='".$telephone3."',email1='".$email1."',email2='".$email2."',email3='".$email3."',firma='".$company."',showing='".$show_to_contact."' where user_id='".$user_id."'";
+   $db_resultcontactu = pg_query($db_connection, $sql_contactu);
+   if($add_to_contact==1){
+      $sql_addtocontact = "insert into kontakte (vorname,nachname,user_id,telefon1,telefon2,telefon3,email1,email2,email3,firma) values ('" . $first_name . "','" . $last_name . "','" . $user_id . "','".$telephone1."','".$telephone2."','".$telephone3."','".$email1."','".$email2."','".$email3."','".$company."')";
+        $db_result_addcon = pg_query($db_connection, $sql_addtocontact);
+        if ($db_result_addcon) {
+          pg_free_result($db_result_addcon);
+          // header("location: group_list.php");
+        }
+   }
     $db_resultu1 = pg_query($db_connection, $sqlu1);
     if ($db_resultu1) {
       $row = pg_fetch_row($db_resultu1);
@@ -177,8 +191,8 @@ if($_GET['act']=='delete'){
                           </div>
 
           <!-- Modal -->
-          <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
+          <div class="modal fade modal-fs" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">New User</h5>
@@ -275,10 +289,10 @@ if($_GET['act']=='delete'){
                       <input type="text" name="company" class="form-control" id="company" placeholder="Company">
                     </div>
                     </div>
-                    </div>      
-                    <div class="form-group">
+                    <div class="col">
+                       <div class="form-group">
                       <label for="group_add">Select Groups</label>
-                  <select id="example-getting-started" class="selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
                         $db_sql = "select id, group_name from groups";
@@ -307,6 +321,9 @@ if($_GET['act']=='delete'){
                       </select>
 
                     </div>
+                    </div>
+                    </div>      
+                   
 
                     <div class="form-group">
                       <div class="card-body">
@@ -374,6 +391,13 @@ if($_GET['act']=='delete'){
             if ($pages->items_total > 0) {
               $n  =   1;
               while ($val  =   pg_fetch_array($result)) {
+                $showing=0;
+                $userid=$val['id'];
+                $q1 = pg_query("SELECT showing FROM kontakte where user_id='".$userid."'");
+                $number_row=pg_num_rows($q1);
+                $row1=pg_fetch_assoc($q1);
+                $showing=$row1['showing'];
+
             ?>
                 <tr>
                   <td><?php echo $n++; ?></td>
@@ -390,8 +414,8 @@ if($_GET['act']=='delete'){
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         <span><strong>Edit</strong></span>            
     </a>
-            <div class="modal fade" id="editUser<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
+            <div class="modal fade modal-fs" id="editUser<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
@@ -492,8 +516,8 @@ if($_GET['act']=='delete'){
                       <input type="text" name="company" class="form-control" id="company" placeholder="Company" value="<?php echo $val['company']; ?>">
                     </div>
                     </div>
-                    </div>    
-                    <div class="form-group">
+                    <div class="col">
+                      <div class="form-group">
                       <label for="group_add">Select Groups</label>
                       <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
@@ -539,11 +563,27 @@ if($_GET['act']=='delete'){
                       </select>
 
                     </div>
-                  <!--  <div class="form-group">
-                      <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1">
-                      <label class="form-check-label" for="exampleCheck1">I want to add this user to contact information</label>
                     </div>
-                  -->
+                    </div>    
+                    <?php if($number_row==1){ ?>
+                  <div class="form-group">
+                      <div class="card-body">
+                      <input type="checkbox" name="show_to_contact" class="form-check-input" id="exampleCheck1" value="<?php echo $showing; ?>" <?php if($showing==1) { echo "checked"; } ?> />
+                      <label class="form-check-label" for="exampleCheck1"><?php if($showing==0) { echo "This user is in contact list but not showing. Want to show in contact list ? If yes then checked else unchecked."; } else{
+                        echo "This user is in contact list. Want to show in contact list ? If not then unchecked else checked.";
+                      }
+                        ?></label>
+                    </div>
+                    </div>
+                  <?php } ?>
+                    <?php if($number_row==0){ ?>
+<div class="form-group">
+                      <div class="card-body">
+                      <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1" />
+                      <label class="form-check-label" for="exampleCheck1">This user is not in contact list. Want to add it in contact list ? If not then unchecked else checked.</label>
+                    </div>
+                    </div>
+                  <?php } ?>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <input type="submit" class="btn btn-primary" value="Add">
