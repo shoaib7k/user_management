@@ -5,7 +5,7 @@ if($_SESSION['logged_in']!=1){
   header('location: index.php');
 }
 ?>
-   <nav class="navbar navbar-expand-lg navbar-fixed navbar-blue">
+   <nav class="navbar navbar-expand-lg navbar-fixed navbar" style="background-color: #f1f3f6;">
         <div class="navbar-inner">
 
           <div class="navbar-intro justify-content-xl-between" style="background-color: #FFFFFF;">
@@ -50,7 +50,7 @@ if($_SESSION['logged_in']!=1){
 
                 <li class="nav-item dropdown order-first order-lg-last">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img id="id-navbar-user-image" class="d-none d-lg-inline-block radius-round border-2 brc-white-tp1 mr-2 w-6" src="assets/image/avatar/avatar6.jpg" alt="Jason's Photo">
+                   
                     <span class="d-inline-block d-lg-none d-xl-inline-block">
                               <span class="text-90" id="id-user-welcome">Welcome,</span>
                     <span class="nav-user-name"><?php echo $_SESSION['login_name'];?></span>
@@ -143,7 +143,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="contact.php" class="nav-link">
+                  <a href="contact_list.php" class="nav-link">
                     <i class="nav-icon fa fa-address-card"></i>
                     <span class="nav-text fadeable">
                   <span>Contact</span>

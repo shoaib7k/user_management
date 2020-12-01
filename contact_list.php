@@ -53,56 +53,26 @@ $lang_group_name = "Group Name";
 ?>
 <html>
 
-<head>
-  <?php include "head.php"; ?>
-</head>
+<body>
+    <div class="body-container">
+      <?php include 'left_menu.php'; ?>
+          <div role="main" class="main-content">
 
-<body style="position: relative;">
-  <?php include "header.php"; ?>
-
-
-  <div class="container">
-    <div class="card-deck mb-3 text-center">
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <!-- Button trigger modal -->
-          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            New Group Add
-          </button> -->
-          <!-- Modal -->
-          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New Group</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form method="POST" action="group_list.php?act=add_group">
-                    <div class="form-group row">
-                      <label for="groupName" class="col-sm-4 col-form-label"><?php echo $lang_group_name; ?></label>
-                      <div class="col-sm-8">
-                        <input type="text" name="group_name" id="group_name" class="form-control">
-                      </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
-                </div>
-                </form>
-              </div>
+          <div class="page-content container container-plus">
+            <!-- page header and toolbox -->
+            <div class="page-header pb-2">
+              <h1 class="page-title text-primary-d2 text-150">
+                Dashboard
+                <small class="page-info text-secondary-d2 text-nowrap">
+                  <i class="fa fa-angle-double-right text-80"></i>
+                  Contact List
+                </small>
+              </h1>
             </div>
-          </div> -->
-        </div>
-      </div>
-    </div>
-
-   <div class="container">
-    <h1><a href="">Contact List</a></h1>
+  
+    <h1><a href="">Group List</a></h1>
       <hr>
+    
     <?php
    /* if(isset($_REQUEST['tb1'])) {
       $condition    = "";
@@ -223,18 +193,16 @@ $lang_group_name = "Group Name";
     </div>
 
     <div class="clearfix"></div>
-    <footer style="
-   bottom:0;
-   width:100%;
-   height:40px;
-   background:#1D7852;
-   color: #F8F8F8">
-    <p>@Radeburger Fensterbau GmbH</p>
-</footer>
-    </div> <!--/.container-->
    
+     <!--/.container-->
+   
+  
+    </div>
+
   </div>
- <?php include 'footer.php';?>
+ </div>
+
+<?php include 'footer.php'; ?>
 </body>
 
 </html>
