@@ -15,6 +15,14 @@
     <link rel="stylesheet" type="text/css" href="./node_modules/@fortawesome/fontawesome-free/css/brands.css">
     <link rel="stylesheet" type="text/css" href="./node_modules/@fortawesome/fontawesome-free/css/solid.css">
    
+       <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-select/dist/css/bootstrap-select.css">
+
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-duallistbox/dist/bootstrap-duallistbox.css">
+
+
+    <link rel="stylesheet" type="text/css" href="./node_modules/select2/dist/css/select2.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/chosen-js/chosen.css">
+
    
 
      

@@ -24,5 +24,12 @@
     <script src="./node_modules/jquery/dist/jquery.js"></script>
     <script src="./node_modules/popper.js/dist/umd/popper.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+   <script src="./node_modules/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="./node_modules/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.js"></script>
+
+
+    <script src="./node_modules/select2/dist/js/select2.js"></script>
+    <script src="./node_modules/chosen-js/chosen.jquery.js"></script>
+
     <!-- include ace.js -->
     <script src="./dist/js/ace.js"></script>

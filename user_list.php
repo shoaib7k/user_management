@@ -195,7 +195,7 @@ if($_GET['act']=='delete'){
                         <option value="U">User</option>
                         <option value="A">Admin</option>
                       </select>
-                    </div>
+                    </div>      
                     <div class="form-group">
                       <label for="group_add">Select Groups</label>
                   <select id="example-getting-started" class="selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
@@ -240,8 +240,10 @@ if($_GET['act']=='delete'){
               </div>
       </div> -->
                     <div class="form-group">
+                      <div class="card-body">
                       <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1">
                       <label class="form-check-label" for="exampleCheck1">I want to add this user to contact information</label>
+                    </div>
                     </div>
 
                     <div class="modal-footer">
@@ -408,15 +410,15 @@ if($_GET['act']=='delete'){
 
   </div>
  </div>
-
-<?php include 'footer.php'; ?>
-
 <script type="text/javascript">
 
   $(document).ready(function() {
     $('#example-getting-started').multiselect();
   });
 </script>
+<?php include 'footer.php'; ?>
+
+
 
 </body>
 </html>
