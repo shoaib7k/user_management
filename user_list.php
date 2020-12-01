@@ -26,7 +26,7 @@ if ($_GET['act'] == 'useradd') {
   $company=$_POST['company'];
   $add_to_contact = isset($_POST['add_to_contact']);
   if ($db_connection) {
-    $sql = "insert into users (login_name,first_name,last_name,password,user_type) values ('" . $login_name . "','" . $first_name . "','" . $last_name . "','" . $password . "','" . $user_type . "') RETURNING id";
+    $sql = "insert into users (login_name,first_name,last_name,password,user_type,telephone1,telephone2,telephone3,email1,email2,email3,company) values ('" . $login_name . "','" . $first_name . "','" . $last_name . "','" . $password . "','" . $user_type . "','".$telephone1."','".$telephone2."','".$telephone3."','".$email1."','".$email2."','".$email3."','".$company."') RETURNING id";
     $db_result = pg_query($db_connection, $sql);
     if ($db_result) {
       $row = pg_fetch_row($db_result);
@@ -68,13 +68,21 @@ if ($_GET['act'] == 'update_user') {
   $login_name = $_POST['login_name'];
   $password = $_POST['password'];
   $user_type = $_POST['user_type'];
+    $user_type = $_POST['user_type'];
+  $telephone1=$_POST['telephone1'];
+  $telephone2=$_POST['telephone2'];
+  $telephone3=$_POST['telephone3'];
+  $email1=$_POST['email1'];
+  $email2=$_POST['email2'];
+  $email3=$_POST['email3'];
+  $company=$_POST['company'];
   //$add_to_contact = isset($_POST['add_to_contact']);
   if ($db_connection) {
     if(empty($password)){
-    $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."' where id='".$user_id."'";  
+    $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."',telephone1='".$telephone1."',telephone2='".$telephone2."',telephone3='".$telephone3."',email1='".$email1."',email2='".$email2."',email3='".$email3."',company='".$company."' where id='".$user_id."'";  
     }
     else{
-    $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."',password='".$password."' where id='".$user_id."'";
+    $sqlu1 = "UPDATE users SET login_name='".$login_name."',first_name='".$first_name."',last_name='".$last_name."',user_type='".$user_type."',password='".$password."',telephone1='".$telephone1."',telephone2='".$telephone2."',telephone3='".$telephone3."',email1='".$email1."',email2='".$email2."',email3='".$email3."',company='".$company."' where id='".$user_id."'";
   }
     $db_resultu1 = pg_query($db_connection, $sqlu1);
     if ($db_resultu1) {
@@ -300,17 +308,6 @@ if($_GET['act']=='delete'){
 
                     </div>
 
-                    <!-- <div class="form-group row">
-              <label for="" class="col-sm-2 form-control-label">Group</label>
-              <div class="col-sm-10">
-                <select class="form-control selectpicker" id="select-country" data-live-search="true" multiple="multiple">
-                <option data-tokens="china">China</option>
-  <option data-tokens="malayasia">Malayasia</option>
-  <option data-tokens="singapore">Singapore</option>
-                </select>
-
-              </div>
-      </div> -->
                     <div class="form-group">
                       <div class="card-body">
                       <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1">
@@ -394,7 +391,7 @@ if($_GET['act']=='delete'){
         <span><strong>Edit</strong></span>            
     </a>
             <div class="modal fade" id="editUser<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-md">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
@@ -405,22 +402,78 @@ if($_GET['act']=='delete'){
                 <div class="modal-body">
                    <form method="POST" action="user_list.php?act=update_user">
                     <input type="hidden" name="id" value="<?php echo $val['id']; ?>">
+                    <div class="form-group row">
+                      <div class="col">
                     <div class="form-group">
                       <label for="formGroupExampleInput">First Name</label>
                       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="<?php echo $val['first_name']; ?>">
                     </div>
+                  </div>
+                  <div class="col">
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Last Name</label>
                       <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name" value="<?php echo $val['last_name']; ?>">
                     </div>
+                  </div>
+                </div>
+                  <div class="form-group row">
+                    <div class="col">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Login Name</label>
                       <input type="text" name="login_name" class="form-control" id="login_name"  value="<?php echo $val['login_name']; ?>" aria-describedby="emailHelp" placeholder="Login Name">
                     </div>
+                  </div>
+                  <div class="col">
                     <div class="form-group">
                       <label for="exampleInputPassword1">Password</label>
                       <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                     </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                   
+                    <div class="col">
+                      <div class="form-group">
+                      <label for="formGroupExampleInput">Email-1</label>
+                      <input type="text" name="email1" class="form-control" id="email1" placeholder="Email-1" value="<?php echo $val['email1']; ?>">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Email-2</label>
+                      <input type="text" name="email2" class="form-control" id="email2" value="<?php echo $val['email2']; ?>" placeholder="Email-2">
+                    </div>
+                    </div>
+                    <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Email-3</label>
+                      <input type="text" name="email3" class="form-control" id="email3" value="<?php echo $val['email3']; ?>" placeholder="Email-3">
+                    </div>
+                    </div>
+                  </div>
+                    <div class="form-group row">
+                   
+                    <div class="col">
+                      <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-1</label>
+                      <input type="text" name="telephone1" class="form-control" id="telephone1" value="<?php echo $val['telephone1']; ?>" placeholder="Telephone-1">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-2</label>
+                      <input type="text" name="telephone2" class="form-control" id="telephone2" value="<?php echo $val['telephone2']; ?>" placeholder="Telephone-2">
+                    </div>
+                    </div>
+                    <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Telephone-3</label>
+                      <input type="text" name="telephone3" class="form-control" id="telephone3" value="<?php echo $val['telephone3']; ?>" placeholder="Telephone-3">
+                    </div>
+                    </div>
+                  </div>
+                                    <div class="form-group row">
+                    <div class="col">
                     <div class="form-group">
                       <label for="user_type">User Type</label>
                       <select class="form-control" id="user_type" name="user_type">
@@ -432,6 +485,14 @@ if($_GET['act']=='delete'){
                         <option value="A">Admin</option>
                       </select>
                     </div>
+                  </div>
+                   <div class="col">
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Company</label>
+                      <input type="text" name="company" class="form-control" id="company" placeholder="Company" value="<?php echo $val['company']; ?>">
+                    </div>
+                    </div>
+                    </div>    
                     <div class="form-group">
                       <label for="group_add">Select Groups</label>
                       <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
