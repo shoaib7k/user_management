@@ -51,11 +51,7 @@ if($_GET['act']=='delete'){
   }
 }
 ?>
-<html>
 
-
-<body>
-    <div class="body-container">
       <?php include 'left_menu.php'; ?>
           <div role="main" class="main-content">
 

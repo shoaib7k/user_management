@@ -5,36 +5,33 @@ if($_SESSION['logged_in']!=1){
   header('location: index.php');
 }
 ?>
-   <nav class="navbar navbar-expand-lg navbar-fixed navbar" style="background-color: #f1f3f6;">
+<body>
+    <div class="body-container">
+   <nav class="navbar navbar-expand-lg navbar-fixed navbar" style="background-color: #f1f3f6">
         <div class="navbar-inner">
 
-          <div class="navbar-intro justify-content-xl-between" style="background-color: #FFFFFF;">
+          <div class="navbar-intro justify-content-xl-between" >
 
             <button type="button" class="btn btn-burger burger-arrowed static collapsed ml-2 d-flex d-xl-none" data-toggle-mobile="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
               <span class="bars"></span>
             </button><!-- mobile sidebar toggler button -->
 
-            <a class="navbar-brand text-white" href="#">
+           !<!-- <a class="navbar-brand text-white" href="#">
+              <i class="fa fa-leaf"></i>
+              <span>Ace</span>
+              <span>App</span>
+            </a>--><!-- /.navbar-brand -->
+<a class="navbar-brand text-white" href="#" >
              <img src="./images/rf-logo-intranet.svg" alt="Dispute Bills">
-            </a><!-- /.navbar-brand -->
-
+            </a>
             <button type="button" class="btn btn-burger mr-2 d-none d-xl-flex" data-toggle="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle sidebar">
               <span class="bars"></span>
             </button><!-- sidebar toggler button -->
 
-          </div><!-- /.navbar-intro -->
-
-
-          <div class="navbar-content">
-            <button class="navbar-toggler py-2" type="button" data-toggle="collapse" data-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle navbar search">
-              <i class="fa fa-search text-white text-90 py-1"></i>
-            </button><!-- mobile #navbarSearch toggler -->
-
-            
-          </div><!-- .navbar-content -->
-
-
-          <!-- mobile #navbarMenu toggler button -->
+          </div>
+           <button type="button" class="btn btn-burger burger-arrowed static collapsed ml-2 d-flex d-xl-none" data-toggle-mobile="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
+              <span class="bars" style="background-color: blue;"></span>
+            </button>
           <button class="navbar-toggler ml-1 mr-2 px-1" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navbar menu">
             <span class="pos-rel">
                   <img class="border-2 brc-white-tp1 radius-round" width="36" src="assets/image/avatar/avatar6.jpg" alt="Jason's Photo">
@@ -99,7 +96,7 @@ if($_SESSION['logged_in']!=1){
       </nav>
       <div class="main-container bgc-white">
 
-        <div id="sidebar-hover" class="sidebar sidebar-fixed expandable sidebar-light">
+        <div id="sidebar" class="sidebar sidebar-fixed expandable sidebar-light">
           <div class="sidebar-inner">
 
             <div class="ace-scroll flex-grow-1" data-ace-scroll="{}">

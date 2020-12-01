@@ -51,10 +51,7 @@ $lang_group_name = "Group Name";
 //   }
 // }
 ?>
-<html>
 
-<body>
-    <div class="body-container">
       <?php include 'left_menu.php'; ?>
           <div role="main" class="main-content">
 
