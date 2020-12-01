@@ -34,7 +34,7 @@ if($_SESSION['logged_in']!=1){
             </button>
           <button class="navbar-toggler ml-1 mr-2 px-1" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navbar menu">
             <span class="pos-rel">
-                  <img class="border-2 brc-white-tp1 radius-round" width="36" src="assets/image/avatar/avatar6.jpg" alt="Jason's Photo">
+                  <!-- <img class="border-2 brc-white-tp1 radius-round" width="36" src="assets/image/avatar/avatar6.jpg" alt="Jason's Photo"> -->
                   <span class="bgc-warning radius-round border-2 brc-white p-1 position-tr mr-n1px mt-n1px"></span>
             </span>
           </button>
@@ -246,7 +246,7 @@ if($_SESSION['logged_in']!=1){
                 <div class="fadeinable">
                   <!-- shows this when collapsed -->
                   <div class="pos-rel">
-                    <!-- <img alt="Alexa's Photo" src="assets/image/avatar/avatar3.jpg" width="42" class="px-1px radius-round mx-2 border-2 brc-default-m2" /> -->
+                    <!-- <img alt="" src="assets/image/avatar/avatar3.jpg" width="42" class="px-1px radius-round mx-2 border-2 brc-default-m2" /> -->
                     <span class="bgc-success radius-round border-2 brc-white p-1 position-tr mr-1 mt-2px"></span>
                   </div>
                 </div>

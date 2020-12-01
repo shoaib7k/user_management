@@ -32,6 +32,6 @@
     <!-- ace.css -->
     <link rel="stylesheet" type="text/css" href="./dist/css/ace.css">
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="icon" type="image/png" href="./images/rf-title2.jpg" />
    
   </head>
