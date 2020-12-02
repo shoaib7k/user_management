@@ -242,7 +242,7 @@ if($_SESSION['logged_in']!=1){
                   <a href="settings.php" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">
-                  <span>Setting</span>
+                  <span>Admin</span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>

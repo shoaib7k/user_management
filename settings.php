@@ -20,7 +20,7 @@ $lang_location_title="Location";
             <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Setting</li>
+              <li class="breadcrumb-item active">Admin</li>
             </ol>
           </nav>
             </div>
