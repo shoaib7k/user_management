@@ -34,8 +34,8 @@ $lang_location_title="Location";
                       </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
               You do not have permission to access this page!
             </span></div>';
-            exit();
             }
+            else {
             ?>
 
     
@@ -50,6 +50,9 @@ $lang_location_title="Location";
   </ul>
 </div>
       </div>
+      <?php
+}
+?>
    </div>
 
   </div>

@@ -76,8 +76,9 @@ if($_GET['act']=='delete'){
                       </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
               You do not have permission to access this page!
             </span></div>';
-            exit();
             }
+            else
+            {
             ?>
               <div class="text-center mb-4">
                             <a href="#aside-compose" data-toggle="modal" data-target="#exampleModalGroupAdd" class="btn btn-blue px-45 py-2 text-105 radius-2">
@@ -248,7 +249,9 @@ if($_GET['act']=='delete'){
     <div class="clearfix"></div>
    
     <!--/.container-->
-
+<?php
+}
+?>
     </div>
 
   </div>
