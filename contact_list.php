@@ -104,7 +104,7 @@ $lang_group_name = "Group Name";
     </div>
 
     <div class="clearfix"></div>
-    
+    <div class="scrollme">                        
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -185,6 +185,7 @@ $lang_group_name = "Group Name";
         <?php } ?>
       </tbody>
     </table>
+  </div>
     
     <div class="clearfix"></div>
     
