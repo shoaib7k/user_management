@@ -58,16 +58,15 @@ $lang_group_name = "Group Name";
           <div class="page-content container container-plus">
             <!-- page header and toolbox -->
             <div class="page-header pb-2">
-              <h1 class="page-title text-primary-d2 text-150">
-                Dashboard
-                <small class="page-info text-secondary-d2 text-nowrap">
-                  <i class="fa fa-angle-double-right text-80"></i>
-                  Contact List
-                </small>
-              </h1>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+              <li class="breadcrumb-item active">Contact List</li>
+            </ol>
+          </nav>
             </div>
   
-    <h1><a href="">Group List</a></h1>
+    <h1><a href="">Contact List</a></h1>
       <hr>
     
     <?php
@@ -88,7 +87,7 @@ $lang_group_name = "Group Name";
       $pages->paginate(); 
       //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
       //echo $pages->limit;
-      $result = pg_query("SELECT * FROM kontakte ORDER BY id ASC ".$pages->limit."");
+      $result = pg_query("SELECT * FROM kontakte where showing=1 ORDER BY id ASC ".$pages->limit."");
    // }
     ?>
     <div class="clearfix"></div>
@@ -112,6 +111,12 @@ $lang_group_name = "Group Name";
           <th>Sr#</th>
           <th>First Name</th>
           <th>Last Name</th>
+          <th> Telephone 1 </th>
+          <th> Email 1 </th>
+          <th> Telephone 2 </th>
+          <th> Email 2 </th>
+          <th> Telephone 3 </th>
+          <th> Email 3 </th>
           <!-- <th>Action</th> -->
 
         </tr>
@@ -126,7 +131,12 @@ $lang_group_name = "Group Name";
           <td><?php echo $n++; ?></td>
           <td><?php echo $val['vorname']; ?></td>
           <td><?php echo $val['nachname']; ?></td>
-          <td> 
+          <td><?php echo $val['telefon1']; ?></td>
+          <td> <?php echo $val['email1']; ?></td>
+          <td><?php echo $val['telefon2']; ?></td>
+          <td> <?php echo $val['email2']; ?></td>
+          <td><?php echo $val['telefon3']; ?></td>
+          <td> <?php echo $val['email3']; ?></td>
    <!-- <a onClick="return confirm('Are you sure you want to delete group <?php echo $val['group_name'];?>')" href="group_list.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         <span><strong>Delete</strong></span>            
