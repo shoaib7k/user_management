@@ -239,6 +239,15 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
+                  <a href="training_list.php" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <span class="nav-text fadeable">
+                  <span>Training</span>
+                    </span>
+                  </a>
+                  <b class="sub-arrow"></b>
+                </li>
+                <li class="nav-item">
                   <a href="settings.php" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">

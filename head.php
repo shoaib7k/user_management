@@ -37,5 +37,13 @@
        .scrollme {
     overflow-x: auto;
 }
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+.file2 {
+  visibility: hidden;
+  position: absolute;
+}
    </style>
   </head>
