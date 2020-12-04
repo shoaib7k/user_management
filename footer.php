@@ -21,9 +21,22 @@
             </div>
           </footer>
  <!-- include common vendor scripts used in demo pages -->
-    <script src="./node_modules/jquery/dist/jquery.js"></script>
-    <script src="./node_modules/popper.js/dist/umd/popper.js"></script>
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    -
+    <script src="./js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="./js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="./js/fileinput.js" type="text/javascript"></script>
+    <script src="./js/locales/fr.js" type="text/javascript"></script>
+    <script src="./js/locales/es.js" type="text/javascript"></script>
+    <script src="./themes/fas/theme.js" type="text/javascript"></script>
+    <script src="./themes/explorer-fas/theme.js" type="text/javascript"></script>
+
+    <link rel="icon" type="image/png" href="./images/rf-title2.jpg" />
+<!--<script src="./node_modules/jquery/dist/jquery.js"></script>
+-->
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
    <script src="./node_modules/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <script src="./node_modules/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.js"></script>
 

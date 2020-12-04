@@ -456,8 +456,7 @@ if ($_GET['act'] == 'add') {
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form method="POST" action="training_list.php?act=edit">
-
+            <form method="POST" action="training_list.php?act=add">
                             <div class="form-group">
                               <label for="formGroupExampleInput">ID</label>
                               <input type="text" name="training_theme_id" class="form-control" value="<?php echo $theme_id; ?>" id="theme_id" readonly>
@@ -473,7 +472,7 @@ if ($_GET['act'] == 'add') {
 
                             <label for="formGroupExampleInput">Icon</label>
                             <div id="msg"></div>
-                            <input type="file" name="file_name" class="file2" accept="image/*">
+                            <input type="file" id= "<?php echo $val['id']; ?>" name="file_name2" class="file2" accept="image/*" >
                             <div class="input-group my-3">
                               <input type="text" class="form-control" disabled placeholder="Upload File" id="file2">
                               <div class="input-group-append">
@@ -481,12 +480,12 @@ if ($_GET['act'] == 'add') {
                               </div>
                             </div>
                             <div class="ml-2 col-sm-6">
-                              <img src="<?php echo $theme_icon; ?>" id="preview1" class="img-thumbnail">
+                              <img src="<?php echo $theme_icon; ?>" id="preview<?php echo $val['id']; ?>" class="img-thumbnail">
                             </div>
 
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <input type="submit" class="btn btn-primary" value="Add">
+                              <input type="submit" class="btn btn-primary" value="Update">
                             </div>
                           </form>
                         </div>
@@ -496,15 +495,11 @@ if ($_GET['act'] == 'add') {
                 </div>
               </div>
 
-              <div class="card-header">
-                <img src="<?php echo $theme_icon; ?>" alt="" class="training_theme_icon">
-                <div class="card-toolbar no-border">
-                  <a href="#training&theme&<?php echo $theme_id; ?>&handbook" class="training_theme_link"><span><strong>Manuals </strong></span> </a>
-                  <br> <br>
-                  <a href="#training&theme&<?php echo $theme_id; ?>&video" class="training_theme_link"><span><strong>Videos </strong></span> </a>
-                </div>
-              </div>
-
+               <center>
+                <a href="handbook_list.php?theme_id=<?php echo $theme_id; ?>&type=handbook" class="training_theme_link">Manuals</a>
+                <br>
+                <a href="#training&theme&<?php echo $theme_id; ?>&video" class="training_theme_link">Videos</a>
+                </center>
 
             </div>
           <?php
@@ -545,12 +540,42 @@ if ($_GET['act'] == 'add') {
 
 <?php include 'footer.php'; ?>
 <script type="text/javascript">
+  /*$('.file2').click(function(){
+    //alert(this.id);
+    var id=this.id;
+});
+  var nn="file_name2"+id;
+  */
+  var test="file_name2";
+  var i;
+  $(document).on("click", ".browse2", function() {
+    var file2 = $(this).parents().find(".file2");
+   // alert(this.id);
+    file2.trigger("click");
+  });
+  $('input[class="file2"]').change(function(e) {
+    var id=this.id;
+    var fileName2 = e.target.files[0].name;
+    $("#file2").val(fileName2);
+    var reader2 = new FileReader();
+    //alert("preview"+id);
+    reader2.onload = function(e) {
+      // get loaded data and render thumbnail.
+      //alert("preview"+id);
+      document.getElementById("preview"+id).src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader2.readAsDataURL(this.files[0]);
+  });
+</script>
+<script type="text/javascript">
   $(document).on("click", ".browse", function() {
     var file = $(this).parents().find(".file");
     file.trigger("click");
   });
-  $('input[type="file"]').change(function(e) {
+  $('input[name="file_name"]').change(function(e) {
     var fileName = e.target.files[0].name;
+    alert(""+fileName);
     $("#file").val(fileName);
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -561,24 +586,20 @@ if ($_GET['act'] == 'add') {
     reader.readAsDataURL(this.files[0]);
   });
 </script>
+
 <script type="text/javascript">
-  $(document).on("click", ".browse2", function() {
-    var file2 = $(this).parents().find(".file2");
-    file2.trigger("click");
+  /* $(document).on("click", ".browse2", function() {
+    var file = $(this).parents().find(".file2");
+    file.trigger("click");
   });
-  $('input[type="file"]').change(function(e) {
-    var fileName2 = e.target.files[0].name;
-    $("#file2").val(fileName2);
-    var reader2 = new FileReader();
-    reader.onload = function(e) {
-      // get loaded data and render thumbnail.
-      document.getElementById("preview1").src = e.target.result;
-    };
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
-
-
-  });
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+  */
 </script>
 
 </body>
