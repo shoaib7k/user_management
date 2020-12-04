@@ -350,13 +350,13 @@ if ($_GET['act'] == 'add') {
         <?php
         $pages = new Paginator;
         $pages->default_ipp = 15;
-        $sql_forms = pg_query($db_connection,"select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
-        $pages->items_total = pg_num_rows($db_connection,$sql_forms);
+        $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
+        $pages->items_total = pg_num_rows($sql_forms);
         $pages->mid_range = 9;
         $pages->paginate();
         //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
         //echo $pages->limit;
-        $result = pg_query($db_connection,"select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
+        $result = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
         ?>
         <div class="clearfix"></div>
 
