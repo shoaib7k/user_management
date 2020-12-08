@@ -6,7 +6,15 @@ include('paginator.class.php');
 include 'db_connect.php';
 ?>
 <?php
-
+if($_GET['act']=='delete'){
+  $id=$_GET['theme_id'];
+  $sql2="DELETE from media where themeid=".$id." or id=".$id."";
+  $db_result2=pg_query($db_connection,$sql2);
+  if($db_result2){
+    pg_free_result($db_result2);
+    header("location: training_list.php");
+  }
+}
 $theme_id = $_GET['theme_id'];
 if ($theme_id != "") {
 
@@ -329,7 +337,7 @@ if ($_GET['act'] == 'add') {
     ?>
 
       <div class="text-center mb-4">
-        <a href="#aside-compose" data-toggle="modal" data-target="#userModal" class="btn btn-blue px-45 py-2 text-105 radius-2">
+        <a href="training_list_add.php" class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
           Add New Training Data</a>
       </div>
@@ -369,9 +377,10 @@ if ($_GET['act'] == 'add') {
                     <button type="button" class="browse btn btn-primary">Browse...</button>
                   </div>
                 </div>
-                <div class="ml-2 col-sm-6">
+       <!--         <div class="ml-2 col-sm-6">
                   <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail">
                 </div>
+              -->
 
 
                 <div class="modal-footer">
@@ -437,61 +446,16 @@ if ($_GET['act'] == 'add') {
                 </h4>
                 <div class="card-toolbar no-border">
 
-                  <a onClick="return confirm('Are you sure you want to delete user <?php echo $val['login_name']; ?>')" href="#?act=delete&id=<?php echo $val['id']; ?>" class="card-toolbar-btn btn btn-sm radius-1 btn-outline-success btn-h-outline-success px-15 mx-0 btn-tp" type="button">
+                  <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     <span><strong>Delete</strong></span>
                   </a>
-                  <a href="#editUser<?php echo $val['id']; ?>" class="card-toolbar-btn btn btn-sm radius-1 btn-outline-success btn-h-outline-success px-15 mx-0 btn-tp" data-id="<?php echo $val['id']; ?>" data-toggle="modal">
+                  <a href="training_list_edit.php?theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     <span><strong>Edit</strong></span>
                   </a>
 
-                  <div class="modal fade" id="editUser<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-            <form method="POST" action="training_list.php?act=add">
-                            <div class="form-group">
-                              <label for="formGroupExampleInput">ID</label>
-                              <input type="text" name="training_theme_id" class="form-control" value="<?php echo $theme_id; ?>" id="theme_id" readonly>
-                            </div>
-                            <div class="form-group">
-                              <label for="formGroupExampleInput">Current Theme Name</label>
-                              <input type="text" name="training_theme_name_old" class="form-control" value="<?php echo $theme_name; ?>" id="current_theme" readonly>
-                            </div>
-                            <div class="form-group">
-                              <label for="formGroupExampleInput">New Theme Name</label>
-                              <input type="text" name="training_theme_name_new" class="form-control" id="new_theme">
-                            </div>
-
-                            <label for="formGroupExampleInput">Icon</label>
-                            <div id="msg"></div>
-                            <input type="file" id= "<?php echo $val['id']; ?>" name="file_name2" class="file2" accept="image/*" >
-                            <div class="input-group my-3">
-                              <input type="text" class="form-control" disabled placeholder="Upload File" id="file2">
-                              <div class="input-group-append">
-                                <button type="button" class="browse2 btn btn-primary">Browse...</button>
-                              </div>
-                            </div>
-                            <div class="ml-2 col-sm-6">
-                              <img src="<?php echo $theme_icon; ?>" id="preview<?php echo $val['id']; ?>" class="img-thumbnail">
-                            </div>
-
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <input type="submit" class="btn btn-primary" value="Update">
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
 

@@ -80,8 +80,9 @@ if ($_GET['act'] == 'add') {
         
     }
       global $homebase_path;
-  $homebase_path = "/var/www/webtest5/";
-      
+  //$homebase_path = "/var/www/webtest5/";
+      $homebase_path ="";
+       //  $homebase_path = "/training/documents/";  
     if ($db_connection) {
  
         if ($item_id != "") { // update item
@@ -200,14 +201,20 @@ if ($_GET['act'] == 'add') {
                 
                 if ($file_dst_path != "") {
                     
-                   echo $sql = "insert into media (name,type,path,iconpath,themeid) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.")";
+                    $sql = "insert into media (name,type,path,iconpath,themeid) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.")";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
                         move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
+/*if (move_uploaded_file($file_src_path, $homebase_path.$file_dst_path)){
+echo "uplaoded";
+                        }
+                        else{
+echo "failed";
+                        }
+                        */
+                         $source = $homebase_path.$file_dst_path;
+                       $target = $homebase_path.$icon_dst_path;
 
                         $img = new Imagick();               
                         $img->readImage($source."[0]");                
@@ -227,7 +234,7 @@ if ($_GET['act'] == 'add') {
                     
                 } else {
                     
-                   echo  $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
+                  $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if ($db_result) {
@@ -237,7 +244,7 @@ if ($_GET['act'] == 'add') {
                     }
                     
                 }                 
-                
+               header("location: handbook_list.php?theme_id=".$theme_id.""); 
                 
             } else {
                 
@@ -253,7 +260,7 @@ if ($_GET['act'] == 'add') {
         pg_close($db_connection);
        
     }
-     
+     header("location: handbook_list.php?theme_id=".$theme_id."");
 }
 
  //}

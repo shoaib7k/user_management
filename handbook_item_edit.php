@@ -58,7 +58,8 @@ if ($db_connection)  {
                     $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
 
                     $item_name = $db_record["name"];    
-                    
+                    $old_path = $db_record["path"];
+                    $old_iconpath = $db_record["iconpath"];
                 } 
                 
             } else {
@@ -112,8 +113,9 @@ if ($_GET['act'] == 'edit') {
         
     }
       global $homebase_path;
-  $homebase_path = "/var/www/webtest5/";
-      
+  //$homebase_path = "/var/www/webtest5/";
+  //    $homebase_path = "/training/documents/";
+      $homebase_path="";
     if ($db_connection) {
  
         if ($item_id != "") { // update item
@@ -344,9 +346,15 @@ if ($_GET['act'] == 'edit') {
                               <input type="text" name="training_document_item_name_new" class="form-control" id="new_item">
                             </div>
 
-     
+        <!--<embed src="<?php echo $old_path;?>" width="800px" height="2100px" /> -->
+        <!--    <div id="example1" style="height: 80vh; width: 80vw;"></div>-->
+      <!--  <iframe src="http://docs.google.com/gview?url=http://<?php echo $_SERVER['HTTP_HOST'];?>/user_management/<?php echo $old_path; ?>&embedded=true" style="width:608px; height:700px;" frameborder="0"></iframe>-->
+        <iframe src="<?php echo $old_path; ?>" width="100%" height="200px">
+    </iframe>
+        
+    
             <div class="file-loading">
-         <input id="kv-explorer" name="file_name" type="file" multiple>
+        <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
 
                 
@@ -470,7 +478,8 @@ if ($_GET['act'] == 'edit') {
          */
     });
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>
+<script>PDFObject.embed("http://<?php echo $_SERVER['HTTP_HOST'];?>/user_management/<?php echo $old_path; ?>", "#example1");</script>
 </body>
 
 </html>

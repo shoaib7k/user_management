@@ -8,7 +8,17 @@ include 'db_connect.php';
 <?php
 
 $theme_id = $_GET['theme_id'];
+$item_id = $_GET['item_id'];
 $theme_type = $_GET['type'];
+if($_GET['act']=='delete'){
+  //$id=$_GET['theme_id'];
+  $sql2="DELETE from media where  id=".$item_id."";
+  $db_result2=pg_query($db_connection,$sql2);
+  if($db_result2){
+    pg_free_result($db_result2);
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=".$theme_type."");
+  }
+}
 if ($db_connection)  {
         
         // prepare title
@@ -342,7 +352,7 @@ if ($_GET['act'] == 'add') {
                 </h4>
                 <div class="card-toolbar no-border">
 
-<a onClick="return confirm('Are you sure you want to delete user <?php echo $val['login_name'];?>')" href="userist.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
+<a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         <span><strong>Delete</strong></span>            
     </a>
