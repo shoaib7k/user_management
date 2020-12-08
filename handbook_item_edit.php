@@ -6,7 +6,8 @@ include('paginator.class.php');
 include 'db_connect.php';
 ?>
 <?php
-
+$_item_name = "";
+$item_id = $_GET['item_id'];
 $theme_id = $_GET['theme_id'];
 $theme_type = $_GET['type'];
 if ($db_connection)  {
@@ -40,12 +41,43 @@ if ($db_connection)  {
         }
         }
         // write title
+        // get item
         
+        if ($item_id != "") {
+            
+            $sql = "select name, path, iconpath from media where id = ".$item_id;
+            
+            $db_result = pg_query($db_connection, $sql);
+
+            if ($db_result) {
+
+                $db_recordcount = pg_num_rows($db_result);
+
+                if ($db_recordcount > 0) {    
+                    
+                    $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+
+                    $item_name = $db_record["name"];    
+                    
+                } 
+                
+            } else {
+                
+                echo "Fehler bei der Datenbankabfrage.";
+                
+            }
+            
+            
+        }
+        
+        pg_close($db_connection);
+        
+?>
 ?>
 <?php
 
-if ($_GET['act'] == 'add') {
-      $theme_id = "";
+if ($_GET['act'] == 'edit') {
+     // $theme_id = "";
     $item_id = "";
     $item_name_old = "";
     $item_name_new = "";   
@@ -55,10 +87,10 @@ if ($_GET['act'] == 'add') {
     $icon_dst_path = "";
     
     
-    if (isset($_POST["training_document_theme_id"])) { $theme_id = $_POST["training_document_theme_id"]; } 
-    if (isset($_POST["training_document_item_id"])) { $item_id = $_POST["training_document_item_id"]; } 
-    if (isset($_POST["training_document_item_name_old"])) { $item_name_old = trim($_POST["training_document_item_name_old"]); }
-    if (isset($_POST["training_document_item_name_new"])) { $item_name_new = trim($_POST["training_document_item_name_new"]); }
+    if (isset($_POST["training_document_theme_id"])) { echo $theme_id = $_POST["training_document_theme_id"]; } 
+    if (isset($_POST["training_document_item_id"])) { echo $item_id = $_POST["training_document_item_id"]; } 
+    if (isset($_POST["training_document_item_name_old"])) { echo $item_name_old = trim($_POST["training_document_item_name_old"]); }
+    if (isset($_POST["training_document_item_name_new"])) { echo $item_name_new = trim($_POST["training_document_item_name_new"]); }
     
     if (isset($_FILES['file_name'])) {
         
@@ -113,7 +145,7 @@ if ($_GET['act'] == 'add') {
                 }
                 
             }
-            
+
             if ($item_name_new != "") {
             
                 if ($file_dst_path != "") {
@@ -144,7 +176,7 @@ if ($_GET['act'] == 'add') {
                     }
                     
                 } else {
-                    
+     include 'db_connect.php';               
                     $sql = "update media set name = '".$item_name_new."' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
@@ -227,11 +259,11 @@ if ($_GET['act'] == 'add') {
                     
                 } else {
                     
-                    $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
+                   $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if ($db_result) {
-                        
+                       // echo "success";
                         pg_free_result($db_result);
                         
                     }
@@ -245,7 +277,7 @@ if ($_GET['act'] == 'add') {
                 
             }
             
-            
+           header("location: handbook_list.php?theme_id=".$theme_id."");
         }
         
         
@@ -287,107 +319,56 @@ if ($_GET['act'] == 'add') {
             </span></div>';
     } else {
     ?>
-    <div class="text-center mb-4">
-        <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
-          <i class="fa fa-pencil-alt mr-1"></i>
-          Add New Item</a>
+
+
+
+
+      <div class="container">
+              <form method="POST" action="handbook_item_edit.php?act=edit&type=<?php echo $theme_type;?>&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id;?>">
+                     
+                            
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">ID</label>
+                              <input type="text" name="training_document_theme_id" class="form-control" value="<?php echo $theme_id; ?>" id="theme_id" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">ID</label>
+                              <input type="text" name="training_document_item_id" class="form-control" value="<?php echo $item_id; ?>" id="item_id" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">Current Item Name</label>
+                              <input type="text" name="training_document_item_name_old" class="form-control" value="<?php echo $item_name; ?>" id="current_item" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">New Item Name</label>
+                              <input type="text" name="training_document_item_name_new" class="form-control" id="new_item">
+                            </div>
+
+     
+            <div class="file-loading">
+         <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
 
-      <div class="container">
-        <h1><a href=""> List</a></h1>
-        <hr>
-        <?php
-        $pages = new Paginator;
-        $pages->default_ipp = 15;
-        $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
-        $pages->items_total = pg_num_rows($sql_forms);
-        $pages->mid_range = 9;
-        $pages->paginate();
-        //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
-        //echo $pages->limit;
-        $result = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
-        ?>
-        <div class="clearfix"></div>
+                
 
-        <div class="row marginTop">
-          <div class="col-sm-12 paddingLeft pagerfwt">
-            <?php if ($pages->items_total > 0) { ?>
-              <?php echo $pages->display_pages(); ?>
-              <?php echo $pages->display_items_per_page(); ?>
-              <?php echo $pages->display_jump_menu(); ?>
-            <?php } ?>
-          </div>
-          <div class="clearfix"></div>
-        </div>
-
-        <div class="clearfix"></div>
-
-
-
-        <?php
-        if ($pages->items_total > 0) {
-          $n  =   1;
-          while ($val  =   pg_fetch_array($result)) {
-             $item_id = $val["id"];
-                    $item_name = $val["name"];
-                    $item_path = $val["path"];
-                    $item_icon = $val["iconpath"];
-
-        ?>
-            <div class="mt-45 card ccard">
-
-              <div class="card-header">
-                <h4 class="text-120 mb-0">
-                  <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
-                </h4>
-                <div class="card-toolbar no-border">
-
-<a onClick="return confirm('Are you sure you want to delete user <?php echo $val['login_name'];?>')" href="userist.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
-       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span><strong>Delete</strong></span>            
-    </a>
-    <a href="handbook_item_edit.php?theme_id=<?php echo $theme_id;?>&type=<?php echo $theme_type;?>&item_id=<?php echo $item_id;?>" class="btn btn-primary a-btn-slide-text">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong>Edit</strong></span>            
-    </a>
-            </div>
-        </div>
-
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Add">
+                </div>
+              </form>
+            
           <?php
           }
-        } else { ?>
-          <br>
-          <table>
-            <tr>
-              <td colspan="6" align="center"><strong>No Record(s) Found!</strong></td>
-            </tr>
-          <?php } ?>
-          </table>
-          <div class="clearfix"></div>
-
-          <div class="row marginTop">
-            <div class="col-sm-12 paddingLeft pagerfwt">
-              <?php if ($pages->items_total > 0) { ?>
-                <?php echo $pages->display_pages(); ?>
-                <?php echo $pages->display_items_per_page(); ?>
-                <?php echo $pages->display_jump_menu(); ?>
-              <?php } ?>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="clearfix"></div>
-
+       ?>
+          
       </div>
       <!--/.container-->
     <?php
-    }
+  //  }
     ?>
 
   </div>
 
-</div>
-</div>
 
 <?php include 'footer.php'; ?>
 <script>
