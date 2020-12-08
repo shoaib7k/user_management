@@ -226,7 +226,7 @@ if ($_GET['act'] == 'edit') {
                 
             }
                     
-            
+                  header("location: handbook_list.php?theme_id=".$theme_id."&type=".$theme_type."");
             
         } else { // new item
             

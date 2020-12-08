@@ -251,7 +251,7 @@ echo "failed";
                 // do nothing
                 
             }
-            header("location: handbook_list.php?theme_id=".$theme_id."");
+    header("location: handbook_list.php?theme_id=".$theme_id."");
             
         }
         
@@ -260,10 +260,10 @@ echo "failed";
         pg_close($db_connection);
        
     }
-     header("location: handbook_list.php?theme_id=".$theme_id."");
+ 
 }
-
- //}
+//header("location: handbook_list.php?theme_id=".$theme_id."");
+ 
 
 ?>
 

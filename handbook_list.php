@@ -397,9 +397,9 @@ if ($_GET['act'] == 'add') {
   </div>
 
 </div>
+<?php include 'footer.php'; ?>
 </div>
 
-<?php include 'footer.php'; ?>
 <script>
     $('#file-fr').fileinput({
         theme: 'fas',
