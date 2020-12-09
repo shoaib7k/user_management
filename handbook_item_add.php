@@ -244,14 +244,14 @@ echo "failed";
                     }
                     
                 }                 
-               header("location: handbook_list.php?theme_id=".$theme_id.""); 
+               header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook"); 
                 
             } else {
                 
                 // do nothing
                 
             }
-    header("location: handbook_list.php?theme_id=".$theme_id."");
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
             
         }
         

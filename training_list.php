@@ -462,7 +462,7 @@ if ($_GET['act'] == 'add') {
                <center>
                 <a href="handbook_list.php?theme_id=<?php echo $theme_id; ?>&type=handbook" class="training_theme_link">Manuals</a>
                 <br>
-                <a href="#training&theme&<?php echo $theme_id; ?>&video" class="training_theme_link">Videos</a>
+                <a href="video_list.php?theme_id=<?php echo $theme_id; ?>&type=video" class="training_theme_link">Videos</a>
                 </center>
 
             </div>
