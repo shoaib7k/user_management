@@ -445,7 +445,7 @@ if ($_GET['act'] == 'add') {
                 <h4 class="text-120 mb-0">
                   <?php echo $theme_name; ?>
                 </h4>
-                <div class="card-toolbar no-border">
+                <div >
 
                   <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

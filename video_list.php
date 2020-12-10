@@ -108,7 +108,7 @@ include 'db_connect.php';
                 <h4 class="text-120 mb-0">
                   <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                 </h4>
-                <div class="card-toolbar no-border">
+                <div>
 
 <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="video_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
