@@ -58,12 +58,11 @@ $lang_group_name = "Group Name";
           <div class="page-content container container-plus">
             <!-- page header and toolbox -->
             <div class="page-header pb-2">
-            <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Contact List</li>
-            </ol>
-          </nav>
+            <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Contact</a>
+            </nav>
             </div>
   
     <h1><a href="">Contact List</a></h1>

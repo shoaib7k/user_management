@@ -17,12 +17,11 @@ $lang_location_title="Location";
           <div class="page-content container container-plus">
             <!-- page header and toolbox -->
             <div class="page-header pb-2">
-            <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Admin</li>
-            </ol>
-          </nav>
+            <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Admin</a>
+            </nav>
             </div>
             <?php 
             if($_SESSION['user_type']=='U'){

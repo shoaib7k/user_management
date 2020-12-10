@@ -256,7 +256,6 @@ echo "failed";
 </div>
 </div>
 
-<?php include 'footer.php'; ?>
 <script>
     $('#file-fr').fileinput({
         theme: 'fas',

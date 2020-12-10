@@ -10,263 +10,247 @@ include 'db_connect.php';
 $theme_id = $_GET['theme_id'];
 $item_id = $_GET['item_id'];
 $theme_type = $_GET['type'];
-if($_GET['act']=='delete'){
-  //$id=$_GET['theme_id'];
-  $sql2="DELETE from media where  id=".$item_id."";
-  $db_result2=pg_query($db_connection,$sql2);
-  if($db_result2){
-    pg_free_result($db_result2);
-    header("location: handbook_list.php?theme_id=".$theme_id."&type=".$theme_type."");
-  }
+if ($_GET['act'] == 'delete') {
+    //$id=$_GET['theme_id'];
+    $sql2 = "DELETE from media where  id=" . $item_id . "";
+    $db_result2 = pg_query($db_connection, $sql2);
+    if ($db_result2) {
+        pg_free_result($db_result2);
+        header("location: handbook_list.php?theme_id=" . $theme_id . "&type=" . $theme_type . "");
+    }
 }
-if ($db_connection)  {
-        
-        // prepare title
-        $theme_name = "Thema nicht vorhanden.";
-        $type_name = "Typ unbekannt.";
-        
-        if ($theme_type == "handbook") { $type_name = "Handbücher"; }
-        if ($theme_type == "video") { $type_name = "Videos"; }
-        
-        
-        $sql = "select theme from media where id = ".$theme_id;
-        
-        $db_result = pg_query($db_connection, $sql);
-        
-        if ($db_result) {
-            
-            $db_recordcount = pg_num_rows($db_result);
-            
-            if ($db_recordcount > 0) {
-                
-                $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
-                
-                $theme_name = $db_record["theme"];
-                
-            }
-         
-            pg_free_result($db_result);
-            
+if ($db_connection) {
+
+    // prepare title
+    $theme_name = "Thema nicht vorhanden.";
+    $type_name = "Typ unbekannt.";
+
+    if ($theme_type == "handbook") {
+        $type_name = "Handbücher";
+    }
+    if ($theme_type == "video") {
+        $type_name = "Videos";
+    }
+
+
+    $sql = "select theme from media where id = " . $theme_id;
+
+    $db_result = pg_query($db_connection, $sql);
+
+    if ($db_result) {
+
+        $db_recordcount = pg_num_rows($db_result);
+
+        if ($db_recordcount > 0) {
+
+            $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH);
+
+            $theme_name = $db_record["theme"];
         }
-        }
-        // write title
-        
+
+        pg_free_result($db_result);
+    }
+}
+// write title
+
 ?>
 <?php
 
 if ($_GET['act'] == 'add') {
-      $theme_id = "";
+    $theme_id = "";
     $item_id = "";
     $item_name_old = "";
-    $item_name_new = "";   
-    
+    $item_name_new = "";
+
     $file_src_path = "";
     $file_dst_path = "";
     $icon_dst_path = "";
-    
-    
-    if (isset($_POST["training_document_theme_id"])) { $theme_id = $_POST["training_document_theme_id"]; } 
-    if (isset($_POST["training_document_item_id"])) { $item_id = $_POST["training_document_item_id"]; } 
-    if (isset($_POST["training_document_item_name_old"])) { $item_name_old = trim($_POST["training_document_item_name_old"]); }
-    if (isset($_POST["training_document_item_name_new"])) { $item_name_new = trim($_POST["training_document_item_name_new"]); }
-    
+
+
+    if (isset($_POST["training_document_theme_id"])) {
+        $theme_id = $_POST["training_document_theme_id"];
+    }
+    if (isset($_POST["training_document_item_id"])) {
+        $item_id = $_POST["training_document_item_id"];
+    }
+    if (isset($_POST["training_document_item_name_old"])) {
+        $item_name_old = trim($_POST["training_document_item_name_old"]);
+    }
+    if (isset($_POST["training_document_item_name_new"])) {
+        $item_name_new = trim($_POST["training_document_item_name_new"]);
+    }
+
     if (isset($_FILES['file_name'])) {
-        
+
         $file_path = $_FILES["file_name"]["name"];
-        $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);   
-        
-        
+        $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
+
+
         $file_types = array('application/pdf');
 
         if (in_array($_FILES['file_name']['type'], $file_types)) {
 
             $file_src_path = $_FILES["file_name"]["tmp_name"];
 
-            $file_dst_path_without_suffix = "training/documents/".md5(uniqid(rand(), TRUE));
-            $file_dst_path = $file_dst_path_without_suffix.".".$file_ext; // create unique file name
-            $icon_dst_path = $file_dst_path_without_suffix.".jpg";
-
+            $file_dst_path_without_suffix = "training/documents/" . md5(uniqid(rand(), TRUE));
+            $file_dst_path = $file_dst_path_without_suffix . "." . $file_ext; // create unique file name
+            $icon_dst_path = $file_dst_path_without_suffix . ".jpg";
         }
-        
     }
-      global $homebase_path;
-  $homebase_path = "/var/www/webtest5/";
-      
+    global $homebase_path;
+    $homebase_path = "/var/www/webtest5/";
+
     if ($db_connection) {
- 
+
         if ($item_id != "") { // update item
-            
+
             if ($file_dst_path != "") { // delete stored file
-                
-                $sql = "select path, iconpath from media where id = ".$item_id;
-                
+
+                $sql = "select path, iconpath from media where id = " . $item_id;
+
                 $db_result = pg_query($db_connection, $sql);
-                
+
                 if ($db_result) {
-                    
+
                     $db_recordcount = pg_num_rows($db_result);
-                    
+
                     if ($db_recordcount > 0) {
-                        
-                        $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
-                        
+
+                        $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH);
+
                         $old_path = $db_record["path"];
                         $old_iconpath = $db_record["iconpath"];
-                        
-                        unlink($homebase_path.$old_path);
-                        unlink($homebase_path.$old_iconpath);
-                        
+
+                        unlink($homebase_path . $old_path);
+                        unlink($homebase_path . $old_iconpath);
                     }
-                    
+
                     pg_free_result($db_result);
-                    
                 }
-                
             }
-            
+
             if ($item_name_new != "") {
-            
-                if ($file_dst_path != "") {
-                    
-                    $sql = "update media set name = '".$item_name_new."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
-                    $db_result = pg_query($db_connection, $sql);
-                    
-                    if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
 
-                        $img = new Imagick();               
-                        $img->readImage($source."[0]");                
-                        $img->setimageformat('jpeg');
-                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
-                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
-                        $img->setImageCompressionQuality(90);                
-                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
-                        $img->scaleImage(256, 256,true);
-                        $img->writeImage($target);
-                        $img->clear();
-                        $img->destroy();
-                        
-                        pg_free_result($db_result);
-                        
-                    }
-                    
-                } else {
-                    
-                    $sql = "update media set name = '".$item_name_new."' where id = ".$item_id;
+                if ($file_dst_path != "") {
+
+                    $sql = "update media set name = '" . $item_name_new . "', path = '" . $file_dst_path . "', iconpath = '" . $icon_dst_path . "' where id = " . $item_id;
                     $db_result = pg_query($db_connection, $sql);
-                    
+
                     if ($db_result) {
-                        
-                        pg_free_result($db_result);
-                        
-                    }
-                    
-                }
-                
-            } else {
-                
-                if ($file_dst_path != "") {
-                    
-                    $sql = "update media set path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
-                    $db_result = pg_query($db_connection, $sql);
-                    if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
+                        move_uploaded_file($file_src_path, $homebase_path . $file_dst_path);
 
-                        $img = new Imagick();               
-                        $img->readImage($source."[0]");                
+                        $source = $homebase_path . $file_dst_path;
+                        $target = $homebase_path . $icon_dst_path;
+
+                        $img = new Imagick();
+                        $img->readImage($source . "[0]");
                         $img->setimageformat('jpeg');
-                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
-                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
-                        $img->setImageCompressionQuality(90);                
+                        $img->setImageUnits(imagick::RESOLUTION_PIXELSPERINCH);
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG);
+                        $img->setImageCompressionQuality(90);
                         $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
-                        $img->scaleImage(256, 256,true);
+                        $img->scaleImage(256, 256, true);
                         $img->writeImage($target);
                         $img->clear();
                         $img->destroy();
-                        
+
                         pg_free_result($db_result);
-                
                     }
-                    
                 } else {
-                    
+
+                    $sql = "update media set name = '" . $item_name_new . "' where id = " . $item_id;
+                    $db_result = pg_query($db_connection, $sql);
+
+                    if ($db_result) {
+
+                        pg_free_result($db_result);
+                    }
+                }
+            } else {
+
+                if ($file_dst_path != "") {
+
+                    $sql = "update media set path = '" . $file_dst_path . "', iconpath = '" . $icon_dst_path . "' where id = " . $item_id;
+                    $db_result = pg_query($db_connection, $sql);
+                    if ($db_result) {
+                        move_uploaded_file($file_src_path, $homebase_path . $file_dst_path);
+
+                        $source = $homebase_path . $file_dst_path;
+                        $target = $homebase_path . $icon_dst_path;
+
+                        $img = new Imagick();
+                        $img->readImage($source . "[0]");
+                        $img->setimageformat('jpeg');
+                        $img->setImageUnits(imagick::RESOLUTION_PIXELSPERINCH);
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG);
+                        $img->setImageCompressionQuality(90);
+                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
+                        $img->scaleImage(256, 256, true);
+                        $img->writeImage($target);
+                        $img->clear();
+                        $img->destroy();
+
+                        pg_free_result($db_result);
+                    }
+                } else {
+
                     // do nothing
-                    
-                }
-                
-            }
-                    
-            
-            
-        } else { // new item
-            
-             if ($item_name_new != "") { // no record without item name
-                
-                if ($file_dst_path != "") {
-                    
-                    $sql = "insert into media (name,type,path,iconpath,themeid) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.")";
-                    $db_result = pg_query($db_connection, $sql);
-                    
-                    if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
 
-                        $img = new Imagick();               
-                        $img->readImage($source."[0]");                
+                }
+            }
+        } else { // new item
+
+            if ($item_name_new != "") { // no record without item name
+
+                if ($file_dst_path != "") {
+
+                    $sql = "insert into media (name,type,path,iconpath,themeid) values ('" . $item_name_new . "','handbook','" . $file_dst_path . "','" . $icon_dst_path . "'," . $theme_id . ")";
+                    $db_result = pg_query($db_connection, $sql);
+
+                    if ($db_result) {
+                        move_uploaded_file($file_src_path, $homebase_path . $file_dst_path);
+
+                        $source = $homebase_path . $file_dst_path;
+                        $target = $homebase_path . $icon_dst_path;
+
+                        $img = new Imagick();
+                        $img->readImage($source . "[0]");
                         $img->setimageformat('jpeg');
-                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
-                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
-                        $img->setImageCompressionQuality(90);                
+                        $img->setImageUnits(imagick::RESOLUTION_PIXELSPERINCH);
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG);
+                        $img->setImageCompressionQuality(90);
                         $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
-                        $img->scaleImage(256, 256,true);
+                        $img->scaleImage(256, 256, true);
                         $img->writeImage($target);
                         $img->clear();
                         $img->destroy();
-                        
+
                         pg_free_result($db_result);
-                        
                     }
-                    
                 } else {
-                    
-                    $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
+
+                    $sql = "insert into media (name,themeid) values ('" . $item_name_new . "'," . $theme_id . ")";
                     $db_result = pg_query($db_connection, $sql);
-                    
+
                     if ($db_result) {
-                        
+
                         pg_free_result($db_result);
-                        
                     }
-                    
-                }                 
-                
-                
+                }
             } else {
-                
+
                 // do nothing
-                
+
             }
-            
-            
         }
-        
-        
-        
+
+
+
         pg_close($db_connection);
-       
     }
-     
 }
 
- //}
+//}
 
 ?>
 
@@ -274,20 +258,22 @@ if ($_GET['act'] == 'add') {
 
 <div role="main" class="main-content">
 
-  <div class="page-content container container-plus">
-    <!-- page header and toolbox -->
-    <div class="page-header pb-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-          <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
-          <li class="breadcrumb-item active">Training</li>
-        </ol>
-      </nav>
-    </div>
-    <?php
-    if ($_SESSION['user_type'] == 'U') {
-      echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+    <div class="page-content container container-plus">
+        <!-- page header and toolbox -->
+        <div class="page-header pb-2">
+            <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a>/</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Handbook List</a>
+            </nav>
+        </div>
+        <?php
+        if ($_SESSION['user_type'] == 'U') {
+            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
                       <div class="bgc-red px-3 py-1 text-center radius-l-1">
                         <span class="fa-2x text-white">
                 ⚠ <!-- &#9888; -->
@@ -295,110 +281,115 @@ if ($_GET['act'] == 'add') {
                       </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
               You do not have permission to access this page!
             </span></div>';
-    } else {
-    ?>
-    <div class="text-center mb-4">
-        <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
-          <i class="fa fa-pencil-alt mr-1"></i>
-          Add New Item</a>
-      </div>
-
-      <div class="container">
-        <h1><a href=""> List</a></h1>
-        <hr>
-        <?php
-        $pages = new Paginator;
-        $pages->default_ipp = 15;
-        $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
-        $pages->items_total = pg_num_rows($sql_forms);
-        $pages->mid_range = 9;
-        $pages->paginate();
-        //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
-        //echo $pages->limit;
-        $result = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
+        } else {
         ?>
-        <div class="clearfix"></div>
-
-        <div class="row marginTop">
-          <div class="col-sm-12 paddingLeft pagerfwt">
-            <?php if ($pages->items_total > 0) { ?>
-              <?php echo $pages->display_pages(); ?>
-              <?php echo $pages->display_items_per_page(); ?>
-              <?php echo $pages->display_jump_menu(); ?>
-            <?php } ?>
-          </div>
-          <div class="clearfix"></div>
-        </div>
-
-        <div class="clearfix"></div>
-
-
-
-        <?php
-        if ($pages->items_total > 0) {
-          $n  =   1;
-          while ($val  =   pg_fetch_array($result)) {
-             $item_id = $val["id"];
-                    $item_name = $val["name"];
-                    $item_path = $val["path"];
-                    $item_icon = $val["iconpath"];
-
-        ?>
-            <div class="mt-45 card ccard">
-
-              <div class="card-header">
-                <h4 class="text-120 mb-0">
-                  <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
-                </h4>
-                <div class="card-toolbar no-border">
-
-<a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>" class="btn btn-primary a-btn-slide-text" type="button">
-       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span><strong>Delete</strong></span>            
-    </a>
-    <a href="handbook_item_edit.php?theme_id=<?php echo $theme_id;?>&type=<?php echo $theme_type;?>&item_id=<?php echo $item_id;?>" class="btn btn-primary a-btn-slide-text">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong>Edit</strong></span>            
-    </a>
+            <div class="text-center mb-4">
+                <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
+                    <i class="fa fa-pencil-alt mr-1"></i>
+                    Add New Item</a>
             </div>
-        </div>
 
-          <?php
-          }
-        } else { ?>
-          <br>
-          <table>
-            <tr>
-              <td colspan="6" align="center"><strong>No Record(s) Found!</strong></td>
-            </tr>
-          <?php } ?>
-          </table>
-          <div class="clearfix"></div>
+            <div class="container">
+                <h1><a href=""> List</a></h1>
+                <hr>
+                <?php
+                $pages = new Paginator;
+                $pages->default_ipp = 15;
+                $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                $pages->items_total = pg_num_rows($sql_forms);
+                $pages->mid_range = 9;
+                $pages->paginate();
+                //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
+                //echo $pages->limit;
+                $result = pg_query("select id,name, path, iconpath from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                ?>
+                <div class="clearfix"></div>
 
-          <div class="row marginTop">
-            <div class="col-sm-12 paddingLeft pagerfwt">
-              <?php if ($pages->items_total > 0) { ?>
-                <?php echo $pages->display_pages(); ?>
-                <?php echo $pages->display_items_per_page(); ?>
-                <?php echo $pages->display_jump_menu(); ?>
-              <?php } ?>
+                <div class="row marginTop">
+                    <div class="col-sm-12 paddingLeft pagerfwt">
+                        <?php if ($pages->items_total > 0) { ?>
+                            <?php echo $pages->display_pages(); ?>
+                            <?php echo $pages->display_items_per_page(); ?>
+                            <?php echo $pages->display_jump_menu(); ?>
+                        <?php } ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+
+                <?php
+                if ($pages->items_total > 0) {
+                    $n  =   1;
+                    while ($val  =   pg_fetch_array($result)) {
+                        $item_id = $val["id"];
+                        $item_name = $val["name"];
+                        $item_path = $val["path"];
+                        $item_icon = $val["iconpath"];
+
+                ?>
+                        <div class="mt-45 card ccard">
+
+                            <div class="card-header">
+                                <h4 class="text-120 mb-0">
+                                    <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
+                                </h4>
+                                <div class="card-toolbar no-border">
+
+                                    <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-primary a-btn-slide-text" type="button">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        <span><strong>Delete</strong></span>
+                                    </a>
+                                    <a href="handbook_item_edit.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>&item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        <span><strong>Edit</strong></span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        <?php
+                    }
+                } else { ?>
+                        <br>
+                        <table>
+                            <tr>
+                                <td colspan="6" align="center"><strong>No Record(s) Found!</strong></td>
+                            </tr>
+                        <?php } ?>
+                        </table>
+                        <div class="clearfix"></div>
+
+                        <div class="row marginTop">
+                            <div class="col-sm-12 paddingLeft pagerfwt">
+                                <?php if ($pages->items_total > 0) { ?>
+                                    <?php echo $pages->display_pages(); ?>
+                                    <?php echo $pages->display_items_per_page(); ?>
+                                    <?php echo $pages->display_jump_menu(); ?>
+                                <?php } ?>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        </div>
+                        <!--/.container-->
+                    <?php
+                }
+                    ?>
+
             </div>
-            <div class="clearfix"></div>
-          </div>
 
-          <div class="clearfix"></div>
-
-      </div>
-      <!--/.container-->
-    <?php
-    }
-    ?>
-
-  </div>
-
+    </div>
 </div>
-<?php include 'footer.php'; ?>
-</div>
+            </div>
+            </div>
+            </div>
+            <?php include 'footer.php'; ?>
+   
+
 
 <script>
     $('#file-fr').fileinput({
@@ -427,7 +418,7 @@ if ($_GET['act'] == 'add') {
         maxFileSize: 1000,
         maxFilesNum: 10,
         //allowedFileTypes: ['image', 'video', 'flash'],
-        slugCallback: function (filename) {
+        slugCallback: function(filename) {
             return filename.replace('(', '_').replace(']', '_');
         }
     });
@@ -450,17 +441,36 @@ if ($_GET['act'] == 'add') {
             "http://lorempixel.com/1920/1080/transport/2",
             "http://lorempixel.com/1920/1080/transport/3"
         ],
-        initialPreviewConfig: [
-            {caption: "transport-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
-            {caption: "transport-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
-            {caption: "transport-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3}
+        initialPreviewConfig: [{
+                caption: "transport-1.jpg",
+                size: 329892,
+                width: "120px",
+                url: "{$url}",
+                key: 1
+            },
+            {
+                caption: "transport-2.jpg",
+                size: 872378,
+                width: "120px",
+                url: "{$url}",
+                key: 2
+            },
+            {
+                caption: "transport-3.jpg",
+                size: 632762,
+                width: "120px",
+                url: "{$url}",
+                key: 3
+            }
         ]
     });
     $("#file-4").fileinput({
         theme: 'fas',
-        uploadExtraData: {kvId: '10'}
+        uploadExtraData: {
+            kvId: '10'
+        }
     });
-    $(".btn-warning").on('click', function () {
+    $(".btn-warning").on('click', function() {
         var $el = $("#file-4");
         if ($el.attr('disabled')) {
             $el.fileinput('enable');
@@ -468,8 +478,10 @@ if ($_GET['act'] == 'add') {
             $el.fileinput('disable');
         }
     });
-    $(".btn-info").on('click', function () {
-        $("#file-4").fileinput('refresh', {previewClass: 'bg-info'});
+    $(".btn-info").on('click', function() {
+        $("#file-4").fileinput('refresh', {
+            previewClass: 'bg-info'
+        });
     });
     /*
      $('#file-4').on('fileselectnone', function() {
@@ -479,7 +491,7 @@ if ($_GET['act'] == 'add') {
      alert('File browse clicked for #file-4');
      });
      */
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#test-upload").fileinput({
             'theme': 'fas',
             'showPreview': false,
@@ -499,6 +511,8 @@ if ($_GET['act'] == 'add') {
          */
     });
 </script>
+
+
 
 </body>
 
