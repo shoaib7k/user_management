@@ -6,7 +6,23 @@ include('paginator.class.php');
 include 'db_connect.php';
 ?>
 <?php
-
+if(isset($_GET['lang'])){
+    if($_GET['lang']=="en"){
+        $ck="checked";
+    }
+    else if($_GET['lang']=="de"){
+        $ck2="checked";
+    }
+    else if($_GET['lang']=="pol"){
+        $ck3="checked";
+    }
+    else{
+        $ck="checked";
+    }
+}
+else{
+    $ck="checked";
+}
 $theme_id = $_GET['theme_id'];
 $item_id = $_GET['item_id'];
 $theme_type = $_GET['type'];
@@ -283,6 +299,21 @@ if ($_GET['act'] == 'add') {
             </span></div>';
         } else {
         ?>
+        <div class="mt-4 btn-group btn-group-toggle d-flex d-sm-inline-flex mx-n2 mx-sm-0 is-scrollable nav-tabs-scroll" data-toggle="buttons">
+                        <!--<a href="http://<?php echo $_SERVER['SERVER_ADDR'].$_SERVER['PHP_SELF'].'/theme_id='.$theme_id.'&type=handbook'; ?>">-->
+                        <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
+                          <input type="radio"  />
+                          English
+                        </label>
+ <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
+                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';"  />
+                          Germany
+                        </label>
+<label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
+                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" />
+                          Polish
+                        </label>
+        </div>
             <div class="text-center mb-4">
                 <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
                     <i class="fa fa-pencil-alt mr-1"></i>
@@ -328,13 +359,23 @@ if ($_GET['act'] == 'add') {
                         $item_name = $val["name"];
                         $item_path = $val["path"];
                         $item_icon = $val["iconpath"];
+                        $item_path2 = $val["path2"];
+                        $item_icon2 = $val["iconpath2"];
+                        $item_path3 = $val["path3"];
+                        $item_icon3 = $val["iconpath3"];
+                        if (empty($item_path2)||empty($item_path3)) {
+                            $item_path2=$item_path;
+                            $item_path3=$item_path;
+                            $item_icon2=$item_icon;
+                            $item_icon2=$item_icon;
+                        }
 
                 ?>
                         <div class="mt-45 card ccard">
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
-                                    <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
+                                    <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >
 

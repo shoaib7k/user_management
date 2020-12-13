@@ -210,7 +210,6 @@ echo "failed";
 
 
      
-            <div class="modal-body">
               <form method="POST" action="training_list_add.php?act=add" enctype="multipart/form-data">
 
                 <div class="form-group">

@@ -55,10 +55,10 @@ if ($_GET['act'] == 'add') {
     $icon_dst_path = "";
     
     
-    if (isset($_POST["training_document_theme_id"])) { echo $theme_id = $_POST["training_document_theme_id"]; } 
-    if (isset($_POST["training_document_item_id"])) { echo $item_id = $_POST["training_document_item_id"]; } 
-    if (isset($_POST["training_document_item_name_old"])) { echo $item_name_old = trim($_POST["training_document_item_name_old"]); }
-    if (isset($_POST["training_document_item_name_new"])) { echo $item_name_new = trim($_POST["training_document_item_name_new"]); }
+    if (isset($_POST["training_document_theme_id"])) {  $theme_id = $_POST["training_document_theme_id"]; } 
+    if (isset($_POST["training_document_item_id"])) {  $item_id = $_POST["training_document_item_id"]; } 
+    if (isset($_POST["training_document_item_name_old"])) {  $item_name_old = trim($_POST["training_document_item_name_old"]); }
+    if (isset($_POST["training_document_item_name_new"])) {  $item_name_new = trim($_POST["training_document_item_name_new"]); }
     
     if (isset($_FILES['file_name'])) {
         
@@ -75,6 +75,44 @@ if ($_GET['act'] == 'add') {
             $file_dst_path_without_suffix = "training/documents/".md5(uniqid(rand(), TRUE));
             $file_dst_path = $file_dst_path_without_suffix.".".$file_ext; // create unique file name
             $icon_dst_path = $file_dst_path_without_suffix.".jpg";
+
+        }
+        
+    }
+    if (isset($_FILES['file_name2'])) {
+        
+        $file_path2 = $_FILES["file_name2"]["name"];
+        $file_ext2 = pathinfo($file_path2, PATHINFO_EXTENSION);   
+        
+        
+        $file_types2 = array('application/pdf');
+
+        if (in_array($_FILES['file_name2']['type'], $file_types2)) {
+
+            $file_src_path2 = $_FILES["file_name2"]["tmp_name"];
+
+            $file_dst_path_without_suffix2 = "training/documents/".md5(uniqid(rand(), TRUE));
+            $file_dst_path2 = $file_dst_path_without_suffix2.".".$file_ext2; // create unique file name
+            $icon_dst_path2 = $file_dst_path_without_suffix2.".jpg";
+
+        }
+        
+    }
+    if (isset($_FILES['file_name3'])) {
+        
+        $file_path3 = $_FILES["file_name3"]["name"];
+        $file_ext3 = pathinfo($file_path, PATHINFO_EXTENSION);   
+        
+        
+        $file_types3 = array('application/pdf');
+
+        if (in_array($_FILES['file_name3']['type'], $file_types3)) {
+
+            $file_src_path3 = $_FILES["file_name3"]["tmp_name"];
+
+            $file_dst_path_without_suffix3 = "training/documents/".md5(uniqid(rand(), TRUE));
+            $file_dst_path3 = $file_dst_path_without_suffix3.".".$file_ext3; // create unique file name
+            $icon_dst_path3 = $file_dst_path_without_suffix3.".jpg";
 
         }
         
@@ -199,24 +237,18 @@ if ($_GET['act'] == 'add') {
             
              if ($item_name_new != "") { // no record without item name
                 
-                if ($file_dst_path != "") {
+                if ($file_dst_path != "" || $file_dst_path2 != ""  || $file_dst_path3 != "") {
                     
-                    $sql = "insert into media (name,type,path,iconpath,themeid) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.")";
+                    $sql = "insert into media (name,type,path,iconpath,themeid,path2,iconpath2,path3,iconpath3) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.",'".$file_dst_path2."','".$icon_dst_path2."','".$file_dst_path3."','".$icon_dst_path3."')";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
                         move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-/*if (move_uploaded_file($file_src_path, $homebase_path.$file_dst_path)){
-echo "uplaoded";
-                        }
-                        else{
-echo "failed";
-                        }
-                        */
                          $source = $homebase_path.$file_dst_path;
                        $target = $homebase_path.$icon_dst_path;
-
-                        $img = new Imagick();               
+ 
+                       // for english pdf thumnail
+                        /*$img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
                         $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
@@ -227,7 +259,41 @@ echo "failed";
                         $img->writeImage($target);
                         $img->clear();
                         $img->destroy();
-                        
+                        */
+                          move_uploaded_file($file_src_path2, $homebase_path.$file_dst_path2);
+                         $source2 = $homebase_path.$file_dst_path2;
+                       $target2 = $homebase_path.$icon_dst_path2;
+ 
+                       // for german pdf thumnail
+                        /*$img = new Imagick();               
+                        $img->readImage($source2."[0]");                
+                        $img->setimageformat('jpeg');
+                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
+                        $img->setImageCompressionQuality(90);                
+                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
+                        $img->scaleImage(256, 256,true);
+                        $img->writeImage($target2);
+                        $img->clear();
+                        $img->destroy();
+                        */
+                          move_uploaded_file($file_src_path3, $homebase_path.$file_dst_path3);
+                         $source3 = $homebase_path.$file_dst_path3;
+                       $target3 = $homebase_path.$icon_dst_path3;
+ 
+                       // for polish pdf thumnail
+                        /*$img = new Imagick();               
+                        $img->readImage($source3."[0]");                
+                        $img->setimageformat('jpeg');
+                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
+                        $img->setImageCompressionQuality(90);                
+                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
+                        $img->scaleImage(256, 256,true);
+                        $img->writeImage($target3);
+                        $img->clear();
+                        $img->destroy();
+                        */
                         pg_free_result($db_result);
                         
                     }
@@ -320,9 +386,17 @@ echo "failed";
          <input type="text" name="training_document_item_name_new" class="form-control" id="new_theme">
                 </div>
 
-  
+<label for="formGroupExampleInput">Select English</label>
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
+      </div>
+      <label for="formGroupExampleInput">Select Germany</label>
+            <div class="file-loading">
+         <input id="kv-explorer2" name="file_name2" type="file" multiple>
+      </div>
+      <label for="formGroupExampleInput">Select Polish</label>
+            <div class="file-loading">
+         <input id="kv-explorer3" name="file_name3" type="file" multiple>
       </div>
 
                 
@@ -435,7 +509,19 @@ echo "failed";
         });
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fas',
-            'uploadUrl': '#',
+            //'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+        });
+                $("#kv-explorer2").fileinput({
+            'theme': 'explorer-fas',
+            //'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+        });
+                        $("#kv-explorer3").fileinput({
+            'theme': 'explorer-fas',
+            //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
         });
