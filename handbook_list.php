@@ -6,15 +6,18 @@ include('paginator.class.php');
 include 'db_connect.php';
 ?>
 <?php
+$lang="en";
 if(isset($_GET['lang'])){
     if($_GET['lang']=="en"){
         $ck="checked";
     }
     else if($_GET['lang']=="de"){
         $ck2="checked";
+        $lang="de";
     }
     else if($_GET['lang']=="pol"){
         $ck3="checked";
+        $lang="pol";
     }
     else{
         $ck="checked";
@@ -305,12 +308,12 @@ if ($_GET['act'] == 'add') {
                           <input type="radio"  />
                           English
                         </label>
- <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
-                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';"  />
+ <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=de'; ?>';" >
+                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=de'; ?>';"  />
                           Germany
                         </label>
-<label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
-                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" />
+<label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=pol'; ?>';" >
+                          <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=pol'; ?>';" />
                           Polish
                         </label>
         </div>
@@ -326,13 +329,13 @@ if ($_GET['act'] == 'add') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                $sql_forms = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name, path, iconpath from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
                 ?>
                 <div class="clearfix"></div>
 
