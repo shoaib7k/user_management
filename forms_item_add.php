@@ -12,7 +12,8 @@ $theme_id = $_GET['forms_id'];
 <?php
 
 if ($_GET['act'] == 'add') {
-    $homebase_path="";
+    global $homebase_path;
+    $homebase_path="/var/www/webtest5/";
     if (isset($_POST["template_document_theme_id"])) {  $forms_id = $_POST["template_document_theme_id"]; } 
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
     if (isset($_POST["template_document_item_name_old"])) {  $item_name_old = trim($_POST["template_document_item_name_old"]); }

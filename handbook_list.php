@@ -380,6 +380,10 @@ if ($_GET['act'] == 'add') {
                                 <h4 class="text-120 mb-0">
                                     <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
+                                <div >                                
+                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
+    </iframe>
+        </div>
                                 <div >
 
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-primary a-btn-slide-text" type="button">
