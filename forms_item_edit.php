@@ -7,11 +7,29 @@ include 'db_connect.php';
 ?>
 <?php
 $parent_id = $_GET['forms_id'];
-$theme_id = $_GET['forms_id'];        
+$theme_id = $_GET['forms_id'];
+$forms_item_id = $_GET['forms_item_id'];        
 ?>
 <?php
-
-if ($_GET['act'] == 'add') {
+        $sql = "select name from forms where id = ".$forms_item_id;
+        
+        $db_result = pg_query($db_connection, $sql);
+        
+        if ($db_result) {
+            
+            $db_row_count = pg_num_rows($db_result);
+            
+            if ($db_row_count > 0) {
+                
+                $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+                
+                $item_name = $db_record["name"];
+                                
+            }            
+        }
+        ?>
+        <?php
+if ($_GET['act'] == 'edit') {
     $homebase_path="";
     if (isset($_POST["template_document_theme_id"])) {  $forms_id = $_POST["template_document_theme_id"]; } 
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
@@ -40,7 +58,7 @@ if ($_GET['act'] == 'add') {
         
        // $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
 
-        //if (in_array($_FILES['file_name']['type'], $file_types)) {
+       // if (in_array($_FILES['file_name']['type'], $file_types)) {
 
             $file_src_path = $_FILES["file_name"]["tmp_name"];
 
@@ -51,7 +69,7 @@ if ($_GET['act'] == 'add') {
         //} else {
 
            // $file_src_path = "";
-            //$file_dst_path = "";
+           // $file_dst_path = "";
 
         //}
          
@@ -59,15 +77,7 @@ if ($_GET['act'] == 'add') {
     }
     
     if ($db_connection) {
-
-        //echo $forms_id;
-        
-        if ($forms_id == "") {
-            
-            $sql = "insert into forms (id, name, path, iconpath, timestamp, themeid) values ((select max(id)+1 from forms),  '".$item_name."', '".$file_dst_path."','".$icon_dst_path."',localtimestamp,'".$parent_id."')";
-            
-        } else {
-            
+  
             $sql = "select path,iconpath from forms where id = ".$item_id;
             
             $db_result = pg_query($db_connection, $sql);
@@ -94,7 +104,7 @@ if ($_GET['act'] == 'add') {
             
             $sql = "update forms set name = '".$item_name."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."', timestamp = localtimestamp where id = ".$item_id;
             
-        }
+  
         
         $db_result = pg_query($db_connection, $sql);
         
@@ -152,23 +162,24 @@ if ($_GET['act'] == 'add') {
 
 
       <div class="container">
-              <form method="POST" action="forms_item_add.php?act=add&forms_id=<?php echo $parent_id; ?>" enctype="multipart/form-data">
+              <form method="POST" action="forms_item_edit.php?act=edit&forms_id=<?php echo $parent_id; ?>&forms_item_id=<?php echo $forms_item_id?>" enctype="multipart/form-data">
 
-<input type="text" name="training_document_theme_id" value="<?php echo $forms_id; ?>" readonly="true" style="display:none">
+<input type="text" name="template_document_theme_id" value="<?php echo $forms_id; ?>" readonly="true" style="display:none">
 
       <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
-                  <input type="text" name="template_document_item_id" class="form-control" id="theme_id" readonly>
+                  <input type="text" name="template_document_item_id" class="form-control" id="theme_id" value="<?php echo $forms_item_id;?>" readonly>
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput">Current Item Name</label>
-                  <input type="text" name="template_document_item_name_old" class="form-control"  id="current_theme" readonly>
+                  <input type="text" name="template_document_item_name_old" class="form-control"  id="current_theme" value="<?php echo $item_name; ?>" readonly>
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput">New Item Name</label>
          <input type="text" name="template_document_item_name_new" class="form-control" id="new_theme">
                 </div>
-
+   <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="100%" height="200px">
+    </iframe>
 <label for="formGroupExampleInput"></label>
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>

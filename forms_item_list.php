@@ -11,7 +11,7 @@ $forms_id = $_GET['forms_id'];
 $forms_item_id = $_GET['forms_item_id'];
 if ($_GET['act'] == 'delete') {
     //$id=$_GET['theme_id'];
-    $sql2 = "DELETE from forms where  id=" . $item_id . "";
+    $sql2 = "DELETE from forms where  id=" . $forms_item_id . "";
     $db_result2 = pg_query($db_connection, $sql2);
     if ($db_result2) {
         pg_free_result($db_result2);
@@ -105,10 +105,16 @@ if ($_GET['act'] == 'delete') {
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
-                                    <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
+                                    <center> <a href="forms_item_list.php?forms_id=<?php echo $item_id; ?>&forms_item_id=<?php ?>"  class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
+                                <div >                                
+                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
+    </iframe>
+        </div>
                                 <div >
-
+<a href="<?php echo $item_path; ?>" target="_blank" class="btn btn-primary a-btn-slide-text">
+                                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                                        <span><strong>File</strong></span>
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
