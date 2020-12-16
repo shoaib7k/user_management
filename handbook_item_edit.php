@@ -45,7 +45,7 @@ if ($db_connection)  {
         
         if ($item_id != "") {
             
-            $sql = "select name, path, iconpath from media where id = ".$item_id;
+            $sql = "select name, path, iconpath, path2, iconpath2, path3, iconpath3 from media where id = ".$item_id;
             
             $db_result = pg_query($db_connection, $sql);
 
@@ -60,6 +60,11 @@ if ($db_connection)  {
                     $item_name = $db_record["name"];    
                     $old_path = $db_record["path"];
                     $old_iconpath = $db_record["iconpath"];
+                      $old_path2 = $db_record["path2"];
+                        $old_iconpath2 = $db_record["iconpath2"];
+                        $old_path3 = $db_record["path3"];
+                        $old_iconpath3 = $db_record["iconpath3"];
+                        
                 } 
                 
             } else {
@@ -74,7 +79,6 @@ if ($db_connection)  {
         pg_close($db_connection);
         
 ?>
-?>
 <?php
 
 if ($_GET['act'] == 'edit') {
@@ -86,12 +90,20 @@ if ($_GET['act'] == 'edit') {
     $file_src_path = "";
     $file_dst_path = "";
     $icon_dst_path = "";
+
+    $file_src_path2 = "";
+    $file_dst_path2 = "";
+    $icon_dst_path2 = "";
+
+    $file_src_path3 = "";
+    $file_dst_path3 = "";
+    $icon_dst_path3 = "";
     
     
-    if (isset($_POST["training_document_theme_id"])) { echo $theme_id = $_POST["training_document_theme_id"]; } 
-    if (isset($_POST["training_document_item_id"])) { echo $item_id = $_POST["training_document_item_id"]; } 
-    if (isset($_POST["training_document_item_name_old"])) { echo $item_name_old = trim($_POST["training_document_item_name_old"]); }
-    if (isset($_POST["training_document_item_name_new"])) { echo $item_name_new = trim($_POST["training_document_item_name_new"]); }
+    if (isset($_POST["training_document_theme_id"])) {  $theme_id = $_POST["training_document_theme_id"]; } 
+    if (isset($_POST["training_document_item_id"])) {  $item_id = $_POST["training_document_item_id"]; } 
+    if (isset($_POST["training_document_item_name_old"])) {  $item_name_old = trim($_POST["training_document_item_name_old"]); }
+    if (isset($_POST["training_document_item_name_new"])) {  $item_name_new = trim($_POST["training_document_item_name_new"]); }
     
     if (isset($_FILES['file_name'])) {
         
@@ -112,13 +124,52 @@ if ($_GET['act'] == 'edit') {
         }
         
     }
+    if (isset($_FILES['file_name2'])) {
+        
+        $file_path2 = $_FILES["file_name2"]["name"];
+        $file_ext2 = pathinfo($file_path2, PATHINFO_EXTENSION);   
+        
+        
+        $file_types2 = array('application/pdf');
+
+        if (in_array($_FILES['file_name2']['type'], $file_types2)) {
+
+            $file_src_path2 = $_FILES["file_name2"]["tmp_name"];
+
+            $file_dst_path_without_suffix2 = "training/documents/".md5(uniqid(rand(), TRUE));
+            $file_dst_path2 = $file_dst_path_without_suffix2.".".$file_ext2; // create unique file name
+            $icon_dst_path2 = $file_dst_path_without_suffix2.".jpg";
+
+        }
+        
+    }
+    if (isset($_FILES['file_name3'])) {
+        
+        $file_path3 = $_FILES["file_name3"]["name"];
+        $file_ext3 = pathinfo($file_path3, PATHINFO_EXTENSION);   
+        
+        
+        $file_types3 = array('application/pdf');
+
+        if (in_array($_FILES['file_name3']['type'], $file_types3)) {
+
+            $file_src_path3 = $_FILES["file_name3"]["tmp_name"];
+
+            $file_dst_path_without_suffix3 = "training/documents/".md5(uniqid(rand(), TRUE));
+            $file_dst_path3 = $file_dst_path_without_suffix3.".".$file_ext3; // create unique file name
+            $icon_dst_path3 = $file_dst_path_without_suffix3.".jpg";
+
+        }
+        
+    }
       global $homebase_path;
   //$homebase_path = "/var/www/webtest5/";
   //    $homebase_path = "/training/documents/";
       $homebase_path="";
-    if ($db_connection) {
- 
-        if ($item_id != "") { // update item
+   // if ($db_connection) {
+     
+            include 'db_connect.php';
+     //   if ($item_id != "") { // update item
             
             if ($file_dst_path != "") { // delete stored file
                 
@@ -147,12 +198,67 @@ if ($_GET['act'] == 'edit') {
                 }
                 
             }
-
-            if ($item_name_new != "") {
-            
-                if ($file_dst_path != "") {
+            if ($file_dst_path2 != "") { // delete stored file
+                
+                $sql = "select path2, iconpath2 from media where id = ".$item_id;
+                
+                $db_result = pg_query($db_connection, $sql);
+                
+                if ($db_result) {
                     
-                    $sql = "update media set name = '".$item_name_new."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
+                    $db_recordcount = pg_num_rows($db_result);
+                    
+                    if ($db_recordcount > 0) {
+                        
+                        $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+                        
+                        $old_path2 = $db_record["path2"];
+                        $old_iconpath2 = $db_record["iconpath2"];
+                        
+                        unlink($homebase_path.$old_path2);
+                        unlink($homebase_path.$old_iconpath2);
+
+                        
+                    }
+                    
+                    pg_free_result($db_result);
+                    
+                }
+                
+            }
+            if ($file_dst_path3 != "") { // delete stored file
+                
+                $sql = "select path3, iconpath3 from media where id = ".$item_id;
+                
+                $db_result = pg_query($db_connection, $sql);
+                
+                if ($db_result) {
+                    
+                    $db_recordcount = pg_num_rows($db_result);
+                    
+                    if ($db_recordcount > 0) {
+                        
+                        $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+                        
+                        $old_path3 = $db_record["path3"];
+                        $old_iconpath3 = $db_record["iconpath3"];
+                        
+                        unlink($homebase_path.$old_path3);
+                        unlink($homebase_path.$old_iconpath3);
+                        
+                    }
+                    
+                    pg_free_result($db_result);
+                    
+                }
+                
+            }
+
+            
+            include 'db_connect.php';
+                 if ($file_dst_path != "") {
+                    
+                    echo $sql = "update media set  path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -161,7 +267,7 @@ if ($_GET['act'] == 'edit') {
                         $source = $homebase_path.$file_dst_path;
                         $target = $homebase_path.$icon_dst_path;
 
-                        $img = new Imagick();               
+                      /*$img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
                         $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
@@ -174,11 +280,64 @@ if ($_GET['act'] == 'edit') {
                         $img->destroy();
                         
                         pg_free_result($db_result);
-                        
+                        */
                     }
+                }
+                 if ($file_dst_path2 != "") {
                     
-                } else {
-     include 'db_connect.php';               
+                    $sql = "update media set  path2 = '".$file_dst_path2."', iconpath2 = '".$icon_dst_path2."' where id = ".$item_id;
+                    $db_result = pg_query($db_connection, $sql);
+                    
+                    if($db_result) {
+                        move_uploaded_file($file_src_path2, $homebase_path.$file_dst_path2);
+                        
+                        $source2 = $homebase_path.$file_dst_path2;
+                        $target2 = $homebase_path.$icon_dst_path2;
+
+                      /*$img = new Imagick();               
+                        $img->readImage($source."[0]");                
+                        $img->setimageformat('jpeg');
+                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
+                        $img->setImageCompressionQuality(90);                
+                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
+                        $img->scaleImage(256, 256,true);
+                        $img->writeImage($target);
+                        $img->clear();
+                        $img->destroy();
+                        
+                        pg_free_result($db_result);
+                        */
+                    }
+                }
+                 if ($file_dst_path3 != "") {
+                    
+                    $sql = "update media set  path3 = '".$file_dst_path3."', iconpath3 = '".$icon_dst_path3."' where id = ".$item_id;
+                    $db_result = pg_query($db_connection, $sql);
+                    
+                    if($db_result) {
+                        move_uploaded_file($file_src_path3, $homebase_path.$file_dst_path3);
+                        
+                        $source3 = $homebase_path.$file_dst_path3;
+                        $target3 = $homebase_path.$icon_dst_path3;
+
+                      /*$img = new Imagick();               
+                        $img->readImage($source."[0]");                
+                        $img->setimageformat('jpeg');
+                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
+                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
+                        $img->setImageCompressionQuality(90);                
+                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
+                        $img->scaleImage(256, 256,true);
+                        $img->writeImage($target);
+                        $img->clear();
+                        $img->destroy();
+                        
+                        pg_free_result($db_result);
+                        */
+                    }
+                } 
+                   if ($item_name_new != "") {              
                     $sql = "update media set name = '".$item_name_new."' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
@@ -187,110 +346,14 @@ if ($_GET['act'] == 'edit') {
                         pg_free_result($db_result);
                         
                     }
-                    
                 }
-                
-            } else {
-                
-                if ($file_dst_path != "") {
                     
-                    $sql = "update media set path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
-                    $db_result = pg_query($db_connection, $sql);
-                    if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
-
-                        $img = new Imagick();               
-                        $img->readImage($source."[0]");                
-                        $img->setimageformat('jpeg');
-                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
-                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
-                        $img->setImageCompressionQuality(90);                
-                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
-                        $img->scaleImage(256, 256,true);
-                        $img->writeImage($target);
-                        $img->clear();
-                        $img->destroy();
-                        
-                        pg_free_result($db_result);
-                
-                    }
-                    
-                } else {
-                    
-                    // do nothing
-                    
-                }
-                
-            }
-                    
+       //  exit();
                   header("location: handbook_list.php?theme_id=".$theme_id."&type=".$theme_type."");
             
-        } else { // new item
-            
-             if ($item_name_new != "") { // no record without item name
-                
-                if ($file_dst_path != "") {
-                    
-                    $sql = "insert into media (name,type,path,iconpath,themeid) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.")";
-                    $db_result = pg_query($db_connection, $sql);
-                    
-                    if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
-                        
-                        $source = $homebase_path.$file_dst_path;
-                        $target = $homebase_path.$icon_dst_path;
-
-                        $img = new Imagick();               
-                        $img->readImage($source."[0]");                
-                        $img->setimageformat('jpeg');
-                        $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
-                        $img->setImageCompression(imagick::COMPRESSION_JPEG); 
-                        $img->setImageCompressionQuality(90);                
-                        $img->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE); // for white background in pdf
-                        $img->scaleImage(256, 256,true);
-                        $img->writeImage($target);
-                        $img->clear();
-                        $img->destroy();
-                        
-                        pg_free_result($db_result);
-                        
-                    }
-                    
-                } else {
-                    
-                   $sql = "insert into media (name,themeid) values ('".$item_name_new."',".$theme_id.")";
-                    $db_result = pg_query($db_connection, $sql);
-                    
-                    if ($db_result) {
-                       // echo "success";
-                        pg_free_result($db_result);
-                        
-                    }
-                    
-                }                 
-                
-                
-            } else {
-                
-                // do nothing
-                
-            }
-            
-           header("location: handbook_list.php?theme_id=".$theme_id."");
-        }
-        
-        
-        
-        pg_close($db_connection);
-       
-    }
-     
+      //  } 
+   // }
 }
-
- //}
 
 ?>
 
@@ -330,7 +393,7 @@ if ($_GET['act'] == 'edit') {
 
 
       <div class="container">
-              <form method="POST" action="handbook_item_edit.php?act=edit&type=<?php echo $theme_type;?>&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id;?>">
+              <form method="POST" action="handbook_item_edit.php?act=edit&type=<?php echo $theme_type;?>&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id;?>" enctype="multipart/form-data">
                      
                             
                             <div class="form-group">
@@ -353,14 +416,27 @@ if ($_GET['act'] == 'edit') {
         <!--<embed src="<?php echo $old_path;?>" width="800px" height="2100px" /> -->
         <!--    <div id="example1" style="height: 80vh; width: 80vw;"></div>-->
       <!--  <iframe src="http://docs.google.com/gview?url=http://<?php echo $_SERVER['HTTP_HOST'];?>/user_management/<?php echo $old_path; ?>&embedded=true" style="width:608px; height:700px;" frameborder="0"></iframe>-->
-        <iframe src="<?php echo $old_path; ?>" width="100%" height="200px">
+        <!--<iframe src="<?php echo $old_path; ?>" width="100%" height="200px">
     </iframe>
-        
-    
+        -->
+    <iframe src="<?php echo $old_path; ?>" width="100%" height="200px">
+    </iframe>
+           <label for="formGroupExampleInput">Select English</label>
             <div class="file-loading">
-        <input id="kv-explorer" name="file_name" type="file" multiple>
+         <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
-
+      <iframe src="<?php echo $old_path2; ?>" width="100%" height="200px">
+    </iframe>
+      <label for="formGroupExampleInput">Select Germany</label>
+            <div class="file-loading">
+         <input id="kv-explorer2" name="file_name2" type="file" multiple>
+      </div>
+      <iframe src="<?php echo $old_path3; ?>" width="100%" height="200px">
+    </iframe>
+      <label for="formGroupExampleInput">Select Polish</label>
+            <div class="file-loading">
+         <input id="kv-explorer3" name="file_name3" type="file" multiple>
+      </div>
                 
 
                 <div class="modal-footer">
@@ -471,7 +547,19 @@ if ($_GET['act'] == 'edit') {
         });
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fas',
-            'uploadUrl': '#',
+            //'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+        });
+        $("#kv-explorer2").fileinput({
+            'theme': 'explorer-fas',
+            //'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+        });
+        $("#kv-explorer3").fileinput({
+            'theme': 'explorer-fas',
+            //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
         });
