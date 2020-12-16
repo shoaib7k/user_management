@@ -35,9 +35,9 @@ if ($_GET['act'] == 'delete') {
                 <a>/</a>
                 <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Template</a>
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Handbook List</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Form</a>
             </nav>
         </div>
         <?php
@@ -108,13 +108,14 @@ if ($_GET['act'] == 'delete') {
                                     <center> <a href="forms_item_list.php?forms_id=<?php echo $item_id; ?>&forms_item_id=<?php ?>"  class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >                                
-                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
+                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "https://view.officeapps.live.com/op/embed.aspx?src=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
     </iframe>
         </div>
                                 <div >
 <a href="<?php echo $item_path; ?>" target="_blank" class="btn btn-primary a-btn-slide-text">
                                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                                         <span><strong>File</strong></span>
+                                  </a>
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
