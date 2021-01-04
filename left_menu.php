@@ -4,6 +4,16 @@ session_start();
 if($_SESSION['logged_in']!=1){
   header('location: index.php');
 }
+define('SUPPORTED_LANGUAGES', ['en', 'de','pol']);
+
+function detect_language() {
+    foreach (preg_split('/[;,]/', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $sub) {
+        if (substr($sub, 0, 2) == 'q=') continue;
+        if (strpos($sub, '-') !== false) $sub = explode('-', $sub)[0];
+        if (in_array(strtolower($sub), SUPPORTED_LANGUAGES)) return $sub;
+    }
+    return 'en1';
+}
 ?>
 <body>
     <div class="body-container">
@@ -44,7 +54,22 @@ if($_SESSION['logged_in']!=1){
 
             <div class="navbar-nav">
               <ul class="nav">
+                 <li class="nav-item dropdown">
+                  <?php
+                    $url_request=$_SERVER['REQUEST_URI'];
+                  //$variable = substr($variable, 0, strpos($variable, "By"));
+                //echo $url_request=substr($url_request, 0,strpos($url_request, "lang="));
+                   if(strpos($url_request, '&lang') !== false){
+                 $url_request=substr($url_request, 0, strpos( $url_request, "&lang"));
+               }
 
+               $url="http://".$_SERVER['HTTP_HOST'].$url_request; ?>
+<select class="form-control" id="form-field-select-1" onchange="window.location.href=this.value;">
+  <option value="<?php echo $url; ?>&lang=en" <?php if($_GET['lang']=='en') echo "selected"; ?>>English</option>
+  <option value="<?php echo $url; ?>&lang=de" <?php if($_GET['lang']=='de') echo "selected"; ?>>deutsch</option>
+  <option value="<?php echo $url; ?>&lang=pol" <?php if($_GET['lang']=='pol') echo "selected"; ?>>polish</option>
+</select>
+                 </li>
                 <li class="nav-item dropdown order-first order-lg-last">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                    
@@ -109,7 +134,7 @@ if($_SESSION['logged_in']!=1){
 
                 <li class="nav-item active">
 
-                  <a href="home.php" class="nav-link">
+                  <a href="home.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-home"></i>
                     <span class="nav-text fadeable">
                   <span>Home</span>
@@ -122,7 +147,7 @@ if($_SESSION['logged_in']!=1){
 
                 </li>
                 <li class="nav-item">
-                  <a href="calendar.php" class="nav-link">
+                  <a href="calendar.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-calendar"></i>
                     <span class="nav-text fadeable">
                   <span>Calendar</span>
@@ -131,7 +156,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="information.php" class="nav-link">
+                  <a href="information.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>
                     <span class="nav-text fadeable">
                   <span>Information</span>
@@ -140,7 +165,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="contact_list.php" class="nav-link">
+                  <a href="contact_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-address-card"></i>
                     <span class="nav-text fadeable">
                   <span>Contact</span>
@@ -149,7 +174,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                  <li class="nav-item">
-                  <a href="user_list.php" class="nav-link">
+                  <a href="user_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="nav-text fadeable">
                   <span>Users</span>
@@ -230,7 +255,7 @@ if($_SESSION['logged_in']!=1){
                 </li>
               -->
                <li class="nav-item">
-                  <a href="group_list.php" class="nav-link">
+                  <a href="group_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-object-group"></i>
                     <span class="nav-text fadeable">
                   <span>Groups</span>
@@ -239,7 +264,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="training_list.php" class="nav-link">
+                  <a href="training_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
                   <span>Training</span>
@@ -248,7 +273,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="template_list.php" class="nav-link">
+                  <a href="template_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
                   <span>Templates</span>
@@ -257,7 +282,7 @@ if($_SESSION['logged_in']!=1){
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="settings.php" class="nav-link">
+                  <a href="settings.php?lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">
                   <span>Admin</span>
@@ -295,3 +320,8 @@ if($_SESSION['logged_in']!=1){
 
           </div>
         </div>
+<script type="text/javascript">
+  $(function(){
+    $('.selectpicker').selectpicker();
+});
+</script>

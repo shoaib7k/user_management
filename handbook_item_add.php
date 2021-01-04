@@ -248,6 +248,7 @@ if ($_GET['act'] == 'add') {
                        $target = $homebase_path.$icon_dst_path;
  
                        // for english pdf thumnail
+                     /*
                         $img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
@@ -259,12 +260,13 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target);
                         $img->clear();
                         $img->destroy();
-                        
+                       */ 
                           move_uploaded_file($file_src_path2, $homebase_path.$file_dst_path2);
                          $source2 = $homebase_path.$file_dst_path2;
                        $target2 = $homebase_path.$icon_dst_path2;
  
                        // for german pdf thumnail
+                       /*
                         $img = new Imagick();               
                         $img->readImage($source2."[0]");                
                         $img->setimageformat('jpeg');
@@ -276,12 +278,13 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target2);
                         $img->clear();
                         $img->destroy();
-                        
+                        */
                           move_uploaded_file($file_src_path3, $homebase_path.$file_dst_path3);
                          $source3 = $homebase_path.$file_dst_path3;
                        $target3 = $homebase_path.$icon_dst_path3;
  
                        // for polish pdf thumnail
+                       /*
                         $img = new Imagick();               
                         $img->readImage($source3."[0]");                
                         $img->setimageformat('jpeg');
@@ -293,7 +296,7 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target3);
                         $img->clear();
                         $img->destroy();
-                        
+                        */
                         pg_free_result($db_result);
                         
                     }
@@ -315,6 +318,7 @@ if ($_GET['act'] == 'add') {
             } else {
                 
                 // do nothing
+                header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
                 
             }
     header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");

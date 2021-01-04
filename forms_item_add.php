@@ -39,9 +39,9 @@ if ($_GET['act'] == 'add') {
          * 
          */
         
-       // $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
+        $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
 
-        //if (in_array($_FILES['file_name']['type'], $file_types)) {
+        if (in_array($_FILES['file_name']['type'], $file_types)) {
 
             $file_src_path = $_FILES["file_name"]["tmp_name"];
 
@@ -49,12 +49,12 @@ if ($_GET['act'] == 'add') {
             $file_dst_path = $file_dst_path_without_suffix.".".$file_ext; // create unique file name
             $icon_dst_path = $file_dst_path_without_suffix.".jpg";
 
-        //} else {
+        } else {
 
-           // $file_src_path = "";
-            //$file_dst_path = "";
+            $file_src_path = "";
+            $file_dst_path = "";
 
-        //}
+        }
          
 
     }
@@ -104,8 +104,8 @@ if ($_GET['act'] == 'add') {
         move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
         
         //please unhide below two lines for preview
-    //    require 'converter_for_documents.php';
-      //  convert_document($homebase_path.$dst_path);
+        require 'converter_for_documents.php';
+        convert_document($homebase_path.$dst_path);
         
         pg_close($db_connection);
  header("location: forms_item_list.php?forms_id=".$parent_id."");       

@@ -1,6 +1,6 @@
 <body>
     <div class="body-container">
-    	<?php include 'left_menu.php'; ?>
+    	<?php include_once 'left_menu.php'; ?>
     	    <div role="main" class="main-content">
 
           <div class="page-content container container-plus">

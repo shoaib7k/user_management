@@ -105,11 +105,12 @@ if ($_GET['act'] == 'delete') {
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
+                                    <img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;">
                                     <center> <a href="forms_item_list.php?forms_id=<?php echo $item_id; ?>&forms_item_id=<?php ?>"  class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >                                
-                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "https://view.officeapps.live.com/op/embed.aspx?src=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
-    </iframe>
+                                  <!--<iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "https://view.officeapps.live.com/op/embed.aspx?src=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
+    </iframe>-->
         </div>
                                 <div >
 <a href="<?php echo $item_path; ?>" target="_blank" class="btn btn-primary a-btn-slide-text">
