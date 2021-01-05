@@ -89,7 +89,7 @@ if ($_GET['act'] == 'delete') {
                 <div class="clearfix"></div>
 
 
-
+                        <div class="mt-45 card ccard">
                 <?php
                 if ($pages->items_total > 0) {
                     $n  =   1;
@@ -101,7 +101,7 @@ if ($_GET['act'] == 'delete') {
                        
 
                 ?>
-                        <div class="mt-45 card ccard">
+
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
@@ -138,6 +138,7 @@ if ($_GET['act'] == 'delete') {
                             </tr>
                         <?php } ?>
                         </table>
+                    </div>
                         <div class="clearfix"></div>
 
                         <div class="row marginTop">
