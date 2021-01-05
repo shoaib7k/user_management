@@ -15,7 +15,7 @@ include 'db_connect.php';
   $db_result2=pg_query($db_connection,$sql2);
   if($db_result2){
     pg_free_result($db_result2);
-    header("location: video_list.php?theme_id=".$theme_id."&type=".$theme_type."");
+    header("location: video_list.php?theme_id=".$theme_id."&type=".$theme_type."&lang='".detect_language()."'");
   }
 }                 
 ?> 
@@ -29,11 +29,11 @@ include 'db_connect.php';
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php?app=default">Admin</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=dafult">Training</a>
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Video </a>
             </nav>
@@ -51,7 +51,7 @@ include 'db_connect.php';
     } else {
     ?>
     <div class="text-center mb-4">
-        <a href="video_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
+        <a href="video_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
           Add New Item</a>
       </div>
@@ -89,7 +89,7 @@ include 'db_connect.php';
 
         <div class="clearfix"></div>
 
-
+            <div class="mt-45 card ccard">
 
         <?php
         if ($pages->items_total > 0) {
@@ -101,7 +101,7 @@ include 'db_connect.php';
                     $item_icon = $val["iconpath"];
 
         ?>
-            <div class="mt-45 card ccard">
+
 
               <div class="card-header">
                 <a href="<?php echo $item_path; ?>" target="_blank"><img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;"></a>
@@ -110,11 +110,11 @@ include 'db_connect.php';
                 </h4>
                 <div>
 
-<a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="video_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>" class="btn btn-primary a-btn-slide-text" type="button">
+<a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="video_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         <span><strong>Delete</strong></span>            
     </a>
-    <a href="video_item_edit.php?theme_id=<?php echo $theme_id;?>&type=<?php echo $theme_type;?>&item_id=<?php echo $item_id;?>" class="btn btn-primary a-btn-slide-text">
+    <a href="video_item_edit.php?theme_id=<?php echo $theme_id;?>&type=<?php echo $theme_type;?>&item_id=<?php echo $item_id;?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         <span><strong>Edit</strong></span>            
     </a>
@@ -131,6 +131,7 @@ include 'db_connect.php';
             </tr>
           <?php } ?>
           </table>
+        </div>
           <div class="clearfix"></div>
           <br>
           <div class="row marginTop">
