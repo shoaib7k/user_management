@@ -105,7 +105,7 @@ if ($_GET['act'] == 'delete') {
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
-                                    <img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;">
+                                    <img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;" class="border border-secondary">
                                     <center> <a href="forms_item_list.php?forms_id=<?php echo $item_id; ?>&forms_item_id=<?php ?>"  class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >                                
@@ -140,8 +140,9 @@ if ($_GET['act'] == 'delete') {
                         </table>
                     </div>
                         <div class="clearfix"></div>
-
+                        <br>
                         <div class="row marginTop">
+                    
                             <div class="col-sm-12 paddingLeft pagerfwt">
                                 <?php if ($pages->items_total > 0) { ?>
                                     <?php echo $pages->display_pages(); ?>

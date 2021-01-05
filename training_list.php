@@ -478,7 +478,7 @@ if ($_GET['act'] == 'add') {
           <?php } ?>
           </table>
           <div class="clearfix"></div>
-
+          <br>
           <div class="row marginTop">
             <div class="col-sm-12 paddingLeft pagerfwt">
               <?php if ($pages->items_total > 0) { ?>

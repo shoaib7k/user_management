@@ -338,7 +338,6 @@ if ($_GET['act'] == 'add') {
                 $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
                 ?>
                 <div class="clearfix"></div>
-
                 <div class="row marginTop">
                     <div class="col-sm-12 paddingLeft pagerfwt">
                         <?php if ($pages->items_total > 0) { ?>
@@ -382,7 +381,7 @@ if ($_GET['act'] == 'add') {
                                     <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >                                
-                                <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" >
+                                <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" class="border border-secondary">
         </div>
                                 <div >
 
@@ -409,7 +408,7 @@ if ($_GET['act'] == 'add') {
                         <?php } ?>
                         </table>
                         <div class="clearfix"></div>
-
+                        <br>
                         <div class="row marginTop">
                             <div class="col-sm-12 paddingLeft pagerfwt">
                                 <?php if ($pages->items_total > 0) { ?>
