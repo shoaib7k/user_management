@@ -101,7 +101,7 @@ if ($_GET['act'] == 'add') {
     if (isset($_FILES['file_name3'])) {
         
         $file_path3 = $_FILES["file_name3"]["name"];
-        $file_ext3 = pathinfo($file_path, PATHINFO_EXTENSION);   
+        $file_ext3 = pathinfo($file_path3, PATHINFO_EXTENSION);   
         
         
         $file_types3 = array('application/pdf');
@@ -243,12 +243,12 @@ if ($_GET['act'] == 'add') {
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
-                        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
+                        if(move_uploaded_file($file_src_path, $homebase_path.$file_dst_path)){
                          $source = $homebase_path.$file_dst_path;
                        $target = $homebase_path.$icon_dst_path;
  
                        // for english pdf thumnail
-                     /*
+                     
                         $img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
@@ -260,13 +260,13 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target);
                         $img->clear();
                         $img->destroy();
-                       */ 
-                          move_uploaded_file($file_src_path2, $homebase_path.$file_dst_path2);
+                       }
+                        if(move_uploaded_file($file_src_path2, $homebase_path.$file_dst_path2)){
                          $source2 = $homebase_path.$file_dst_path2;
                        $target2 = $homebase_path.$icon_dst_path2;
  
                        // for german pdf thumnail
-                       /*
+                       
                         $img = new Imagick();               
                         $img->readImage($source2."[0]");                
                         $img->setimageformat('jpeg');
@@ -278,13 +278,13 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target2);
                         $img->clear();
                         $img->destroy();
-                        */
-                          move_uploaded_file($file_src_path3, $homebase_path.$file_dst_path3);
+                        }
+                         if(move_uploaded_file($file_src_path3, $homebase_path.$file_dst_path3)){
                          $source3 = $homebase_path.$file_dst_path3;
                        $target3 = $homebase_path.$icon_dst_path3;
  
                        // for polish pdf thumnail
-                       /*
+                       
                         $img = new Imagick();               
                         $img->readImage($source3."[0]");                
                         $img->setimageformat('jpeg');
@@ -296,7 +296,7 @@ if ($_GET['act'] == 'add') {
                         $img->writeImage($target3);
                         $img->clear();
                         $img->destroy();
-                        */
+                        }
                         pg_free_result($db_result);
                         
                     }
@@ -313,15 +313,15 @@ if ($_GET['act'] == 'add') {
                     }
                     
                 }                 
-               header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook"); 
+               header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'"); 
                 
             } else {
                 
                 // do nothing
-                header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
                 
             }
-    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
             
         }
         
@@ -345,13 +345,13 @@ if ($_GET['act'] == 'add') {
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?> ">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php?app=default&lang=<?php echo detect_language(); ?>">Admin</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>">Training</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Handbook</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>">Handbook</a>
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
             </nav>
@@ -373,7 +373,7 @@ if ($_GET['act'] == 'add') {
 
 
       <div class="container">
-              <form method="POST" action="handbook_item_add.php?act=add&theme_id=<?php echo $theme_id; ?>" enctype="multipart/form-data">
+              <form method="POST" action="handbook_item_add.php?act=add&theme_id=<?php echo $theme_id; ?>&lang=<?php echo detect_language(); ?>" enctype="multipart/form-data">
 
 <input type="text" name="training_document_theme_id" value="<?php echo $theme_id; ?>" readonly="true" style="display:none">
 

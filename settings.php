@@ -18,7 +18,7 @@ $lang_location_title="Location";
             <!-- page header and toolbox -->
             <div class="page-header pb-2">
             <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?>">Home</a>
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Admin</a>
             </nav>
@@ -41,8 +41,8 @@ $lang_location_title="Location";
       <div class="container">
        <div class="card" >
   <ul class="list-group list-group-flush">
-    <a href="user_list.php"><li class="list-group-item"><?php echo $lang_users_title; ?></li></a>
-    <a href="group_list.php"><li class="list-group-item"><?php echo $lang_groups_title; ?></li></a>
+    <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $lang_users_title; ?></li></a>
+    <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $lang_groups_title; ?></li></a>
     <a href=""><li class="list-group-item"><?php echo $lang_group_structure_title; ?></li></a>
     <a href=""><li class="list-group-item"><?php echo $lang_department_title; ?></li></a>
     <a href=""><li class="list-group-item"><?php echo $lang_location_title; ?></li></a>

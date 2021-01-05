@@ -12,7 +12,7 @@ function detect_language() {
         if (strpos($sub, '-') !== false) $sub = explode('-', $sub)[0];
         if (in_array(strtolower($sub), SUPPORTED_LANGUAGES)) return $sub;
     }
-    return 'en1';
+    return 'en';
 }
 ?>
 <body>
@@ -56,14 +56,28 @@ function detect_language() {
               <ul class="nav">
                  <li class="nav-item dropdown">
                   <?php
+                  $_SERVER['PHP_SELF'];
                     $url_request=$_SERVER['REQUEST_URI'];
                   //$variable = substr($variable, 0, strpos($variable, "By"));
                 //echo $url_request=substr($url_request, 0,strpos($url_request, "lang="));
+                if(strpos($url_request, '?lang') !== false){
+                 $url_request=substr($url_request, 0, strpos( $url_request, "?lang"));
+               }
                    if(strpos($url_request, '&lang') !== false){
                  $url_request=substr($url_request, 0, strpos( $url_request, "&lang"));
                }
+               $url="http://".$_SERVER['HTTP_HOST'].$url_request;
+                /*if(!empty($url_request) && strpos($url, '?') !== true){
+               $url="http://".$_SERVER['HTTP_HOST'].$url_request;
+               $sign="?"; 
+             }
+             else{
+                             $url="http://".$_SERVER['HTTP_HOST'].$url_request;
+                             $sign="&"; 
+             }
+             */
+             ?>
 
-               $url="http://".$_SERVER['HTTP_HOST'].$url_request; ?>
 <select class="form-control" id="form-field-select-1" onchange="window.location.href=this.value;">
   <option value="<?php echo $url; ?>&lang=en" <?php if($_GET['lang']=='en') echo "selected"; ?>>English</option>
   <option value="<?php echo $url; ?>&lang=de" <?php if($_GET['lang']=='de') echo "selected"; ?>>deutsch</option>
@@ -134,7 +148,7 @@ function detect_language() {
 
                 <li class="nav-item active">
 
-                  <a href="home.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="home.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-home"></i>
                     <span class="nav-text fadeable">
                   <span>Home</span>
@@ -147,7 +161,7 @@ function detect_language() {
 
                 </li>
                 <li class="nav-item">
-                  <a href="calendar.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="calendar.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-calendar"></i>
                     <span class="nav-text fadeable">
                   <span>Calendar</span>
@@ -156,7 +170,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="information.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="information.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>
                     <span class="nav-text fadeable">
                   <span>Information</span>
@@ -165,7 +179,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="contact_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="contact_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-address-card"></i>
                     <span class="nav-text fadeable">
                   <span>Contact</span>
@@ -174,7 +188,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                  <li class="nav-item">
-                  <a href="user_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="nav-text fadeable">
                   <span>Users</span>
@@ -255,7 +269,7 @@ function detect_language() {
                 </li>
               -->
                <li class="nav-item">
-                  <a href="group_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-object-group"></i>
                     <span class="nav-text fadeable">
                   <span>Groups</span>
@@ -264,7 +278,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="training_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="training_list.php?app=default&app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
                   <span>Training</span>
@@ -273,7 +287,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="template_list.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="template_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
                   <span>Templates</span>
@@ -282,7 +296,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="settings.php?lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="settings.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">
                   <span>Admin</span>

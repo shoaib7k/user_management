@@ -357,6 +357,7 @@ if ($_GET['act'] == 'add') {
                 <?php
                 if ($pages->items_total > 0) {
                     $n  =   1;
+                                            echo '<div class="mt-45 card ccard">';
                     while ($val  =   pg_fetch_array($result)) {
                         $item_id = $val["id"];
                         $item_name = $val["name"];
@@ -374,7 +375,7 @@ if ($_GET['act'] == 'add') {
                         }
 
                 ?>
-                        <div class="mt-45 card ccard">
+
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
@@ -399,6 +400,7 @@ if ($_GET['act'] == 'add') {
 
                         <?php
                     }
+                    echo "</div>";
                 } else { ?>
                         <br>
                         <table>

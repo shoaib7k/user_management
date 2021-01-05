@@ -217,7 +217,7 @@ if($_GET['act']=='delete'){
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form method="POST" action="user_list.php?act=useradd">
+                  <form method="POST" action="user_list.php?act=useradd&lang=<?php echo detect_language(); ?>">
                     <div class="form-group row">
                    
                     <div class="col">
@@ -440,7 +440,7 @@ if($_GET['act']=='delete'){
                   </button>
                 </div>
                 <div class="modal-body">
-                   <form method="POST" action="user_list.php?act=update_user">
+                   <form method="POST" action="user_list.php?act=update_user&lang=<?php echo detect_language(); ?>">
                     <input type="hidden" name="id" value="<?php echo $val['id']; ?>">
                     <div class="form-group row">
                       <div class="col">

@@ -12,7 +12,7 @@ if($_GET['act']=='delete'){
   $db_result2=pg_query($db_connection,$sql2);
   if($db_result2){
     pg_free_result($db_result2);
-    header("location: training_list.php");
+    header("location: training_list.php?app=default&lang='".detect_language()."'");
   }
 }
 $theme_id = $_GET['theme_id'];
@@ -316,9 +316,9 @@ if ($_GET['act'] == 'add') {
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?>">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php?app=default&lang=<?php echo detect_language(); ?>">Admin</a>
                
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Training</a>
@@ -338,7 +338,7 @@ if ($_GET['act'] == 'add') {
     ?>
 
       <div class="text-center mb-4">
-        <a href="training_list_add.php" class="btn btn-blue px-45 py-2 text-105 radius-2">
+        <a href="training_list_add.php?app=default&lang=<?php echo detect_language(); ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
           Add New Training Data</a>
       </div>
@@ -354,7 +354,7 @@ if ($_GET['act'] == 'add') {
               </button>
             </div>
             <div class="modal-body">
-              <form method="POST" action="training_list.php?act=add">
+              <form method="POST" action="training_list.php?act=add&lang=<?php echo detect_language(); ?>">
 
                 <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
@@ -447,11 +447,11 @@ if ($_GET['act'] == 'add') {
                 </h4>
                 <div >
 
-                  <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                  <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     <span><strong>Delete</strong></span>
                   </a>
-                  <a href="training_list_edit.php?theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                  <a href="training_list_edit.php?theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     <span><strong>Edit</strong></span>
                   </a>
@@ -461,9 +461,9 @@ if ($_GET['act'] == 'add') {
               </div>
 
                <center>
-                <a href="handbook_list.php?theme_id=<?php echo $theme_id; ?>&type=handbook" class="training_theme_link">Manuals</a>
+                <a href="handbook_list.php?theme_id=<?php echo $theme_id; ?>&type=handbook&lang=<?php echo detect_language(); ?>" class="training_theme_link">Manuals</a>
                 <br>
-                <a href="video_list.php?theme_id=<?php echo $theme_id; ?>&type=video" class="training_theme_link">Videos</a>
+                <a href="video_list.php?theme_id=<?php echo $theme_id; ?>&type=video&lang=<?php echo detect_language(); ?>" class="training_theme_link">Videos</a>
                 </center>
 
             </div>
