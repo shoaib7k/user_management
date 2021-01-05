@@ -302,21 +302,21 @@ if ($_GET['act'] == 'add') {
             </span></div>';
         } else {
         ?>
-        <div class="mt-4 btn-group btn-group-toggle d-flex d-sm-inline-flex mx-n2 mx-sm-0 is-scrollable nav-tabs-scroll" data-toggle="buttons">
+        <!-- <div class="mt-4 btn-group btn-group-toggle d-flex d-sm-inline-flex mx-n2 mx-sm-0 is-scrollable nav-tabs-scroll" data-toggle="buttons">
                         <!--<a href="http://<?php echo $_SERVER['SERVER_ADDR'].$_SERVER['PHP_SELF'].'/theme_id='.$theme_id.'&type=handbook'; ?>">-->
-                        <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
+                        <!-- <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=en'; ?>';" >
                           <input type="radio"  />
                           English
                         </label>
  <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=de'; ?>';" >
                           <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=de'; ?>';"  />
-                          Germany
+                          German
                         </label>
 <label class="btn px-4 btn-outline-blue <?php echo $ck; ?> border-2 radius-l-round" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=pol'; ?>';" >
                           <input type="radio" onclick="window.location='<?php echo $_SERVER['PHP_SELF'].'?theme_id='.$theme_id.'&type=handbook&lang=pol'; ?>';" />
                           Polish
                         </label>
-        </div>
+        </div> --> 
             <div class="text-center mb-4">
                 <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
                     <i class="fa fa-pencil-alt mr-1"></i>
@@ -382,8 +382,7 @@ if ($_GET['act'] == 'add') {
                                     <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                                 </h4>
                                 <div >                                
-                                  <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
-    </iframe>
+                                <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" >
         </div>
                                 <div >
 

@@ -66,7 +66,7 @@ function detect_language() {
                    if(strpos($url_request, '&lang') !== false){
                  $url_request=substr($url_request, 0, strpos( $url_request, "&lang"));
                }
-               $url="http://".$_SERVER['HTTP_HOST'].$url_request;
+               $url="https://".$_SERVER['HTTP_HOST'].$url_request;
                 /*if(!empty($url_request) && strpos($url, '?') !== true){
                $url="http://".$_SERVER['HTTP_HOST'].$url_request;
                $sign="?"; 
@@ -80,8 +80,8 @@ function detect_language() {
 
 <select class="form-control" id="form-field-select-1" onchange="window.location.href=this.value;">
   <option value="<?php echo $url; ?>&lang=en" <?php if($_GET['lang']=='en') echo "selected"; ?>>English</option>
-  <option value="<?php echo $url; ?>&lang=de" <?php if($_GET['lang']=='de') echo "selected"; ?>>deutsch</option>
-  <option value="<?php echo $url; ?>&lang=pol" <?php if($_GET['lang']=='pol') echo "selected"; ?>>polish</option>
+  <option value="<?php echo $url; ?>&lang=de" <?php if($_GET['lang']=='de') echo "selected"; ?>>Deutsch</option>
+  <option value="<?php echo $url; ?>&lang=pol" <?php if($_GET['lang']=='pol') echo "selected"; ?>>Polish</option>
 </select>
                  </li>
                 <li class="nav-item dropdown order-first order-lg-last">
