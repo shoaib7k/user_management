@@ -13,7 +13,7 @@ $theme_id = $_GET['forms_id'];
 
 if ($_GET['act'] == 'add') {
     global $homebase_path;
-    $homebase_path="/var/www/webtest5/";
+    $homebase_path="";
     if (isset($_POST["template_document_theme_id"])) {  $forms_id = $_POST["template_document_theme_id"]; } 
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
     if (isset($_POST["template_document_item_name_old"])) {  $item_name_old = trim($_POST["template_document_item_name_old"]); }
@@ -39,7 +39,7 @@ if ($_GET['act'] == 'add') {
          * 
          */
         
-        $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
+        $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel');
 
         if (in_array($_FILES['file_name']['type'], $file_types)) {
 
@@ -105,7 +105,7 @@ if ($_GET['act'] == 'add') {
         
         //please unhide below two lines for preview
         require 'converter_for_documents.php';
-        convert_document($homebase_path.$dst_path);
+        convert_document($homebase_path.$file_dst_path);
         
         pg_close($db_connection);
  header("location: forms_item_list.php?forms_id=".$parent_id."");       

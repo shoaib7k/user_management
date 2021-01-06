@@ -48,7 +48,7 @@ if($_GET['act']=='add'){
 function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_src_path, $_dst_path, $_icn_path ) {
     include 'db_connect.php';
    // global $_homebase_path;
-echo "at fucntion";
+//echo "at fucntion";
      $_homebase_path="";
     
     //$db_connection = pg_connect("host=localhost port=5432 dbname=Intranet user=postgres password=postgres");
@@ -181,7 +181,7 @@ echo "at fucntion";
                 
                 if ($_dst_path != "") {
                     
-                  echo  $_sql = "insert into media (name,type,path,iconpath,themeid) values ('".$_item_name_new."','video','".$_dst_path."','".$_icn_path."',".$_theme_id.")";
+                   $_sql = "insert into media (name,type,path,iconpath,themeid) values ('".$_item_name_new."','video','".$_dst_path."','".$_icn_path."',".$_theme_id.")";
                     $_db_result = pg_query($db_connection, $_sql);
                     
                     if($_db_result) {
@@ -241,7 +241,7 @@ echo "at fucntion";
 }
 global $_homebase_path;
 $_homebase_path="";
-    echo "at act add";
+   // echo "at act add";
     $_theme_id = "";
     $_item_id = "";
     $_item_name_old = "";
