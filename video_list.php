@@ -104,7 +104,7 @@ include 'db_connect.php';
 
 
               <div class="card-header">
-                <a href="<?php echo $item_path; ?>" target="_blank"><img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;"></a>
+                <a href="<?php echo $item_path; ?>" target="_blank"><img src="<?php echo $item_icon; ?>" class="border border-secondary" alt="Icon" style="display:block;"></a>
                 <h4 class="text-120 mb-0">
                   <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                 </h4>
