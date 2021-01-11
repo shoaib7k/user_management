@@ -71,13 +71,13 @@ if ($_GET['act'] == 'delete') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by themeid");
+                $sql_forms = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by name DESC");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by themeid");
+                $result = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by name DESC");
                 ?>
                 <div class="clearfix"></div>
 
