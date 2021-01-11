@@ -35,7 +35,7 @@ if ($_GET['act'] == 'delete') {
                 <a>/</a>
                 <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Template</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Form</a>
             </nav>
@@ -52,6 +52,12 @@ if ($_GET['act'] == 'delete') {
             </span></div>';
         } else {
         ?>
+
+            <div class="text-center mb-4">
+                <a href="template_list_add.php?forms_id=<?php echo $parent_id; ?>&forms_item_id=<?php echo $forms_item_id; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
+                    <i class="fa fa-pencil-alt mr-1"></i>
+                    Add New Folder</a>
+            </div>
       
             <div class="text-center mb-4">
                 <a href="forms_item_add.php?forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $forms_item_id; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
@@ -65,13 +71,13 @@ if ($_GET['act'] == 'delete') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,name,path,iconpath from forms where themeid = ".$forms_id." order by name");
+                $sql_forms = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by themeid");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name,path,iconpath from forms where themeid = ".$forms_id." order by name");
+                $result = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by themeid");
                 ?>
                 <div class="clearfix"></div>
 
@@ -98,25 +104,33 @@ if ($_GET['act'] == 'delete') {
                         $item_name = $val["name"];
                         $item_path = $val["path"];
                         $item_icon = $val["iconpath"];
+                        $item_theme= $val["theme"];
                        
 
                 ?>
-
+              
 
                             <div class="card-header">
-                                <h4 class="text-120 mb-0">
-                                    <img src="<?php echo $item_icon; ?>" alt="Icon" style="display:block;" class="border border-secondary">
-                                    <center> <a href="forms_item_list.php?forms_id=<?php echo $item_id; ?>&forms_item_id=<?php ?>"  class="training_item_link"><?php echo $item_name; ?></a></center>
+                            <?php
+                    if($item_theme=="")
+                    {
+                        echo '<h4 class="text-120 mb-0">
+                                    <img src="'.$item_icon.'" alt="Icon" style="display:block;" class="border border-secondary">
                                 </h4>
-                                <div >                                
-                                  <!--<iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "https://view.officeapps.live.com/op/embed.aspx?src=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="400px" height="200px">
-    </iframe>-->
-        </div>
                                 <div >
-<a href="<?php echo $item_path; ?>" target="_blank" class="btn btn-primary a-btn-slide-text">
-                                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                                        <span><strong>File</strong></span>
-                                  </a>
+                                <a href="'.$item_path.'" target="_blank" class="btn btn-primary a-btn-slide-text">
+                                                                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                                                                        <span><strong>File</strong></span>
+                                                                  </a>';
+                    }
+                    else{
+                        echo '<h4 class="text-120 mb-0">
+                     <a href="forms_item_list.php?forms_id='.$item_id.'&forms_item_id="  class="training_item_link">'.$item_theme.'</a>
+                     </h4>
+                     <div >';
+                    }
+                ?>
+                               
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
