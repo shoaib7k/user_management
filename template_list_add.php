@@ -1,10 +1,13 @@
 <?php
+
 session_start();
 include('paginator.class.php');
 ?>
 
 <?php
 include 'db_connect.php';
+$parent_id = $_GET['forms_id'];
+$theme_id = $_GET['forms_id'];  
 if ($_GET['act'] == 'add') {
   if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } else { $forms_theme_id = ""; }
     if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } else { $forms_theme_old = ""; }
@@ -14,9 +17,14 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
         $sql = "update forms set theme = '".$forms_theme_new."' where theme = '".$forms_theme_old."'";        
         
     } else {
-        
-        $sql = "insert into forms (id, theme, timestamp) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp)"; 
+        if($parent_id!==""){
+        $sql = "insert into forms (id, theme, timestamp,themeid) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."')"; 
         header("location: template_list.php");
+        }
+        else{
+          $sql = "insert into forms (id, theme, timestamp) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp)"; 
+          header("location: template_list.php");
+        }
     }
     
     if ($db_connection) {
@@ -69,7 +77,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
 
 
      
-              <form method="POST" action="template_list_add.php?act=add" enctype="multipart/form-data">
+              <form method="POST" action="template_list_add.php?act=add&forms_id=<?php echo $parent_id;?>" enctype="multipart/form-data">
 
                 <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>

@@ -6,6 +6,7 @@ include('paginator.class.php');
 include 'db_connect.php';
 ?>
 <?php
+$parent_id=NULL;
 if($_GET['act']=='delete'){
   $id=$_GET['forms_id'];
   $sql2="DELETE from forms where id=".$id." ";
@@ -32,7 +33,7 @@ if($_GET['act']=='delete'){
                 <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
                
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Training</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Template</a>
             </nav>
     </div>
     <?php
@@ -51,7 +52,7 @@ if($_GET['act']=='delete'){
       <div class="text-center mb-4">
         <a href="template_list_add.php" class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
-          Add New Form Data</a>
+          Add New Folder</a>
       </div>
 
 
@@ -66,13 +67,13 @@ if($_GET['act']=='delete'){
         <?php
         $pages = new Paginator;
         $pages->default_ipp = 15;
-        $sql_forms = pg_query( "select id, theme, name, path, iconpath, timestamp from forms where name is null order by theme");
+        $sql_forms = pg_query( "select id, theme, name, path, iconpath, timestamp from forms where themeid is null order by theme");
         $pages->items_total = pg_num_rows($sql_forms);
         $pages->mid_range = 9;
         $pages->paginate();
         //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
         //echo $pages->limit;
-        $result = pg_query("select id, theme, name, path, iconpath, timestamp from forms where name is null order by theme " . $pages->limit . "");
+        $result = pg_query("select id, theme, name, path, iconpath, timestamp from forms where themeid is null order by theme " . $pages->limit . "");
         ?>
         <div class="clearfix"></div>
 
