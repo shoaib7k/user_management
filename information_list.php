@@ -55,11 +55,8 @@ if ($_GET['act'] == 'delete') {
             <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
-                <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Form</a>
+               
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Information</a>
             </nav>
         </div>
         <?php
