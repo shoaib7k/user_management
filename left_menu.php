@@ -170,7 +170,7 @@ function detect_language() {
                   <b class="sub-arrow"></b>
                 </li>
                 <li class="nav-item">
-                  <a href="information_item_add.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
+                  <a href="information_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>
                     <span class="nav-text fadeable">
                   <span>Information</span>
