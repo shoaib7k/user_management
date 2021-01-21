@@ -335,7 +335,7 @@ if ($_GET['act'] == 'add') {
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name".$pages->limit."");
                 ?>
                 <div class="clearfix"></div>
                 <div class="row marginTop">

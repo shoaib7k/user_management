@@ -48,16 +48,16 @@ if ($_GET['act'] == 'add') {
  
 
          if ($lang=="de"){
-          $sql = "insert into information (id, titel_de, inhalt_de) values ((select max(id) from information) + 1, '".$title."','".$content."')";
+          $sql = "insert into information (titel_de, inhalt_de) values ('".$title."','".$content."')";
         }
         else if($lang=="pol"){
-          $sql = "insert into information (id, titel_pol, inhalt_pol) values ((select max(id) from information) + 1, '".$title."','".$content."')";
+          $sql = "insert into information ( titel_pol, inhalt_pol) values ( '".$title."','".$content."')";
         }
         else{
-          $sql = "insert into information (id, titel, inhalt) values ((select max(id) from information) + 1, '".$title."','".$content."')";
+          $sql = "insert into information ( titel, inhalt) values ( '".$title."','".$content."')";
         }
          
-      //  header("location: template_list.php");
+        header("location: information_list.php");
         
         
           
