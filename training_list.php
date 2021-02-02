@@ -12,7 +12,7 @@ if($_GET['act']=='delete'){
   $db_result2=pg_query($db_connection,$sql2);
   if($db_result2){
     pg_free_result($db_result2);
-    header("location: training_list.php?app=default&lang='".detect_language()."'");
+    //header("location: training_list.php?app=default&lang='".detect_language()."'");
   }
 }
 $theme_id = $_GET['theme_id'];
@@ -405,13 +405,17 @@ if ($_GET['act'] == 'add') {
         <?php
         $pages = new Paginator;
         $pages->default_ipp = 15;
-        $sql_forms = pg_query("select id, theme, iconpath, timestamp from media where themeid is NULL order by theme");
+        $fp=array();
+        $string=implode(',',$_SESSION['user_in_groups']);
+        print_r($string);
+        $sql_forms = pg_query("select id, theme, iconpath, timestamp from media where access_group &&  ARRAY[".$string."']  AND  themeid is NULL order by theme");
+        print_r($sql_forms);
         $pages->items_total = pg_num_rows($sql_forms);
         $pages->mid_range = 9;
         $pages->paginate();
         //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
-        //echo $pages->limit;
-        $result = pg_query("select id, theme, iconpath, timestamp from media where themeid is NULL order by theme " . $pages->limit . "");
+        //echo $pages->limit;  
+        $result = pg_query("select id, theme, iconpath, timestamp from media  where access_group && ARRAY[4,9,10,11,12,13,14,15,16,17,18,19] AND themeid is NULL order by theme " . $pages->limit . "");
         ?>
         <div class="clearfix"></div>
 
@@ -451,7 +455,7 @@ if ($_GET['act'] == 'add') {
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     <span><strong>Delete</strong></span>
                   </a>
-                  <a href="training_list_edit.php?theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
+                  <a href="training_list_edit.php?app=default&lang=<?php echo detect_language(); ?>&theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     <span><strong>Edit</strong></span>
                   </a>

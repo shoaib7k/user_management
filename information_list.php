@@ -79,7 +79,12 @@ if ($_GET['act'] == 'delete') {
             </div>
 
             <div class="container">
-                <h1><a href=""> List</a></h1>
+                <h1><a href=""> List <?php foreach($_SESSION['user_in_groups'] AS $key => $value ) {
+  echo "$value"; echo "\n";
+}
+                // foreach($ss as $_SESSION['user_in_groups'])
+                // echo $ss; 
+                ?></a></h1>
                 <hr>
                 <?php
                 $pages = new Paginator;
@@ -133,7 +138,9 @@ if ($_GET['act'] == 'delete') {
                             <h4 class="text-120 mb-0">
                                     <center><a><?php if($item_titel=="" && $item_title_pol=="") { echo $item_titel_de;  } else if($item_titel_de=="" && $item_titel=="" ) { echo $item_title_pol;  } else { echo $item_titel;} ?></a></center>
                                 </h4>
- 
+                                <h4 class="text-120 mb-0">
+                                    <center><a><?php if($item_titel=="" && $item_title_pol=="") { echo $item_inhalt_de;  } else if($item_titel_de=="" && $item_titel=="" ) { echo $item_inhalt_pol;  } else { echo $item_inhalt_titel;} ?></a></center>
+                                </h4>
                   <div>
                                
                                     <a onClick="return confirm('Are you sure you want to delete item?')" href="information_list.php?act=delete&information_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
