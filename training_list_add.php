@@ -42,6 +42,10 @@ if ($_GET['act'] == 'add') {
   $_file_name = "";
   $_file_iconpath = "";
   $_file_iconpath_old = "";
+  $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
 
   if (isset($_POST["training_theme_id"])) {
     $_training_theme_id = $_POST["training_theme_id"];
@@ -141,11 +145,11 @@ if ($_GET['act'] == 'add') {
 
         if ($_file_name == "") {
 
-          $_sql = "insert into media (theme, iconpath) values ('" . $_training_theme_name_new . "',NULL)";
+          $_sql = "insert into media (theme, iconpath,access_group) values ('" . $_training_theme_name_new . "',NULL,'{".implode(',',$group_id_array)."}')";
           $_db_result = pg_query($db_connection, $_sql);
         } else {
 
-          $_sql = "insert into media (theme, iconpath) values ('" . $_training_theme_name_new . "', '" . $_file_iconpath . "')";
+          $_sql = "insert into media (theme, iconpath,access_group) values ('" . $_training_theme_name_new . "', '" . $_file_iconpath . "','{".implode(',',$group_id_array)."}')";
           $_db_result = pg_query($db_connection, $_sql);
           if ($_db_result) {
             move_uploaded_file($_file_tmp_name, $_file_name);
@@ -204,13 +208,16 @@ echo "failed";
               You do not have permission to access this page!
             </span></div>';
     } else {
+      foreach($group_id_array AS $key => $value ) {
+        echo "$value"; echo "\n";
+      }
     ?>
 
       
 
 
      
-              <form method="POST" action="training_list_add.php?act=add" enctype="multipart/form-data">
+              <form method="POST" action="training_list_add.php?act=add&app=default&lang=<?php echo detect_language(); ?>" enctype="multipart/form-data">
 
                 <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
@@ -224,7 +231,37 @@ echo "failed";
                   <label for="formGroupExampleInput">New Theme Name</label>
                   <input type="text" name="training_theme_name_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                      <label for="group_add">Select Groups For Access</label>
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                              echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '">' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
                 <label for="formGroupExampleInput">Icon</label>
                 <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
@@ -354,6 +391,10 @@ echo "failed";
          });
          */
     });
+
+    $(document).ready(function() {
+    $('#example-getting-started').multiselect();
+  });
 </script>
 
 
