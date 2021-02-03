@@ -41,16 +41,16 @@ if ($_GET['act'] == 'delete') {
             </nav>
         </div>
         <?php
-        if ($_SESSION['user_type'] == 'U') {
-            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-        } else {
+        // if ($_SESSION['user_type'] == 'U') {
+        //     echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+        //               <div class="bgc-red px-3 py-1 text-center radius-l-1">
+        //                 <span class="fa-2x text-white">
+        //         ⚠ <!-- &#9888; -->
+        //       </span>
+        //               </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+        //       You do not have permission to access this page!
+        //     </span></div>';
+        // } else {
         ?>
 
             <div class="text-center mb-4">
@@ -71,13 +71,14 @@ if ($_GET['act'] == 'delete') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by name DESC");
+                $string=implode(',',$_SESSION['user_in_groups']);
+                $sql_forms = pg_query("select id,name,path,iconpath,theme from forms where access_group &&  ARRAY[".$string."] and themeid = ".$forms_id." order by name DESC");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name,path,iconpath,theme from forms where themeid = ".$forms_id." order by name DESC");
+                $result = pg_query("select id,name,path,iconpath,theme from forms where access_group &&  ARRAY[".$string."] and themeid = ".$forms_id." order by name DESC");
                 ?>
                 <div class="clearfix"></div>
 
@@ -114,7 +115,7 @@ if ($_GET['act'] == 'delete') {
                             <?php
                     if($item_theme=="")
                     {
-                        echo '<h4 class="text-120 mb-0">
+                        echo '<h4 class="text-120 mb-0">'.$item_name.'
                                     <img src="'.$item_icon.'" alt="Icon" style="display:block;" class="border border-secondary">
                                 </h4>
                                 <div >
@@ -122,6 +123,7 @@ if ($_GET['act'] == 'delete') {
                                                                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                                                                         <span><strong>File</strong></span>
                                                                   </a>';
+                    
                     }
                     else{
                         echo '<h4 class="text-120 mb-0">
@@ -130,7 +132,8 @@ if ($_GET['act'] == 'delete') {
                      <div >';
                     }
                 ?>
-                               
+                               <?php if ($_SESSION['user_type'] == 'A')
+                {?>
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
@@ -139,6 +142,7 @@ if ($_GET['act'] == 'delete') {
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         <span><strong>Edit</strong></span>
                                     </a>
+                                    <?php }?>
                                 </div>
                             </div>
 
@@ -172,7 +176,7 @@ if ($_GET['act'] == 'delete') {
                         </div>
                         <!--/.container-->
                     <?php
-                }
+                //}
                     ?>
 
             </div>

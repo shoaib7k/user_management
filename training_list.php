@@ -325,16 +325,16 @@ if ($_GET['act'] == 'add') {
             </nav>
     </div>
     <?php
-    if ($_SESSION['user_type'] == 'U') {
-      echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-    } else {
+    // if ($_SESSION['user_type'] == 'U') {
+    //   echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+    //                   <div class="bgc-red px-3 py-1 text-center radius-l-1">
+    //                     <span class="fa-2x text-white">
+    //             ⚠ <!-- &#9888; -->
+    //           </span>
+    //                   </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+    //           You do not have permission to access this page!
+    //         </span></div>';
+    // } else {
     ?>
 
       <div class="text-center mb-4">
@@ -448,8 +448,10 @@ if ($_GET['act'] == 'add') {
                 <h4 class="text-120 mb-0">
                   <?php echo $theme_name; ?>
                 </h4>
-                <div >
-
+                <?php if ($_SESSION['user_type'] == 'A')
+                {?>
+                  <div >
+                
                   <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     <span><strong>Delete</strong></span>
@@ -461,6 +463,7 @@ if ($_GET['act'] == 'add') {
 
                   
                 </div>
+                <?php }?>
               </div>
 
                <center>
@@ -498,7 +501,7 @@ if ($_GET['act'] == 'add') {
       </div>
       <!--/.container-->
     <?php
-    }
+    //}
     ?>
 
   </div>
