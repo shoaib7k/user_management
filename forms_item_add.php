@@ -18,6 +18,10 @@ if ($_GET['act'] == 'add') {
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
     if (isset($_POST["template_document_item_name_old"])) {  $item_name_old = trim($_POST["template_document_item_name_old"]); }
     if (isset($_POST["template_document_item_name_new"])) {  $item_name_new = trim($_POST["template_document_item_name_new"]); }
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
    if ($item_name_old != $item_name_new) {
         
         $item_name = $item_name_new;
@@ -65,7 +69,7 @@ if ($_GET['act'] == 'add') {
         
         if ($forms_id == "") {
             
-            $sql = "insert into forms (id, name, path, iconpath, timestamp, themeid) values ((select max(id)+1 from forms),  '".$item_name."', '".$file_dst_path."','".$icon_dst_path."',localtimestamp,'".$parent_id."')";
+            $sql = "insert into forms (id, name, path, iconpath, timestamp, themeid,access_group) values ((select max(id)+1 from forms),  '".$item_name."', '".$file_dst_path."','".$icon_dst_path."',localtimestamp,'".$parent_id."','{".implode(',',$group_id_array)."}')";
             
         } else {
             
@@ -169,7 +173,37 @@ if ($_GET['act'] == 'add') {
                   <label for="formGroupExampleInput">New Item Name</label>
          <input type="text" name="template_document_item_name_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                      <label for="group_add">Select Groups For Access</label>
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                              echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '">' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
 <label for="formGroupExampleInput"></label>
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>

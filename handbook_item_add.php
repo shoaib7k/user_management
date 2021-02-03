@@ -60,6 +60,10 @@ if ($_GET['act'] == 'add') {
     if (isset($_POST["training_document_item_name_old"])) {  $item_name_old = trim($_POST["training_document_item_name_old"]); }
     if (isset($_POST["training_document_item_name_new"])) {  $item_name_new = trim($_POST["training_document_item_name_new"]); }
     
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
     if (isset($_FILES['file_name'])) {
         
         $file_path = $_FILES["file_name"]["name"];
@@ -239,7 +243,7 @@ if ($_GET['act'] == 'add') {
                 
                 if ($file_dst_path != "" || $file_dst_path2 != ""  || $file_dst_path3 != "") {
                     
-                    $sql = "insert into media (name,type,path,iconpath,themeid,path2,iconpath2,path3,iconpath3) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.",'".$file_dst_path2."','".$icon_dst_path2."','".$file_dst_path3."','".$icon_dst_path3."')";
+                    $sql = "insert into media (name,type,path,iconpath,themeid,path2,iconpath2,path3,iconpath3,access_group) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.",'".$file_dst_path2."','".$icon_dst_path2."','".$file_dst_path3."','".$icon_dst_path3."','{".implode(',',$group_id_array)."}')";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -389,7 +393,37 @@ if ($_GET['act'] == 'add') {
                   <label for="formGroupExampleInput">New Item Name</label>
          <input type="text" name="training_document_item_name_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                      <label for="group_add">Select Groups For Access</label>
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                              echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '">' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
 <label for="formGroupExampleInput">Select English</label>
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>

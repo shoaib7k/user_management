@@ -39,16 +39,16 @@ include 'db_connect.php';
             </nav>
     </div>
     <?php
-    if ($_SESSION['user_type'] == 'U') {
-      echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-    } else {
+    // if ($_SESSION['user_type'] == 'U') {
+    //   echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+    //                   <div class="bgc-red px-3 py-1 text-center radius-l-1">
+    //                     <span class="fa-2x text-white">
+    //             ⚠ <!-- &#9888; -->
+    //           </span>
+    //                   </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+    //           You do not have permission to access this page!
+    //         </span></div>';
+    // } else {
     ?>
     <div class="text-center mb-4">
         <a href="video_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
@@ -63,7 +63,8 @@ include 'db_connect.php';
         //$theme_type="video";
         $pages = new Paginator;
         $pages->default_ipp = 15;
-        $sql_forms = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
+        $string=implode(',',$_SESSION['user_in_groups']);
+        $sql_forms = pg_query("select id,name, path, iconpath from media where access_group && ARRAY[".$string."] and themeid = ".$theme_id." and type = '".$theme_type."' order by name");
         $pages->items_total = pg_num_rows($sql_forms);
         $pages->mid_range = 9;
         $pages->paginate();
@@ -71,7 +72,7 @@ include 'db_connect.php';
         //echo $pages->limit;
          // prepare items
         
-        $result = pg_query("select id,name, path, iconpath from media where themeid = ".$theme_id." and type = '".$theme_type."' order by name");
+        $result = pg_query("select id,name, path, iconpath from media where access_group && ARRAY[".$string."] and themeid = ".$theme_id." and type = '".$theme_type."' order by name");
 
         ?>
         <div class="clearfix"></div>
@@ -108,6 +109,7 @@ include 'db_connect.php';
                 <h4 class="text-120 mb-0">
                   <center> <a href="<?php echo $item_path; ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
                 </h4>
+               <?php if ($_SESSION['user_type'] == 'A'){?>
                 <div>
 
 <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="video_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text" type="button">
@@ -118,7 +120,7 @@ include 'db_connect.php';
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         <span><strong>Edit</strong></span>            
     </a>
-            </div>
+            </div><?php }?>
         </div>
 
           <?php
@@ -150,7 +152,7 @@ include 'db_connect.php';
       </div>
       <!--/.container-->
     <?php
-    }
+    //}
     ?>
 
   </div>

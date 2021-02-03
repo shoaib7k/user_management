@@ -37,16 +37,16 @@ if($_GET['act']=='delete'){
             </nav>
     </div>
     <?php
-    if ($_SESSION['user_type'] == 'U') {
-      echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-    } else {
+    // if ($_SESSION['user_type'] == 'U') {
+    //   echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+    //                   <div class="bgc-red px-3 py-1 text-center radius-l-1">
+    //                     <span class="fa-2x text-white">
+    //             ⚠ <!-- &#9888; -->
+    //           </span>
+    //                   </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+    //           You do not have permission to access this page!
+    //         </span></div>';
+    // } else {
     ?>
 
       <div class="text-center mb-4">
@@ -118,6 +118,8 @@ if($_GET['act']=='delete'){
         </a>
                 </h4>
                         </center>
+                        <?php if ($_SESSION['user_type'] == 'A')
+                {?>
                 <div >
 
                   <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
@@ -131,6 +133,7 @@ if($_GET['act']=='delete'){
 
                   
                 </div>
+                <?php }?>
               </div>
 
             
@@ -164,7 +167,7 @@ if($_GET['act']=='delete'){
       </div>
       <!--/.container-->
     <?php
-    }
+   // }
     ?>
 
   </div>

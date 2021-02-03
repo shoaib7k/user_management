@@ -8,6 +8,12 @@ include('paginator.class.php');
 include 'db_connect.php';
 $parent_id = $_GET['forms_id'];
 $theme_id = $_GET['forms_id'];  
+$all_groups=array();
+        $sql3=pg_query("select * from groups");
+        while($val3=pg_fetch_array($sql3)){
+          array_push($all_groups,$val3['id']);
+        }
+        print_r($all_groups);
 if ($_GET['act'] == 'add') {
   if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } else { $forms_theme_id = ""; }
     if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } else { $forms_theme_old = ""; }
@@ -17,8 +23,9 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
         $sql = "update forms set theme = '".$forms_theme_new."' where theme = '".$forms_theme_old."'";        
         
     } else {
+     
         if($parent_id!==""){
-        $sql = "insert into forms (id, theme, timestamp,themeid) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."')"; 
+        $sql = "insert into forms (id, theme, timestamp,themeid,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."','{".implode(',',$all_groups)."}')"; 
         header("location: template_list.php");
         }
         else{
@@ -71,6 +78,8 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
               You do not have permission to access this page!
             </span></div>';
     } else {
+      echo "hello";
+      print_r($all_groups);
     ?>
 
       

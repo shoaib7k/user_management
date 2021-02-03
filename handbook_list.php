@@ -291,16 +291,16 @@ if ($_GET['act'] == 'add') {
             </nav>
         </div>
         <?php
-        if ($_SESSION['user_type'] == 'U') {
-            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-        } else {
+        // if ($_SESSION['user_type'] == 'U') {
+        //     echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+        //               <div class="bgc-red px-3 py-1 text-center radius-l-1">
+        //                 <span class="fa-2x text-white">
+        //         ⚠ <!-- &#9888; -->
+        //       </span>
+        //               </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+        //       You do not have permission to access this page!
+        //     </span></div>';
+        // } else {
         ?>
         <!-- <div class="mt-4 btn-group btn-group-toggle d-flex d-sm-inline-flex mx-n2 mx-sm-0 is-scrollable nav-tabs-scroll" data-toggle="buttons">
                         <!--<a href="http://<?php echo $_SERVER['SERVER_ADDR'].$_SERVER['PHP_SELF'].'/theme_id='.$theme_id.'&type=handbook'; ?>">-->
@@ -329,13 +329,14 @@ if ($_GET['act'] == 'add') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
+                $string=implode(',',$_SESSION['user_in_groups']);
+                $sql_forms = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where access_group && ARRAY[".$string."] and themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name".$pages->limit."");
+                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where access_group && ARRAY[".$string."] and themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name".$pages->limit."");
                 ?>
                 <div class="clearfix"></div>
                 <div class="row marginTop">
@@ -425,7 +426,7 @@ if ($_GET['act'] == 'add') {
                         </div>
                         <!--/.container-->
                     <?php
-                }
+                //}
                     ?>
 
             </div>

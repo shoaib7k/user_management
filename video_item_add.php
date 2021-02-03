@@ -45,6 +45,7 @@ if ($db_connection)  {
 <?php
 
 if($_GET['act']=='add'){
+   
 function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_src_path, $_dst_path, $_icn_path ) {
     include 'db_connect.php';
    // global $_homebase_path;
@@ -180,8 +181,11 @@ function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_o
              if ($_item_name_new != "") { // no record without item name
                 
                 if ($_dst_path != "") {
-                    
-                   $_sql = "insert into media (name,type,path,iconpath,themeid) values ('".$_item_name_new."','video','".$_dst_path."','".$_icn_path."',".$_theme_id.")";
+                    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
+                   $_sql = "insert into media (name,type,path,iconpath,themeid,access_group) values ('".$_item_name_new."','video','".$_dst_path."','".$_icn_path."',".$_theme_id.",'{".implode(',',$group_id_array)."}')";
                     $_db_result = pg_query($db_connection, $_sql);
                     
                     if($_db_result) {
@@ -336,7 +340,37 @@ $_homebase_path="";
          <input type="text" name="training_video_item_name_new" class="form-control" id="new_theme">
                 </div>
 
-  
+                <div class="form-group">
+                      <label for="group_add">Select Groups For Access</label>
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                              echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '">' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
