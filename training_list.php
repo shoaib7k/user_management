@@ -405,17 +405,16 @@ if ($_GET['act'] == 'add') {
         <?php
         $pages = new Paginator;
         $pages->default_ipp = 15;
-        $fp=array();
+        
         $string=implode(',',$_SESSION['user_in_groups']);
-        print_r($string);
-        $sql_forms = pg_query("select id, theme, iconpath, timestamp from media where access_group &&  ARRAY[".$string."']  AND  themeid is NULL order by theme");
-        print_r($sql_forms);
+      
+        $sql_forms = pg_query("select id, theme, iconpath, timestamp from media where access_group &&  ARRAY[".$string."]  AND  themeid is NULL order by theme");
         $pages->items_total = pg_num_rows($sql_forms);
         $pages->mid_range = 9;
         $pages->paginate();
         //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
         //echo $pages->limit;  
-        $result = pg_query("select id, theme, iconpath, timestamp from media  where access_group && ARRAY[4,9,10,11,12,13,14,15,16,17,18,19] AND themeid is NULL order by theme " . $pages->limit . "");
+        $result = pg_query("select id, theme, iconpath, timestamp from media  where access_group && ARRAY[".$string."] AND themeid is NULL order by theme " . $pages->limit . "");
         ?>
         <div class="clearfix"></div>
 
