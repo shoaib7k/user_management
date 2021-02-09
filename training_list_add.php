@@ -208,9 +208,7 @@ echo "failed";
               You do not have permission to access this page!
             </span></div>';
     } else {
-      foreach($group_id_array AS $key => $value ) {
-        echo "$value"; echo "\n";
-      }
+      
     ?>
 
       
@@ -237,7 +235,7 @@ echo "failed";
 
                         <?php
                         $db_sql = "select id, group_name from groups";
-
+                        print_r($db_sql);
                         $db_result = pg_query($db_connection, $db_sql);
 
                         if (!$db_result) {

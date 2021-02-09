@@ -367,12 +367,17 @@ if ($_GET['act'] == 'add') {
                         $item_icon2 = $val["iconpath2"];
                         $item_path3 = $val["path3"];
                         $item_icon3 = $val["iconpath3"];
-                        if (empty($item_path2)||empty($item_path3)) {
+                        if (empty($item_path2)) {
                             $item_path2=$item_path;
-                            $item_path3=$item_path;
+                            //$item_path3=$item_path;
                             $item_icon2=$item_icon;
-                            $item_icon2=$item_icon;
+                            //$item_icon3=$item_icon;
                         }
+                        if(empty($item_path3)){
+                            $item_path3=$item_path;
+                            $item_icon3=$item_icon;
+                        }
+                        
 
                 ?>
 

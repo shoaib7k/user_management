@@ -89,13 +89,14 @@ if ($_GET['act'] == 'delete') {
                 <?php
                 $pages = new Paginator;
                 $pages->default_ipp = 15;
-                $sql_forms = pg_query("select id,titel,inhalt,titel_de,inhalt_de,titel_pol,inhalt_pol from information");
+                $string=implode(',',$_SESSION['user_in_groups']);
+                $sql_forms = pg_query("select id,titel,inhalt,titel_de,inhalt_de,titel_pol,inhalt_pol from information where access_group && ARRAY[".$string."]");
                 $pages->items_total = pg_num_rows($sql_forms);
                 $pages->mid_range = 9;
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,titel,inhalt,titel_de,inhalt_de,titel_pol,inhalt_pol from information".$pages->limit."");
+                $result = pg_query("select id,titel,inhalt,titel_de,inhalt_de,titel_pol,inhalt_pol from information where access_group && ARRAY[".$string."]".$pages->limit."");
                 ?>
                 <div class="clearfix"></div>
 

@@ -10,6 +10,31 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    -
+    <script src="./js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="./js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="./js/fileinput.js" type="text/javascript"></script>
+    <script src="./js/locales/fr.js" type="text/javascript"></script>
+    <script src="./js/locales/es.js" type="text/javascript"></script>
+    <script src="./themes/fas/theme.js" type="text/javascript"></script>
+    <script src="./themes/explorer-fas/theme.js" type="text/javascript"></script>
+
+    <link rel="icon" type="image/png" href="./images/rf-title2.jpg" />
+<!--<script src="./node_modules/jquery/dist/jquery.js"></script>
+-->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+   <script src="./node_modules/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="./node_modules/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.js"></script>
+
+
+    <script src="./node_modules/select2/dist/js/select2.js"></script>
+    <script src="./node_modules/chosen-js/chosen.jquery.js"></script>
+
+    <!-- include ace.js -->
+    <script src="./dist/js/ace.js"></script>
   </head>
 <?php
 
@@ -24,6 +49,7 @@ $lang="en";
 
 $title = $_POST['information_title'];
 $content = $_POST['editordata'];
+
 
 if(isset($_GET['lang'])){
   if($_GET['lang']=="en"){
@@ -46,15 +72,18 @@ else{
 }
 if ($_GET['act'] == 'add') {
  
-
+  $group_id_array=array();
+  foreach ($_POST['group_id'] AS $key => $value) {
+    array_push($group_id_array,$value);
+  }
          if ($lang=="de"){
-          $sql = "insert into information (titel_de, inhalt_de) values ('".$title."','".$content."')";
+          $sql = "insert into information (titel_de, inhalt_de,access_group) values ('".$title."','".$content."','{".implode(',',$group_id_array)."}')";
         }
         else if($lang=="pol"){
-          $sql = "insert into information ( titel_pol, inhalt_pol) values ( '".$title."','".$content."')";
+          $sql = "insert into information ( titel_pol, inhalt_pol) values ( '".$title."','".$content."','{".implode(',',$group_id_array)."}')";
         }
         else{
-          $sql = "insert into information ( titel, inhalt) values ( '".$title."','".$content."')";
+          $sql = "insert into information ( titel, inhalt,access_group) values ( '".$title."','".$content."','{".implode(',',$group_id_array)."}')";
         }
          
         header("location: information_list.php");
@@ -117,7 +146,37 @@ if ($_GET['act'] == 'add') {
                   <label for="formGroupExampleInput">ID</label>
                   <input type="text" name="information_id" class="form-control" value="<?php echo $forms_theme_id; ?>" id="information_id" readonly>
                 </div>
-                
+                <div class="form-group">
+                      <label for="group_add">Select Groups For Access</label>
+                  <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                              echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '">' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput">Title</label>
                   <input type="text" name="information_title" class="form-control" id="information_title">

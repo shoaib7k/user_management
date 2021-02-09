@@ -314,25 +314,27 @@ if ($_GET['act'] == 'add') {
                        // echo "success";
                         pg_free_result($db_result);
                         
+                       // header("location: handbook_list.php");
                     }
                     
                 }                 
-               header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'"); 
+             //  header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'"); 
                 
             } else {
                 
                 // do nothing
-    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
+    //header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
                 
             }
-    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
-            
+    //header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
         }
         
         
         
         pg_close($db_connection);
-       
+    //    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
+       // header("location: handbook_list.php");
     }
  
 }

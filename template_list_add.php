@@ -59,13 +59,15 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
   <div class="page-content container container-plus">
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-          <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
-          <li class="breadcrumb-item active">Training</li>
-        </ol>
-      </nav>
+    <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a>/</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+            </nav>
     </div>
     <?php
     if ($_SESSION['user_type'] == 'U') {
@@ -78,8 +80,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
               You do not have permission to access this page!
             </span></div>';
     } else {
-      echo "hello";
-      print_r($all_groups);
+    
     ?>
 
       

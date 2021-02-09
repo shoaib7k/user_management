@@ -133,11 +133,11 @@ if ($_GET['act'] == 'add') {
                 <a>/</a>
                 <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Handbook</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="forms_item_list.php">Form</a>
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Add</a>
             </nav>
     </div>
     <?php
