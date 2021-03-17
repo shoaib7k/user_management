@@ -121,15 +121,28 @@ if($_GET['act']=='delete'){
                         <?php if ($_SESSION['user_type'] == 'A')
                 {?>
                 <div >
+                <table class="table table-borderless">
+  <tr>
+      
+      <td><a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <span><strong>Delete</strong></span>
+                  </a></td>
+      <td><a href="template_list_edit.php?forms_id=<?php echo $forms_id; ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <span><strong>Edit</strong></span>
+                  </a></td>
+    </tr>
+  </table>
 
-                  <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                  <!-- <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     <span><strong>Delete</strong></span>
                   </a>
                   <a href="template_list_edit.php?forms_id=<?php echo $forms_id; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     <span><strong>Edit</strong></span>
-                  </a>
+                  </a> -->
 
                   
                 </div>

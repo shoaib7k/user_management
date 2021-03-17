@@ -389,6 +389,8 @@ if ($_GET['act'] == 'add') {
                                 <div >                                
                                 <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" class="border border-secondary">
         </div>
+        <?php if ($_SESSION['user_type'] == 'A')
+                {?>
                                 <div >
 
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-primary a-btn-slide-text" type="button">
@@ -400,6 +402,7 @@ if ($_GET['act'] == 'add') {
                                         <span><strong>Edit</strong></span>
                                     </a>
                                 </div>
+                                <?php } ?>
                             </div>
 
                         <?php

@@ -450,7 +450,22 @@ if ($_GET['act'] == 'add') {
                 </h4>
                 <?php if ($_SESSION['user_type'] == 'A')
                 {?>
-                  <div >
+                <div class="table-responsive-xs">
+  <table class="table table-borderless">
+  <tr>
+      
+      <td><a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <span><strong>Delete</strong></span>
+                  </a></td>
+      <td><a href="training_list_edit.php?app=default&lang=<?php echo detect_language(); ?>&theme_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <span><strong>Edit</strong></span>
+                  </a></td>
+    </tr>
+  </table>
+</div>
+                  <!-- <div >
                 
                   <a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="training_list.php?act=delete&theme_id=<?php echo $val['id']; ?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -462,7 +477,7 @@ if ($_GET['act'] == 'add') {
                   </a>
 
                   
-                </div>
+                </div> -->
                 <?php }?>
               </div>
 
