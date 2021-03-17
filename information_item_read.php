@@ -19,34 +19,7 @@ include('paginator.class.php');
 
 <?php
 include 'db_connect.php';
-if ($_GET['act'] == 'edit') {
 
-    $information_id_update = $_POST['information_id_edit'];
-    $information_title_update = $_POST['information_title_edit'];
-    $information_content_update = $_POST['editordata_edit'];
-    $lang_update = $_GET['lang'];
-    if ($lang_update == "de") {
-        $sql = "update information set titel_de = '" . $information_title_update . "',inhalt_de='" . $information_content_update . "' where id = '" . $information_id_update . "'";
-    } else if ($lang_update == "pol") {
-        "update information set titel_pol = '" . $information_title_update . "',inhalt_pol='" . $information_content_update . "' where id = '" . $information_id_update . "'";
-    } else {
-        $sql = "update information set titel = '" . $information_title_update . "',inhalt='" . $information_content_update . "' where id = '" . $information_id_update . "'";
-    }
-
-
-    if ($db_connection) {
-
-        $db_result = pg_query($db_connection, $sql);
-
-        if ($db_result) {
-
-            pg_free_result($db_result);
-            header("location: information_list.php");
-        }
-
-        pg_close($db_connection);
-    }
-}
 ?>
 <?php
 
@@ -151,7 +124,7 @@ if ($information_active_id != "") {
 
                 <div class="form-group">
                     <label for="formGroupExampleInput">Title</label>
-                    <input type="text" name="information_title_edit" class="form-control" id="information_title" value="<?php echo $information_title; ?> ">
+                    <input type="text" name="information_title_edit" class="form-control" id="information_title" value="<?php echo $information_title; ?>" readonly>
                 </div>
 
                 <div class="form-group">
@@ -159,10 +132,10 @@ if ($information_active_id != "") {
                     <textarea id="summernote" name="editordata_edit" ><?php echo $information_content; ?></textarea>
                 </div>
 
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-primary" value="Save">
-                </div>
+                </div> -->
 
             </form>
 
@@ -185,12 +158,7 @@ if ($information_active_id != "") {
 </div>
 </div>
 <script>
-    $('#summernote').summernote({
-        placeholder: 'Hello Bootstrap 4',
-        tabsize: 2,
-        height: 400,
-    
-    });
+    $('#summernote').summernote('disable');
 </script>
 
 </body>

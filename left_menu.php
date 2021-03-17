@@ -14,6 +14,20 @@ function detect_language() {
     }
     return 'en';
 }
+// Set Language Variable
+$_SESSION['lang'] = 'en';
+if (isset($_GET['lang']) && !empty($_GET['lang'])) {
+  $_SESSION['lang'] = $_GET['lang'];
+
+  if (isset($_SESSION['lang']) && $_SESSION['lang'] != $_GET['lang']) {
+    echo "<script type='text/javascript'> location.reload(); </script>";
+  }
+}
+
+//include language file
+if (isset($_SESSION['lang'])) {
+  include "language/lang_" . $_SESSION['lang'] . ".php";
+}
 ?>
 <body>
     <div class="body-container">
@@ -53,7 +67,11 @@ function detect_language() {
           <div class="navbar-menu collapse navbar-collapse navbar-backdrop" id="navbarMenu">
 
             <div class="navbar-nav">
+            <table>
+            <tr></tr>
+            
               <ul class="nav">
+              <tr>
                  <li class="nav-item dropdown">
                   <?php
                   $_SERVER['PHP_SELF'];
@@ -84,6 +102,8 @@ function detect_language() {
   <option value="<?php echo $url; ?>&lang=pol" <?php if($_GET['lang']=='pol') echo "selected"; ?>>Polish</option>
 </select>
                  </li>
+                 </tr>
+                 <tr>
                 <li class="nav-item dropdown order-first order-lg-last">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                    
@@ -92,7 +112,7 @@ function detect_language() {
                     <span class="nav-user-name"><?php echo $_SESSION['login_name'];?></span>
                     </span>
 
-                    <i class="caret fa fa-angle-down d-none d-xl-block"></i>
+                    <!-- <i class="caret fa fa-angle-down d-none d-xl-block"></i> -->
                     <i class="caret fa fa-angle-left d-block d-lg-none"></i>
                   </a>
 
@@ -124,8 +144,10 @@ function detect_language() {
                     </a>
                   </div>
                 </li><!-- /.nav-item:last -->
+                </tr>
 
               </ul><!-- /.navbar-nav menu -->
+              </table>
             </div><!-- /.navbar-nav -->
 
           </div><!-- /#navbarMenu -->
@@ -164,7 +186,7 @@ function detect_language() {
                   <a href="calendar.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-calendar"></i>
                     <span class="nav-text fadeable">
-                  <span>Calendar</span>
+                  <span><?php echo $_calender;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -173,7 +195,7 @@ function detect_language() {
                   <a href="information_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>
                     <span class="nav-text fadeable">
-                  <span>Information</span>
+                  <span><?php echo $_information;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -182,7 +204,7 @@ function detect_language() {
                   <a href="contact_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-address-card"></i>
                     <span class="nav-text fadeable">
-                  <span>Contact</span>
+                  <span><?php echo $_contacts; ?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -191,7 +213,7 @@ function detect_language() {
                   <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="nav-text fadeable">
-                  <span>Users</span>
+                  <span><?php echo $_users;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -272,7 +294,7 @@ function detect_language() {
                   <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-object-group"></i>
                     <span class="nav-text fadeable">
-                  <span>Groups</span>
+                  <span><?php echo $_groups; ?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -281,7 +303,7 @@ function detect_language() {
                   <a href="training_list.php?app=default&app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
-                  <span>Training</span>
+                  <span><?php echo $_training;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -290,7 +312,7 @@ function detect_language() {
                   <a href="template_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
-                  <span>Templates</span>
+                  <span><?php echo $_templates;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -299,7 +321,7 @@ function detect_language() {
                   <a href="settings.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">
-                  <span>Admin</span>
+                  <span><?php echo $_admin;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
@@ -308,7 +330,7 @@ function detect_language() {
                   <a href="logout.php" class="nav-link">
                    <i class="nav-icon fa fa-power-off"></i>
                     <span class="nav-text fadeable">
-                  <span>Log Out</span>
+                  <span><?php echo $_logOut;?></span>
                     </span>
                   </a>
                   <b class="sub-arrow"></b>

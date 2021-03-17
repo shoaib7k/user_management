@@ -119,30 +119,49 @@ if ($_GET['act'] == 'delete') {
                                     <img src="'.$item_icon.'" alt="Icon" style="display:block;" class="border border-secondary">
                                 </h4>
                                 <div >
+                                <table class="table table-borderless">
+  <tr><td>
                                 <a href="'.$item_path.'" target="_blank" class="btn btn-primary a-btn-slide-text">
                                                                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                                                                         <span><strong>File</strong></span>
-                                                                  </a>';
+                                                                  </a></td>';
                     
                     }
                     else{
                         echo '<h4 class="text-120 mb-0">
                      <a href="forms_item_list.php?forms_id='.$item_id.'&forms_item_id="  class="training_item_link">'.$item_theme.'</a>
                      </h4>
-                     <div >';
+                     <div>                                
+                      <table class="table table-borderless">
+                     <tr><td>';
                     }
                 ?>
-                               <?php if ($_SESSION['user_type'] == 'A')
+                               <?php if ($_SESSION['user_type'] == 'A' && $item_theme=="")
                 {?>
-                                    <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
+                                  <td>  <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="forms_item_list.php?act=delete&forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
-                                    </a>
-                                    <a href="forms_item_edit.php?forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
+                                    </a></td>
+                                  <td>  <a href="forms_item_edit.php?forms_id=<?php echo $forms_id; ?>&forms_item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         <span><strong>Edit</strong></span>
-                                    </a>
-                                    <?php }?>
+                                    </a></td>
+                                    <?php 
+                                }?>
+                                <?php  if ($_SESSION['user_type'] == 'A' && $item_theme)
+                {?>
+                                  <td><a onClick="return confirm('Are you sure you want to delete training data <?php echo $item_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <span><strong>Delete</strong></span>
+                  </a></td>
+      <td><a href="template_list_edit.php?forms_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <span><strong>Edit</strong></span>
+                  </a></td>
+                                    <?php 
+                                }?>
+                                    </tr>
+                                    </table>
                                 </div>
                             </div>
 
@@ -156,7 +175,8 @@ if ($_GET['act'] == 'delete') {
                             </tr>
                         <?php } ?>
                         </table>
-                    </div>
+            </div>
+                  
                         <div class="clearfix"></div>
                         <br>
                         <div class="row marginTop">
