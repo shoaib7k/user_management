@@ -11,7 +11,7 @@ $theme_id = $_GET['forms_id'];
 $forms_item_id = $_GET['forms_item_id'];        
 ?>
 <?php
-        $sql = "select name from forms where id = ".$forms_item_id;
+        $sql = "select name,access_group from forms where id = ".$forms_item_id;
         
         $db_result = pg_query($db_connection, $sql);
         
@@ -24,6 +24,9 @@ $forms_item_id = $_GET['forms_item_id'];
                 $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
                 
                 $item_name = $db_record["name"];
+                $access_group=$db_record["access_group"];
+        $access_group_substring=substr($access_group,1,-1);
+        $access_group_explode=explode(',',$access_group_substring);
                                 
             }            
         }
@@ -35,7 +38,11 @@ if ($_GET['act'] == 'edit') {
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
     if (isset($_POST["template_document_item_name_old"])) {  $item_name_old = trim($_POST["template_document_item_name_old"]); }
     if (isset($_POST["template_document_item_name_new"])) {  $item_name_new = trim($_POST["template_document_item_name_new"]); }
-   if ($item_name_old != $item_name_new) {
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
+   if ($item_name_new!="") {
         
         $item_name = $item_name_new;
         
@@ -56,9 +63,9 @@ if ($_GET['act'] == 'edit') {
          * 
          */
         
-       // $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
+       $file_types = array('application/pdf','application/msexcel', 'application/octet-stream','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/msword');
 
-       // if (in_array($_FILES['file_name']['type'], $file_types)) {
+       if (in_array($_FILES['file_name']['type'], $file_types)) {
 
             $file_src_path = $_FILES["file_name"]["tmp_name"];
 
@@ -102,7 +109,7 @@ if ($_GET['act'] == 'edit') {
                 
             }
             
-            $sql = "update forms set name = '".$item_name."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."', timestamp = localtimestamp where id = ".$item_id;
+            $sql = "update forms set name = '".$item_name."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."', timestamp = localtimestamp, access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
             
   
         
@@ -113,13 +120,14 @@ if ($_GET['act'] == 'edit') {
         move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
         
         //please unhide below two lines for preview
-    //    require 'converter_for_documents.php';
-      //  convert_document($homebase_path.$dst_path);
+       require 'converter_for_documents.php';
+       convert_document($homebase_path.$dst_path);
         
         pg_close($db_connection);
  header("location: forms_item_list.php?forms_id=".$parent_id."");       
     }
  
+}
 }
 //header("location: handbook_list.php?theme_id=".$theme_id."");
  
@@ -178,6 +186,46 @@ if ($_GET['act'] == 'edit') {
                   <label for="formGroupExampleInput">New Item Name</label>
          <input type="text" name="template_document_item_name_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                            <label for="group_add">Select Groups</label>     
+                      <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        include 'db_connect.php';
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                    
+
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+   
+      
+    if(in_array($group_id,$access_group_explode,true)){
+      echo "selected";
+    }
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
    <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="100%" height="200px">
     </iframe>
 <label for="formGroupExampleInput"></label>

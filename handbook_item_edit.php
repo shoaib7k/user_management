@@ -45,7 +45,7 @@ if ($db_connection)  {
         
         if ($item_id != "") {
             
-            $sql = "select name, path, iconpath, path2, iconpath2, path3, iconpath3 from media where id = ".$item_id;
+            $sql = "select name, path, iconpath, path2, iconpath2, path3, iconpath3,access_group from media where id = ".$item_id;
             
             $db_result = pg_query($db_connection, $sql);
 
@@ -64,6 +64,9 @@ if ($db_connection)  {
                         $old_iconpath2 = $db_record["iconpath2"];
                         $old_path3 = $db_record["path3"];
                         $old_iconpath3 = $db_record["iconpath3"];
+                        $access_group=$db_record["access_group"];
+        $access_group_substring=substr($access_group,1,-1);
+        $access_group_explode=explode(',',$access_group_substring);
                         
                 } 
                 
@@ -99,7 +102,10 @@ if ($_GET['act'] == 'edit') {
     $file_dst_path3 = "";
     $icon_dst_path3 = "";
     
-    
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
     if (isset($_POST["training_document_theme_id"])) {  $theme_id = $_POST["training_document_theme_id"]; } 
     if (isset($_POST["training_document_item_id"])) {  $item_id = $_POST["training_document_item_id"]; } 
     if (isset($_POST["training_document_item_name_old"])) {  $item_name_old = trim($_POST["training_document_item_name_old"]); }
@@ -258,7 +264,7 @@ if ($_GET['act'] == 'edit') {
             include 'db_connect.php';
                  if ($file_dst_path != "") {
                     
-                    echo $sql = "update media set  path = '".$file_dst_path."', iconpath = '".$icon_dst_path."' where id = ".$item_id;
+                    echo $sql = "update media set  path = '".$file_dst_path."', iconpath = '".$icon_dst_path."', access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -267,7 +273,7 @@ if ($_GET['act'] == 'edit') {
                         $source = $homebase_path.$file_dst_path;
                         $target = $homebase_path.$icon_dst_path;
 
-                      /*$img = new Imagick();               
+                      $img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
                         $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
@@ -280,12 +286,12 @@ if ($_GET['act'] == 'edit') {
                         $img->destroy();
                         
                         pg_free_result($db_result);
-                        */
+                        
                     }
                 }
                  if ($file_dst_path2 != "") {
                     
-                    $sql = "update media set  path2 = '".$file_dst_path2."', iconpath2 = '".$icon_dst_path2."' where id = ".$item_id;
+                    $sql = "update media set  path2 = '".$file_dst_path2."', iconpath2 = '".$icon_dst_path2."', access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -294,7 +300,7 @@ if ($_GET['act'] == 'edit') {
                         $source2 = $homebase_path.$file_dst_path2;
                         $target2 = $homebase_path.$icon_dst_path2;
 
-                      /*$img = new Imagick();               
+                      $img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
                         $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
@@ -307,12 +313,12 @@ if ($_GET['act'] == 'edit') {
                         $img->destroy();
                         
                         pg_free_result($db_result);
-                        */
+                        
                     }
                 }
                  if ($file_dst_path3 != "") {
                     
-                    $sql = "update media set  path3 = '".$file_dst_path3."', iconpath3 = '".$icon_dst_path3."' where id = ".$item_id;
+                    $sql = "update media set  path3 = '".$file_dst_path3."', iconpath3 = '".$icon_dst_path3."', access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -321,7 +327,7 @@ if ($_GET['act'] == 'edit') {
                         $source3 = $homebase_path.$file_dst_path3;
                         $target3 = $homebase_path.$icon_dst_path3;
 
-                      /*$img = new Imagick();               
+                      $img = new Imagick();               
                         $img->readImage($source."[0]");                
                         $img->setimageformat('jpeg');
                         $img->setImageUnits(imagick:: RESOLUTION_PIXELSPERINCH);                
@@ -334,11 +340,21 @@ if ($_GET['act'] == 'edit') {
                         $img->destroy();
                         
                         pg_free_result($db_result);
-                        */
+                        
                     }
                 } 
                    if ($item_name_new != "") {              
-                    $sql = "update media set name = '".$item_name_new."' where id = ".$item_id;
+                    $sql = "update media set name = '".$item_name_new."', access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
+                    $db_result = pg_query($db_connection, $sql);
+                    
+                    if ($db_result) {
+                        
+                        pg_free_result($db_result);
+                        
+                    }
+                }
+                else {              
+                    $sql = "update media set access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
                     $db_result = pg_query($db_connection, $sql);
                     
                     if ($db_result) {
@@ -393,6 +409,17 @@ if ($_GET['act'] == 'edit') {
 
 
       <div class="container">
+           
+<h1><a href=""> List <?php foreach ($access_group_explode as $key => $value) {
+                                            echo $key;
+                                            echo "->";
+                                            echo "$value";
+                                            echo "\n";
+                                        }
+                                        // foreach($ss as $_SESSION['user_in_groups'])
+                                        // echo $ss; 
+                                        ?></a></h1>
+                <hr>
               <form method="POST" action="handbook_item_edit.php?act=edit&type=<?php echo $theme_type;?>&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id;?>" enctype="multipart/form-data">
                      
                             
@@ -412,7 +439,48 @@ if ($_GET['act'] == 'edit') {
                               <label for="formGroupExampleInput">New Item Name</label>
                               <input type="text" name="training_document_item_name_new" class="form-control" id="new_item">
                             </div>
+                            
+                            <div class="form-group">
+                            <label for="group_add">Select Groups</label>     
+                      <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
+                        <?php
+                        include 'db_connect.php';
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                    
+
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+   
+      
+    if(in_array($group_id,$access_group_explode,true)){
+      echo "selected";
+    }
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
+                      
         <!--<embed src="<?php echo $old_path;?>" width="800px" height="2100px" /> -->
         <!--    <div id="example1" style="height: 80vh; width: 80vw;"></div>-->
       <!--  <iframe src="http://docs.google.com/gview?url=http://<?php echo $_SERVER['HTTP_HOST'];?>/user_management/<?php echo $old_path; ?>&embedded=true" style="width:608px; height:700px;" frameborder="0"></iframe>-->
@@ -427,7 +495,7 @@ if ($_GET['act'] == 'edit') {
       </div>
       <iframe src="<?php echo $old_path2; ?>" width="100%" height="200px">
     </iframe>
-      <label for="formGroupExampleInput">Select Germany</label>
+      <label for="formGroupExampleInput">Select German</label>
             <div class="file-loading">
          <input id="kv-explorer2" name="file_name2" type="file" multiple>
       </div>
@@ -563,6 +631,9 @@ if ($_GET['act'] == 'edit') {
             overwriteInitial: false,
             initialPreviewAsData: true,
         });
+        $(document).ready(function() {
+    $('#example-getting-started').multiselect();
+  });
         /*
          $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
          alert('i = ' + index + ', id = ' + previewId + ', file = ' + file.name);

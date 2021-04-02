@@ -8,11 +8,11 @@ include 'db_connect.php';
 <?php
 
 $theme_id = $_GET['theme_id'];
-if ($theme_id != "") {
+// if ($theme_id != "") {
 
   if ($db_connection) {
 
-    $db_result = pg_query($db_connection, "select theme, iconpath from media where id = " . $theme_id);
+    $db_result = pg_query($db_connection, "select theme, iconpath,access_group from media where id = " . $theme_id);
     if ($db_result) {
 
       if (pg_num_rows($db_result) > 0) {
@@ -21,12 +21,16 @@ if ($theme_id != "") {
 
         $theme_name = $db_record["theme"];
         $theme_icon = $db_record["iconpath"];
+        $access_group=$db_record["access_group"];
+        $access_group_substring=substr($access_group,1,-1);
+        $access_group_explode=explode(',',$access_group_substring);
+      
       }
     }
     pg_free_result($db_result);
   }
-  pg_close($db_connection);
-}
+//   pg_close($db_connection);
+// }
 ?>
 <?php
  if ($_GET['act'] == 'edit') {
@@ -39,7 +43,10 @@ if ($theme_id != "") {
   $file_name = "";
   $file_iconpath = "";
   $file_iconpath_old = "";
-
+  $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
   if (isset($_POST["training_theme_id"])) {
     $training_theme_id = $_POST["training_theme_id"];
   }
@@ -103,11 +110,11 @@ if ($theme_id != "") {
 
         if ($file_name == "") {
 
-          $sql = "update media set theme = '" . $training_theme_name_new . "' where id = " . $training_theme_id;
+          $sql = "update media set theme = '" . $training_theme_name_new . "', access_group='{".implode(',',$group_id_array)."}' where id = " . $training_theme_id;
           $db_result = pg_query($db_connection, $sql);
         } else {
 
-          $sql = "update media set theme = '" . $training_theme_name_new . "', iconpath = '" . $file_iconpath . "' where id = " . $training_theme_id;
+          $sql = "update media set theme = '" . $training_theme_name_new . "', iconpath = '" . $file_iconpath . "',access_group='{".implode(',',$group_id_array)."}' where id = " . $training_theme_id;
           $db_result = pg_query($db_connection, $sql);
 
           if ($db_result) {
@@ -120,20 +127,22 @@ if ($theme_id != "") {
         if ($file_name == "") {
 
           // do noting
+          $sql = "update media set theme = '" . $training_theme_name_old . "', access_group='{".implode(',',$group_id_array)."}' where id = " . $training_theme_id;
+          $db_result = pg_query($db_connection, $sql);
 
         } else {
 
-          $sql = "update media set iconpath = '" . $file_iconpath . "' where id = " . $training_theme_id;
+          $sql = "update media set iconpath = '" . $file_iconpath . "',access_group='{".implode(',',$group_id_array)."}' where id = " . $training_theme_id;
           $db_result = pg_query($db_connection, $sql);
 
           if ($db_result) {
             unlink($file_iconpath_old);
             move_uploaded_file($file_tmp_name, $file_name);
           }
-           header("location: training_list.php");
+           header("location: training_list.php?app=default&lang=de)");
         }
       }
-      header("location: training_list.php");
+      header("location: training_list.php?app=default&lang=de");
     } else { // new theme
 
       if ($training_theme_name_new != "") {
@@ -156,7 +165,7 @@ if ($theme_id != "") {
       }
 
       pg_free_result($db_result);
-      header("location: training_list.php");
+      header("location: training_list.php?app=default&lang=de");
     }
 
     pg_close($db_connection);
@@ -176,14 +185,13 @@ if ($theme_id != "") {
   <div class="page-content container container-plus">
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-          <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
-          <li class="breadcrumb-item active">Training</li>
-        </ol>
-      </nav>
-    </div>
+            <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_training; ?></a>
+            </nav>
+        </div>
     <?php
     if ($_SESSION['user_type'] == 'U') {
       echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
@@ -198,7 +206,16 @@ if ($theme_id != "") {
     ?>
 
      
-
+<h1><a href=""> List <?php foreach ($access_group_explode as $key => $value) {
+                                            echo $key;
+                                            echo "->";
+                                            echo "$value";
+                                            echo "\n";
+                                        }
+                                        // foreach($ss as $_SESSION['user_in_groups'])
+                                        // echo $ss; 
+                                        ?></a></h1>
+                <hr>
 
             <form method="POST" action="training_list_edit.php?act=edit" enctype="multipart/form-data">
                             <div class="form-group">
@@ -213,14 +230,51 @@ if ($theme_id != "") {
                               <label for="formGroupExampleInput">New Theme Name</label>
                               <input type="text" name="training_theme_name_new" class="form-control" id="new_theme">
                             </div>
-                            
+                         <label for="group_add">Select Groups</label>     
+                      <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                    
+
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+   
+      
+    if(in_array($group_id,$access_group_explode,true)){
+      echo "selected";
+    }
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+                      
+<!--       
                             <label for="formGroupExampleInput">Icon</label>
                             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
-      </div>
-                            <div class="ml-2 col-sm-6">
+      </div> -->
+                            <!-- <div class="ml-2 col-sm-6">
                               <img src="<?php echo $theme_icon; ?>" id="preview<?php echo $val['id']; ?>" class="img-thumbnail" style="width: 80px;height: 80px;">
-                            </div>
+                            </div> -->
 
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -337,6 +391,10 @@ if ($theme_id != "") {
          });
          */
     });
+
+    $(document).ready(function() {
+    $('#example-getting-started').multiselect();
+  });
 </script>
 
 </body>

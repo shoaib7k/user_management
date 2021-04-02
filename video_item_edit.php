@@ -42,7 +42,7 @@ if ($db_connection)  {
         // write title
          if ($item_id != "") {
             
-            $sql = "select name, path, iconpath from media where id = ".$item_id;
+            $sql = "select name, path, iconpath,access_group from media where id = ".$item_id;
             
             $db_result = pg_query($db_connection, $sql);
 
@@ -57,6 +57,9 @@ if ($db_connection)  {
                     $item_name = $db_record["name"];    
                     $old_path = $db_record["path"];
                     $old_iconpath = $db_record["iconpath"];
+                    $access_group=$db_record["access_group"];
+        $access_group_substring=substr($access_group,1,-1);
+        $access_group_explode=explode(',',$access_group_substring);
                 } 
                 
             } else {
@@ -73,7 +76,7 @@ if ($db_connection)  {
 <?php
 
 if($_GET['act']=='edit'){
-function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_src_path, $_dst_path, $_icn_path ) {
+function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_src_path, $_dst_path, $_icn_path,$group_id_array ) {
     include 'db_connect.php';
    // global $_homebase_path;
 //echo "at fucntion";
@@ -117,7 +120,7 @@ function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_o
             
                 if ($_dst_path != "") {
                     
-                    $_sql = "update media set name = '".$_item_name_new."', path = '".$_dst_path."', iconpath = '".$_icn_path."' where id = ".$_item_id;
+                    $_sql = "update media set name = '".$_item_name_new."', path = '".$_dst_path."', iconpath = '".$_icn_path."', access_group='{".implode(',',$group_id_array)."}' where id = ".$_item_id;
                     $_db_result = pg_query($db_connection, $_sql);
                     
                     if($_db_result) {
@@ -149,7 +152,7 @@ function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_o
                     
                 } else {
                     
-                    $_sql = "update media set name = '".$_item_name_new."' where id = ".$_item_id;
+                    $_sql = "update media set name = '".$_item_name_new."', access_group='{".implode(',',$group_id_array)."}' where id = ".$_item_id;
                     $_db_result = pg_query($db_connection, $_sql);
                     
                     if ($_db_result) {
@@ -164,7 +167,7 @@ function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_o
                 
                 if ($_dst_path != "") {
                     
-                    $_sql = "update media set path = '".$_dst_path."', iconpath = '".$_icn_path."' where id = ".$_item_id;
+                    $_sql = "update media set path = '".$_dst_path."', iconpath = '".$_icn_path."', access_group='{".implode(',',$group_id_array)."}' where id = ".$_item_id;
                     $_db_result = pg_query($db_connection, $_sql);
                     if($_db_result) {
                         move_uploaded_file($_src_path, $_homebase_path.$_dst_path);
@@ -196,6 +199,14 @@ function fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_o
                 } else {
                     
                     // do nothing
+                    $_sql = "update media set  access_group='{".implode(',',$group_id_array)."}' where id = ".$_item_id;
+                    $_db_result = pg_query($db_connection, $_sql);
+                    
+                    if ($_db_result) {
+                        
+                        pg_free_result($_db_result);
+                        
+                    }
                     
                 }
                 
@@ -278,6 +289,11 @@ $_homebase_path="";
     $_file_src_path = "";
     $_file_dst_path = "";
     $_icon_dst_path = "";
+
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
     
    // require "training/training_items_video_change_send.php";
     
@@ -306,7 +322,7 @@ $_homebase_path="";
         
     }
     
-    fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_file_src_path, $_file_dst_path, $_icon_dst_path );
+    fn_training_item_video_change_send($_theme_id, $_item_id, $_item_name_old, $_item_name_new, $_file_src_path, $_file_dst_path, $_icon_dst_path,$group_id_array );
 }
 ?>
 
@@ -363,7 +379,46 @@ $_homebase_path="";
                   <label for="formGroupExampleInput">New Item Name</label>
          <input type="text" name="training_video_item_name_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                            <label for="group_add">Select Groups</label>     
+                      <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
+                        <?php
+                        include 'db_connect.php';
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                    
+
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+   
+      
+    if(in_array($group_id,$access_group_explode,true)){
+      echo "selected";
+    }
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
   
 <video width="320" height="240" poster="" controls>
    <source src="<?php echo $old_path; ?>" type="video/mp4">
@@ -492,6 +547,9 @@ $_homebase_path="";
          alert('i = ' + index + ', id = ' + previewId + ', file = ' + file.name);
          });
          */
+        $(document).ready(function() {
+    $('#example-getting-started').multiselect();
+  });
     });
 </script>
 
