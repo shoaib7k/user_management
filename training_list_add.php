@@ -265,6 +265,7 @@ echo "failed";
                 <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div> -->
+      <div id="loader" class="loader"></div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -394,6 +395,16 @@ echo "failed";
     $(document).ready(function() {
     $('#example-getting-started').multiselect();
   });
+
+  $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 
