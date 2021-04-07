@@ -506,7 +506,7 @@ if ($_GET['act'] == 'edit') {
          <input id="kv-explorer3" name="file_name3" type="file" multiple>
       </div>
                 
-
+        <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -643,6 +643,17 @@ if ($_GET['act'] == 'edit') {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>
 <script>PDFObject.embed("http://<?php echo $_SERVER['HTTP_HOST'];?>/user_management/<?php echo $old_path; ?>", "#example1");</script>
+<script>
+$(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
+</script>
 </body>
 
 </html>

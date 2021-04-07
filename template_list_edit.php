@@ -136,7 +136,7 @@ if ($forms_active_theme_id != "") {
                   <input type="text" name="forms_theme_new" class="form-control" id="new_theme">
                 </div>
 
-
+                <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -162,7 +162,17 @@ if ($forms_active_theme_id != "") {
 </div>
 </div>
 
+<script>
+$(document).ready(function() 
+{
+    $('#loader').hide();
 
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
+</script>
 </body>
 
 </html>

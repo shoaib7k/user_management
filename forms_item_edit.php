@@ -233,7 +233,7 @@ if ($_GET['act'] == 'edit') {
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
                 
-
+    <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -364,6 +364,15 @@ if ($_GET['act'] == 'edit') {
          });
          */
     });
+    $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 </body>

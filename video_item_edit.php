@@ -429,7 +429,7 @@ $_homebase_path="";
       </div>
 
                 
-
+        <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -551,6 +551,16 @@ $_homebase_path="";
     $('#example-getting-started').multiselect();
   });
     });
+
+    $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 </body>

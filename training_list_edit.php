@@ -275,7 +275,7 @@ $theme_id = $_GET['theme_id'];
                             <!-- <div class="ml-2 col-sm-6">
                               <img src="<?php echo $theme_icon; ?>" id="preview<?php echo $val['id']; ?>" class="img-thumbnail" style="width: 80px;height: 80px;">
                             </div> -->
-
+                        <div id="loader" class="loader"></div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                               <input type="submit" class="btn btn-primary" value="Update">
@@ -395,6 +395,15 @@ $theme_id = $_GET['theme_id'];
     $(document).ready(function() {
     $('#example-getting-started').multiselect();
   });
+  $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 </body>
