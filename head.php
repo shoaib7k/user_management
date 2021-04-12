@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" type="text/css" href="./node_modules/select2/dist/css/select2.css">
     <link rel="stylesheet" type="text/css" href="./node_modules/chosen-js/chosen.css">
+    <link rel="stylesheet" href="./css/loader.css"> <!--spinner -->
     <!-- include fonts -->
     <link rel="stylesheet" type="text/css" href="./dist/css/ace-font.css">
     <link rel="stylesheet" type="text/css" href="./dist/css/ace.css">
@@ -29,6 +30,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
     <link href="./themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
     <link rel="icon" type="image/png" href="./images/rf-title2.jpg" />
+    
    <style type="text/css">
        .scrollme {
     overflow-x: auto;

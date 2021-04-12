@@ -29,7 +29,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
         header("location: template_list.php");
         }
         else{
-          $sql = "insert into forms (id, theme, timestamp) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp)"; 
+          $sql = "insert into forms (id, theme, timestamp,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'{".implode(',',$all_groups)."}')"; 
           header("location: template_list.php");
         }
     }
@@ -101,8 +101,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
                   <label for="formGroupExampleInput">New Form Name</label>
                   <input type="text" name="forms_theme_new" class="form-control" id="new_theme">
                 </div>
-
-
+                <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -127,8 +126,18 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
 
 </div>
 </div>
+<?php include 'footer.php';?>
+<script>
+$(document).ready(function() 
+{
+    $('#loader').hide();
 
-
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
+  </script>
 </body>
 
 </html>

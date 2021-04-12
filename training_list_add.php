@@ -162,8 +162,9 @@ echo "failed";
                         }
                         exit();
                         */
-            header("location: training_list.php");
+                        header("location: training_list.php?app=default&lang=de");
           }
+          header("location: training_list.php?app=default&lang=de");
         }
       } else {
 
@@ -171,6 +172,7 @@ echo "failed";
       }
 
       pg_free_result($_db_result);
+      header("location: training_list.php?app=default&lang=de");
     }
 
     pg_close($db_connection);
@@ -189,14 +191,13 @@ echo "failed";
   <div class="page-content container container-plus">
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-          <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
-          <li class="breadcrumb-item active">Training</li>
-        </ol>
-      </nav>
-    </div>
+            <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a>/</a>
+
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_training; ?></a>
+            </nav>
+        </div>
     <?php
     if ($_SESSION['user_type'] == 'U') {
       echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
@@ -260,10 +261,11 @@ echo "failed";
                       </select>
 
                     </div>
-                <label for="formGroupExampleInput">Icon</label>
+                <!-- <label for="formGroupExampleInput">Icon</label>
                 <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
-      </div>
+      </div> -->
+      <div id="loader" class="loader"></div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -393,6 +395,16 @@ echo "failed";
     $(document).ready(function() {
     $('#example-getting-started').multiselect();
   });
+
+  $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 

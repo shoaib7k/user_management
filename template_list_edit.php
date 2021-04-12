@@ -6,18 +6,31 @@ include('paginator.class.php');
 <?php
 include 'db_connect.php';
 if ($_GET['act'] == 'edit') {
-  if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } else { $forms_theme_id = ""; }
-    if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } else { $forms_theme_old = ""; }
-    if (isset( $_POST['forms_theme_new'] )) { $forms_theme_new = trim($_POST['forms_theme_new']); } else { $forms_theme_new = ""; }
-if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
+  if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } 
+    if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } 
+    if (isset( $_POST['forms_theme_new'] )) { $forms_theme_new = trim($_POST['forms_theme_new']); } 
+    $group_id_array=array();
+      foreach ($_POST['group_id'] AS $key => $value) {
+        array_push($group_id_array,$value);
+      }
+   if ($forms_theme_new!="") {
         
-        $sql = "update forms set theme = '".$forms_theme_new."' where theme = '".$forms_theme_old."'";        
+        $item_name = $forms_theme_new;
         
     } else {
         
-        $sql = "insert into forms (id, theme, timestamp) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp)"; 
+        $item_name = $forms_theme_old;
         
     }
+// if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
+        
+        $sql = "update forms set theme = '".$item_name."',access_group='{".implode(',',$group_id_array)."}' where id = '".$forms_theme_id."'";        
+        
+    // } else {
+        
+    //     $sql = "insert into forms (id, theme, timestamp) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp)"; 
+        
+    // }
     
     if ($db_connection) {
         
@@ -45,7 +58,7 @@ $forms_active_theme_id=$_GET['forms_id'];
 if ($forms_active_theme_id != "") {
     if ($db_connection) {
         
-        $db_result = pg_query($db_connection, "select id, theme, name, path, iconpath, timestamp from forms where id = '".$forms_active_theme_id."'");
+        $db_result = pg_query($db_connection, "select id, theme, name, path, iconpath, timestamp,access_group from forms where id = '".$forms_active_theme_id."'");
         
         if ($db_result) {
             
@@ -58,6 +71,9 @@ if ($forms_active_theme_id != "") {
                 $forms_id = $db_record["id"];
                 $forms_theme = $db_record["theme"];
                 $forms_theme_iconpath = $db_record["iconpath"];
+                $access_group=$db_record["access_group"];
+        $access_group_substring=substr($access_group,1,-1);
+        $access_group_explode=explode(',',$access_group_substring);
                 
             } else {
                 
@@ -135,8 +151,50 @@ if ($forms_active_theme_id != "") {
                   <label for="formGroupExampleInput">New Form Name</label>
                   <input type="text" name="forms_theme_new" class="form-control" id="new_theme">
                 </div>
+                <div class="form-group">
+                            <label for="group_add">Select Groups</label>   
 
 
+                              
+                      <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
+
+                        <?php
+                        include 'db_connect.php';
+                        $db_sql = "select id, group_name from groups";
+
+                        $db_result = pg_query($db_connection, $db_sql);
+
+                        if (!$db_result) {
+
+                          echo 'Es ist ein Datenbankfehler aufgetreten.';
+                        } else {
+
+                          if (pg_num_rows($db_result) > 0) {
+
+                            for ($i = 0; $i < pg_num_rows($db_result); $i++) {
+
+                              $db_record = pg_fetch_array($db_result, $i, PGSQL_BOTH);
+
+                              $group_id = $db_record['id'];
+                              $group_name = $db_record['group_name'];
+                    
+
+    echo '<option data-tokens="' . $group_name . '" value="' . $group_id . '"';
+   
+      
+    if(in_array($group_id,$access_group_explode,true)){
+      echo "selected";
+    }
+    echo '>' . $group_name . '</option>';
+                            }
+                          }
+                        }
+                        ?>
+
+                      </select>
+
+                    </div>
+                <div id="loader" class="loader"></div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <input type="submit" class="btn btn-primary" value="Add">
@@ -161,8 +219,22 @@ if ($forms_active_theme_id != "") {
 
 </div>
 </div>
+<?php include 'footer.php'; ?>
+<script>
+$(document).ready(function() 
+{
+    $('#loader').hide();
 
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
+$(document).ready(function() {
+    $('#example-getting-started').multiselect();
+  });
 
+</script>
 </body>
 
 </html>

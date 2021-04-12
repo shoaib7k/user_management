@@ -117,6 +117,7 @@ if ($_GET['act'] == 'add') {
  
 }
 //header("location: handbook_list.php?theme_id=".$theme_id."");
+
  
 
 ?>
@@ -208,7 +209,7 @@ if ($_GET['act'] == 'add') {
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
-                
+                <div id="loader" class="loader"></div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -340,6 +341,15 @@ if ($_GET['act'] == 'add') {
          });
          */
     });
+    $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 </body>

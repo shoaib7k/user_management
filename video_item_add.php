@@ -374,8 +374,8 @@ $_homebase_path="";
             <div class="file-loading">
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
-
-                
+ 
+      <div id="loader" class="loader" ></div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -495,6 +495,16 @@ $_homebase_path="";
          });
          */
     });
+
+    $(document).ready(function() 
+{
+    $('#loader').hide();
+
+    $('form').submit(function() 
+    {
+        $('#loader').show();
+    }) 
+});
 </script>
 
 </body>
