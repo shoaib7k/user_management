@@ -33,6 +33,7 @@ $forms_item_id = $_GET['forms_item_id'];
         ?>
         <?php
 if ($_GET['act'] == 'edit') {
+    global $homebase_path;
     $homebase_path="";
     if (isset($_POST["template_document_theme_id"])) {  $forms_id = $_POST["template_document_theme_id"]; } 
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
@@ -73,15 +74,16 @@ if ($_GET['act'] == 'edit') {
             $file_dst_path = $file_dst_path_without_suffix.".".$file_ext; // create unique file name
             $icon_dst_path = $file_dst_path_without_suffix.".jpg";
 
-        //} else {
+        } 
+        else {
 
-           // $file_src_path = "";
-           // $file_dst_path = "";
+           $file_src_path = "";
+           $file_dst_path = "";
 
-        //}
-         
+        }
+      }
 
-    }
+    
     
     if ($db_connection) {
   
@@ -121,14 +123,14 @@ if ($_GET['act'] == 'edit') {
         
         //please unhide below two lines for preview
        require 'converter_for_documents.php';
-       convert_document($homebase_path.$dst_path);
+       convert_document($homebase_path.$file_dst_path);
         
         pg_close($db_connection);
  header("location: forms_item_list.php?forms_id=".$parent_id."");       
     }
  
 }
-}
+
 //header("location: handbook_list.php?theme_id=".$theme_id."");
  
 

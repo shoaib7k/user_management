@@ -183,11 +183,45 @@ if ($_GET['act'] == 'delete') {
                                                 echo $item_titel;
                                             } ?></a></h3>
 				<p><?php if ($item_titel == "" && $item_title_pol == "") {
-                                                    echo strip_tags($item_inhalt_de, ['p']);
+                                                    $stringC= strip_tags($item_inhalt_de, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
                                                 } else if ($item_titel_de == "" && $item_titel == "") {
-                                                    echo strip_tags($item_inhalt_pol, ['p']);
+                                                    $stringC= strip_tags($item_inhalt_pol, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
                                                 } else {
-                                                    echo strip_tags($item_inhalt, ['p']);
+                                                    $stringC= strip_tags($item_inhalt, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
+
                                                 } ?></p>		
                                   		
                 <!-- <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span> -->
