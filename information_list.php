@@ -83,10 +83,11 @@ if ($_GET['act'] == 'delete') {
                     <input type="submit" value="search" class="form-control" />
 
                 </form>
-                <h1><a href=""> List <?php foreach ($_SESSION['user_in_groups'] as $key => $value) {
-                                            echo "$value";
-                                            echo "\n";
-                                        }
+                <h1><a href=""> List <?php 
+                // foreach ($_SESSION['user_in_groups'] as $key => $value) {
+                //                             echo "$value";
+                //                             echo "\n";
+                //                         }
                                         // foreach($ss as $_SESSION['user_in_groups'])
                                         // echo $ss; 
                                         ?></a></h1>

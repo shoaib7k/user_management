@@ -244,10 +244,11 @@ if ($_GET['act'] == 'edit') {
                       </select>
 
                     </div>
-   <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="100%" height="200px">
-    </iframe>
+   <!-- <iframe src="<?php if(strpos($item_path, '.docx') || strpos($item_path, '.doc') !== false) { echo "http://docs.google.com/gview?url=".$_SERVER['HTTP_HOST']."".$item_path."" ; } else {echo $item_path;} ?>" width="100%" height="200px">
+    </iframe> -->
 <label for="formGroupExampleInput"></label>
-            <div class="file-loading">
+            <!-- <div class="file-loading"> -->
+              <div>
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
                 

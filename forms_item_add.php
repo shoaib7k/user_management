@@ -206,7 +206,8 @@ if ($_GET['act'] == 'add') {
 
                     </div>
 <label for="formGroupExampleInput"></label>
-            <div class="file-loading">
+            <!-- <div class="file-loading"> -->
+                <div>
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
                 <div id="loader" class="loader"></div>
