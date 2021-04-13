@@ -111,22 +111,38 @@ if ($_GET['act'] == 'edit') {
                 
             }
             
+            if ($_FILES['file_name']['size'] !== 0){
             $sql = "update forms set name = '".$item_name."', path = '".$file_dst_path."', iconpath = '".$icon_dst_path."', timestamp = localtimestamp, access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
+            $db_result = pg_query($db_connection, $sql);
+        
+            pg_free_result($db_result);
+                
+            move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
+            
+            //please unhide below two lines for preview
+           require 'converter_for_documents.php';
+           convert_document($homebase_path.$file_dst_path);
+            
+            pg_close($db_connection);
+     header("location: forms_item_list.php?forms_id=".$parent_id."");
+          }else{
+            $sql = "update forms set name = '".$item_name."', timestamp = localtimestamp, access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
             
   
         
         $db_result = pg_query($db_connection, $sql);
         
         pg_free_result($db_result);
-    
-        move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
+            
+      //   move_uploaded_file($file_src_path, $homebase_path.$file_dst_path);
         
-        //please unhide below two lines for preview
-       require 'converter_for_documents.php';
-       convert_document($homebase_path.$file_dst_path);
+      //   //please unhide below two lines for preview
+      //  require 'converter_for_documents.php';
+      //  convert_document($homebase_path.$file_dst_path);
         
         pg_close($db_connection);
- header("location: forms_item_list.php?forms_id=".$parent_id."");       
+ header("location: forms_item_list.php?forms_id=".$parent_id."");      
+          } 
     }
  
 }
