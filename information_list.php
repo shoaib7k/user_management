@@ -58,16 +58,16 @@ if ($_GET['act'] == 'delete') {
             </nav>
         </div>
         <?php
-        if ($_SESSION['user_type'] == 'U') {
-            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-        } else {
+        // if ($_SESSION['user_type'] == 'U') {
+        //     echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+        //               <div class="bgc-red px-3 py-1 text-center radius-l-1">
+        //                 <span class="fa-2x text-white">
+        //         ⚠ <!-- &#9888; -->
+        //       </span>
+        //               </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+        //       You do not have permission to access this page!
+        //     </span></div>';
+        // } else {
         ?>
 
             <div class="text-center mb-4">
@@ -237,6 +237,8 @@ if ($_GET['act'] == 'delete') {
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         <span><strong>Read</strong></span>
                                     </a></td>
+                                    <?php if ($_SESSION['user_type'] == 'A')
+                {?>
       <td><a onClick="return confirm('Are you sure you want to delete item?')" href="information_list.php?act=delete&information_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         <span><strong>Delete</strong></span>
@@ -245,6 +247,7 @@ if ($_GET['act'] == 'delete') {
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         <span><strong>Edit</strong></span>
                                     </a></td>
+                                    <?php } ?>
     </tr>
    
 
@@ -336,7 +339,7 @@ if ($_GET['act'] == 'delete') {
             </div>
             <!--/.container-->
         <?php
-        }
+       // }
         ?>
 
     </div>
