@@ -61,10 +61,10 @@ if($_GET['act']=='delete'){
             <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php"><?php echo $_admin;?></a>
                
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Group List</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_group_list; ?></a>
             </nav>
             </div>
             <?php 
@@ -84,14 +84,14 @@ if($_GET['act']=='delete'){
               <div class="text-center mb-4">
                             <a href="#aside-compose" data-toggle="modal" data-target="#exampleModalGroupAdd" class="btn btn-blue px-45 py-2 text-105 radius-2">
                               <i class="fa fa-pencil-alt mr-1"></i>
-                            Add New Group</a>
+                            <?php echo $_add_new_group;?></a>
                           </div>
           <!-- Modal -->
           <div class="modal fade" id="exampleModalGroupAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New Group</h5>
+                  <h5 class="modal-title" id="exampleModalLabel"><?php echo $_new_group;?></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -99,7 +99,7 @@ if($_GET['act']=='delete'){
                 <div class="modal-body">
                   <form method="POST" action="group_list.php?act=add_group">
                     <div class="form-group row">
-                      <label for="groupName" class="col-sm-4 col-form-label"><?php echo $lang_group_name; ?></label>
+                      <label for="groupName" class="col-sm-4 col-form-label"><?php echo $_group_name; ?></label>
                       <div class="col-sm-8">
                         <input type="text" name="group_name" id="group_name" class="form-control">
                       </div>
@@ -117,7 +117,7 @@ if($_GET['act']=='delete'){
      
 
    <div class="container">
-    <h1><a href="">Group List</a></h1>
+    <h1><a href=""><?php echo $_group_list; ?></a></h1>
       <hr>
     <?php
    /* if(isset($_REQUEST['tb1'])) {
@@ -158,11 +158,11 @@ if($_GET['act']=='delete'){
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>Sr#</th>
-          <th>Group Name</th>
-          <th>Group ID</th>
-          <th>Total Group Members</th>
-          <th>Action</th>
+          <th><?php echo $_serial_num;?></th>
+          <th><?php echo $_group_name;?></th>
+          <th><?php echo $_group_id;?></th>
+          <th><?php echo $_total_group_member;?></th>
+          <th><?php echo $_action;?></th>
 
         </tr>
       </thead>
@@ -187,11 +187,11 @@ if($_GET['act']=='delete'){
           <td> 
    <a onClick="return confirm('Are you sure you want to delete group <?php echo $val['group_name'];?>')" href="group_list.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span><strong>Delete</strong></span>            
+        <span><strong><?php echo $_delete;?></strong></span>            
     </a>
     <a href="#editGroup<?php echo $val['id'];?>" class="btn btn-primary a-btn-slide-text" data-id="<?php echo $val['id'];?>" data-toggle="modal">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong>Edit</strong></span>            
+        <span><strong><strong><?php echo $_edit;?></strong></span>            
     </a>
             <div class="modal fade" id="editGroup<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

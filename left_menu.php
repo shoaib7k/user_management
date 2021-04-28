@@ -182,7 +182,7 @@ if (isset($_SESSION['lang'])) {
                   <b class="sub-arrow"></b>
 
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="calendar.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-calendar"></i>
                     <span class="nav-text fadeable">
@@ -190,7 +190,7 @@ if (isset($_SESSION['lang'])) {
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="information_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>

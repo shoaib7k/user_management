@@ -21,4 +21,28 @@ $_user='Nutzer';
 $_users='Benutzer';
 $_groups='Gruppen';
 $_logOut='Ausloggen';
+$_company='Unternehmen';
+//group 
+$_group_list='Gruppenliste';
+$_add_new_group='Neue Gruppe Hinzufügen';
+$_new_group='Neue Gruppe';
+$_group_name="Gruppenname";
+$_serial_num='Seriennummer';
+$_group_id= 'Gruppen-ID';
+$_total_group_member='Anzahl Mitglieder';
+$_action='Aktion';
+//pagination
+$_previous='Bisherige';
+$_next='Nächster';
+$_rows='Reihen';
+$_page='Seite';
+$_total='Gesamt';
+//edit delete
+$_delete='Löschen';
+$_edit='Bearbeiten';
+//user
+$_add_new_user='Neuen Benutzer Hinzufügen';
+$_user_list='Benutzerliste';
+$_telephone='Telefon';
+$_consent_add_contact='Ich möchte diesen Benutzer zu Kontaktinformationen hinzufügen';
 ?>

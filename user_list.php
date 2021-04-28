@@ -203,7 +203,7 @@ if($_GET['act']=='delete'){
               <div class="text-center mb-4">
                             <a href="#aside-compose" data-toggle="modal" data-target="#userModal" class="btn btn-blue px-45 py-2 text-105 radius-2">
                               <i class="fa fa-pencil-alt mr-1"></i>
-                            Add New User</a>
+                            <?php echo $_add_new_user;?></a>
                           </div>
 
           <!-- Modal -->
@@ -211,7 +211,7 @@ if($_GET['act']=='delete'){
             <div class="modal-dialog modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+                  <h5 class="modal-title" id="exampleModalLabel"><?php echo $_add_new_user;?></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -222,28 +222,28 @@ if($_GET['act']=='delete'){
                    
                     <div class="col">
                       <div class="form-group">
-                      <label for="formGroupExampleInput">First Name</label>
-                      <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
+                      <label for="formGroupExampleInput"><?php echo $_first_name;?></label>
+                      <input type="text" name="first_name" class="form-control" id="first_name" placeholder="<?php echo $_first_name;?>">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput2">Last Name</label>
-                      <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
+                      <label for="formGroupExampleInput2"><?php echo $_last_name;?></label>
+                      <input type="text" name="last_name" class="form-control" id="last_name" placeholder="<?php echo $_last_name;?>">
                     </div>
                     </div>
                   </div>
           <div class="form-group row">
                     <div class="col">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Login Name</label>
-                      <input type="text" name="login_name" class="form-control" id="login_name" aria-describedby="emailHelp" placeholder="Login Name">
+                      <label for="exampleInputEmail1"><?php echo $_lang_username;?></label>
+                      <input type="text" name="login_name" class="form-control" id="login_name" aria-describedby="emailHelp" placeholder="<?php echo $_lang_username;?>">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                      <label for="exampleInputPassword1"><?php echo $_lang_password;?></label>
+                      <input type="password" name="password" class="form-control" id="password" placeholder="<?php echo $_lang_password;?>">
                     </div>
                   </div>
                 </div>
@@ -272,42 +272,42 @@ if($_GET['act']=='delete'){
                    
                     <div class="col">
                       <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-1</label>
-                      <input type="text" name="telephone1" class="form-control" id="telephone1" placeholder="Telephone-1">
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-1</label>
+                      <input type="text" name="telephone1" class="form-control" id="telephone1" placeholder="<?php echo $_telephone;?>-1">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-2</label>
-                      <input type="text" name="telephone2" class="form-control" id="telephone2" placeholder="Telephone-2">
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-2</label>
+                      <input type="text" name="telephone2" class="form-control" id="telephone2" placeholder="<?php echo $_telephone;?>-2">
                     </div>
                     </div>
                     <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-3</label>
-                      <input type="text" name="telephone3" class="form-control" id="telephone3" placeholder="Telephone-3">
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-3</label>
+                      <input type="text" name="telephone3" class="form-control" id="telephone3" placeholder="<?php echo $_telephone;?>-3">
                     </div>
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col">
                     <div class="form-group">
-                      <label for="user_type">User Type</label>
+                      <label for="user_type"><?php echo $_user_type;?></label>
                       <select class="form-control" id="user_type" name="user_type">
-                        <option value="U">User</option>
-                        <option value="A">Admin</option>
+                        <option value="U"><?php echo $_user;?></option>
+                        <option value="A"><?php echo $_admin;?></option>
                       </select>
                     </div>
                     </div>
                     <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">Company</label>
-                      <input type="text" name="company" class="form-control" id="company" placeholder="Company">
+                      <label for="formGroupExampleInput"><?php echo $_company;?></label>
+                      <input type="text" name="company" class="form-control" id="company" placeholder="<?php echo $_company;?>">
                     </div>
                     </div>
                     <div class="col">
                        <div class="form-group">
-                      <label for="group_add">Select Groups</label>
+                      <label for="group_add"><?php echo $_groups;?></label>
                   <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -344,7 +344,7 @@ if($_GET['act']=='delete'){
                     <div class="form-group">
                       <div class="card-body">
                       <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1">
-                      <label class="form-check-label" for="exampleCheck1">I want to add this user to contact information</label>
+                      <label class="form-check-label" for="exampleCheck1"><?php echo $_consent_add_contact;?></label>
                     </div>
                     </div>
 
@@ -362,7 +362,7 @@ if($_GET['act']=='delete'){
 
       
       <div class="container">
-        <h1><a href="">User List</a></h1>
+        <h1><a href=""><?php echo $_user_list;?></a></h1>
            
         <hr>
         <?php
@@ -394,12 +394,12 @@ if($_GET['act']=='delete'){
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>Sr#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Login Name</th>
-              <th>User Type</th>
-              <th>Action</th>
+              <th><?php echo $_serial_num;?></th>
+              <th><?php echo $_first_name;?></th>
+              <th><?php echo $_last_name;?></th>
+              <th><?php echo $_lang_username;?></th>
+              <th><?php echo $_user_type;?></th>
+              <th><?php echo $_action;?></th>
             </tr>
           </thead>
           <tbody>
@@ -424,11 +424,11 @@ if($_GET['act']=='delete'){
                   <td> 
     <a onClick="return confirm('Are you sure you want to delete user <?php echo $val['login_name'];?>')" href="user_list.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span><strong>Delete</strong></span>            
+        <span><strong><?php echo $_delete;?> </strong></span>            
     </a>
     <a href="#editUser<?php echo $val['id'];?>" class="btn btn-primary a-btn-slide-text" data-id="<?php echo $val['id'];?>" data-toggle="modal">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong>Edit</strong></span>            
+        <span><strong><?php echo $_edit;?></strong></span>            
     </a>
             <div class="modal fade modal-fs" id="editUser<?php echo $val['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
