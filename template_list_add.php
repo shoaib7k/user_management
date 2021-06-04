@@ -59,11 +59,11 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
     } else {
      
         if($parent_id!==""){
-        $sql = "insert into forms (id, theme, timestamp,themeid,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."','{".implode(',',$all_groups)."}')"; 
+        $sql = "insert into forms (id, theme, timestamp,themeid,access_group,breadpath) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."','{".implode(',',$all_groups)."}','".json_encode($_SESSION['bc'],JSON_UNESCAPED_SLASHES)."')"; 
         header("location: forms_item_list.php?forms_id=$parent_id&forms_item_id=$forms_item_id");
         }
         else{
-          $sql = "insert into forms (id, theme, timestamp,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'{".implode(',',$all_groups)."}')"; 
+          $sql = "insert into forms (id, theme, timestamp,access_group,breadpath) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'{".implode(',',$all_groups)."}','".json_encode($_SESSION['bc'],JSON_UNESCAPED_SLASHES)."')"; 
           header("location: template_list.php?app=default&lang=de");
         }
     }

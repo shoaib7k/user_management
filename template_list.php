@@ -79,7 +79,7 @@ if($_GET['act']=='delete'){
 
 
       <div class="container">
-      <form action="template_list.php?act=search&lang=<?php echo $lang; ?>" method="POST">
+      <form action="template_search_list.php?lang=<?php echo $lang; ?>" method="POST">
 
                     <input type="text" name="query" class="form-control" value="<?php echo $_POST['query']?>" />
                     <input type="submit" value=<?php echo $_search;?> class="form-control" />
