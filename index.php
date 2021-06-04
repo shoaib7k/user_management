@@ -78,14 +78,7 @@
                           </h1>
 
                 
-                          <?php 
-if(isset($_GET['msg']))
-{
-?>
-        <div class="alert alert-danger">
-  <strong>Oops!</strong> Incorrect login ID or Password.
-</div>       
-<?php }?>
+  
                         </div>
 
 
@@ -112,11 +105,18 @@ if(isset($_GET['msg']))
                           </div>
 
                           <div class="form-group col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-                            <label class="d-inline-block mt-3 mb-0 text-dark-l1">
+                            <!-- <label class="d-inline-block mt-3 mb-0 text-dark-l1">
                               <input type="checkbox" class="mr-1" id="id-remember-me" />
                               Remember me
-                            </label>
-
+                            </label> -->
+                            <?php 
+if(isset($_GET['msg']))
+{
+?>
+<div class="alert alert-warning alert-dismissible fade show">
+    <strong>Warning!</strong> Please enter a valid value in all the required fields before proceeding.
+</div>
+<?php }?>
                             <button type="submit" class="btn btn-primary btn-block px-4 btn-bold mt-2 mb-4">
                               Sign In
                             </button>

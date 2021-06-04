@@ -98,20 +98,22 @@ if ($information_active_id != "") {
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
                
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Information</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_information;?></a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_update;?> </a>
             </nav>
         </div>
         <?php
-        if ($_SESSION['user_type'] == 'U') {
-            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-        } else {
+        // if ($_SESSION['user_type'] == 'U') {
+        //     echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+        //               <div class="bgc-red px-3 py-1 text-center radius-l-1">
+        //                 <span class="fa-2x text-white">
+        //         ⚠ <!-- &#9888; -->
+        //       </span>
+        //               </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+        //       You do not have permission to access this page!
+        //     </span></div>';
+        // } else {
         ?>
 
 
@@ -123,12 +125,12 @@ if ($information_active_id != "") {
                 </div>
 
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Title</label>
+                    <label for="formGroupExampleInput"><?php echo $_title;?></label>
                     <input type="text" name="information_title_edit" class="form-control" id="information_title" value="<?php echo $information_title; ?>" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Content</label>
+                    <label for="formGroupExampleInput"><?php echo $_content;?></label>
                     <textarea id="summernote" name="editordata_edit" ><?php echo $information_content; ?></textarea>
                 </div>
 
@@ -150,7 +152,7 @@ if ($information_active_id != "") {
 
 
 <?php
-        }
+     //   }
 ?>
 
 </div>

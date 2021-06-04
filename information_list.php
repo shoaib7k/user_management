@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['menu']='information';
 include('paginator.class.php');
 ?>
 <?php
@@ -54,42 +55,36 @@ if ($_GET['act'] == 'delete') {
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
 
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Information</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_information;?></a>
             </nav>
         </div>
         <?php
-        if ($_SESSION['user_type'] == 'U') {
-            echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
-                      <div class="bgc-red px-3 py-1 text-center radius-l-1">
-                        <span class="fa-2x text-white">
-                ⚠ <!-- &#9888; -->
-              </span>
-                      </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
-              You do not have permission to access this page!
-            </span></div>';
-        } else {
+        // if ($_SESSION['user_type'] == 'U') {
+        //     echo '<div class="alert d-flex bgc-red-l3 brc-success-m4 border-0 p-0" role="alert">
+        //               <div class="bgc-red px-3 py-1 text-center radius-l-1">
+        //                 <span class="fa-2x text-white">
+        //         ⚠ <!-- &#9888; -->
+        //       </span>
+        //               </div><span class="ml-3 align-self-center text-dark-tp3 text-110">
+        //       You do not have permission to access this page!
+        //     </span></div>';
+        // } else {
         ?>
 
             <div class="text-center mb-4">
                 <a href="information_item_add.php?app=default&lang=<?php echo $lang; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
                     <i class="fa fa-pencil-alt mr-1"></i>
-                    Add New Item </a>
+                    <?php echo $_add_new_item;?> </a>
             </div>
 
             <div class="container">
                 <form action="information_list.php?act=search&lang=<?php echo $lang; ?>" method="POST">
 
                     <input type="text" name="query" class="form-control" value="<?php echo $_POST['query']?>" />
-                    <input type="submit" value="search" class="form-control" />
+                    <input type="submit" value=<?php echo $_search;?> class="form-control" />
 
                 </form>
-                <h1><a href=""> List <?php foreach ($_SESSION['user_in_groups'] as $key => $value) {
-                                            echo "$value";
-                                            echo "\n";
-                                        }
-                                        // foreach($ss as $_SESSION['user_in_groups'])
-                                        // echo $ss; 
-                                        ?></a></h1>
+                <h1><a href=""><?php echo $_list; ?></a></h1>
                 <hr>
                 <?php
                 if ($_GET['act'] == 'search') {
@@ -183,11 +178,45 @@ if ($_GET['act'] == 'delete') {
                                                 echo $item_titel;
                                             } ?></a></h3>
 				<p><?php if ($item_titel == "" && $item_title_pol == "") {
-                                                    echo strip_tags($item_inhalt_de, ['p']);
+                                                    $stringC= strip_tags($item_inhalt_de, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
                                                 } else if ($item_titel_de == "" && $item_titel == "") {
-                                                    echo strip_tags($item_inhalt_pol, ['p']);
+                                                    $stringC= strip_tags($item_inhalt_pol, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
                                                 } else {
-                                                    echo strip_tags($item_inhalt, ['p']);
+                                                    $stringC= strip_tags($item_inhalt, ['p']);
+                                                    if (strlen($stringC) > 50) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($stringC, 0, 50);
+                                                        $endPoint = strrpos($stringCut, ' ');
+                                                    
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $stringC = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $stringC .= '... <a href="information_item_read.php?information_id='.$item_id.'">Read More</a>';
+                                                    }
+                                                    echo $stringC;
+
                                                 } ?></p>		
                                   		
                 <!-- <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span> -->
@@ -200,16 +229,19 @@ if ($_GET['act'] == 'delete') {
       
       <td><a href="information_item_read.php?information_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        <span><strong>Read</strong></span>
+                                        <span><strong><?php echo $_read;?></strong></span>
                                     </a></td>
+                                    <?php if ($_SESSION['user_type'] == 'A')
+                {?>
       <td><a onClick="return confirm('Are you sure you want to delete item?')" href="information_list.php?act=delete&information_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        <span><strong>Delete</strong></span>
+                                        <span><strong><?php echo $_delete;?></strong></span>
                                     </a></td>
       <td><a href="information_item_edit.php?information_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        <span><strong>Edit</strong></span>
+                                        <span><strong><?php echo $_edit;?></strong></span>
                                     </a></td>
+                                    <?php } ?>
     </tr>
    
 
@@ -301,7 +333,7 @@ if ($_GET['act'] == 'delete') {
             </div>
             <!--/.container-->
         <?php
-        }
+       // }
         ?>
 
     </div>

@@ -1,5 +1,6 @@
 <?php 
 session_start();
+$_SESSION['menu']='contacts';
 include('paginator.class.php'); 
  ?>
 <?php
@@ -61,11 +62,11 @@ $lang_group_name = "Group Name";
             <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Contact</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_contacts;?></a>
             </nav>
             </div>
   
-    <h1><a href="">Contact List</a></h1>
+    <h1><a href=""><?php echo $_list;?></a></h1>
       <hr>
     
     <?php
@@ -107,14 +108,14 @@ $lang_group_name = "Group Name";
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>Sr#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th> Telephone 1 </th>
+        <th> Company</th>
+        <th><?php echo $_first_name;?></th>
+         <th><?php echo $_last_name;?></th>
+          <th><?php echo $_telephone;?>-1</th>
           <th> Email 1 </th>
-          <th> Telephone 2 </th>
+          <th><?php echo $_telephone;?>-2</th>
           <th> Email 2 </th>
-          <th> Telephone 3 </th>
+          <th><?php echo $_telephone;?>-3</th>
           <th> Email 3 </th>
           <!-- <th>Action</th> -->
 
@@ -127,15 +128,15 @@ $lang_group_name = "Group Name";
           while($val  =   pg_fetch_array($result)){ 
         ?>
         <tr>
-          <td><?php echo $n++; ?></td>
+          <td><?php echo $val['firma']; ?></td>
           <td><?php echo $val['vorname']; ?></td>
           <td><?php echo $val['nachname']; ?></td>
           <td><?php echo $val['telefon1']; ?></td>
-          <td> <?php echo $val['email1']; ?></td>
+          <td><a href="mailto:<?php echo $val['email1']; ?>"><?php echo $val['email1']; ?></a></td>
           <td><?php echo $val['telefon2']; ?></td>
-          <td> <?php echo $val['email2']; ?></td>
+          <td><a href="mailto:<?php echo $val['email2']; ?>"><?php echo $val['email2']; ?></a></td>
           <td><?php echo $val['telefon3']; ?></td>
-          <td> <?php echo $val['email3']; ?></td>
+          <td><a href="mailto:<?php echo $val['email3']; ?>"><?php echo $val['email3']; ?></a></td>
    <!-- <a onClick="return confirm('Are you sure you want to delete group <?php echo $val['group_name'];?>')" href="group_list.php?act=delete&id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         <span><strong>Delete</strong></span>            

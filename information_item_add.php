@@ -1,7 +1,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Hi Summernote with Bootstrap 4</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
@@ -120,7 +119,7 @@ if ($_GET['act'] == 'add') {
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
                
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Information</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_information;?></a>
             </nav>
     </div>
     <?php
@@ -147,7 +146,7 @@ if ($_GET['act'] == 'add') {
                   <input type="text" name="information_id" class="form-control" value="<?php echo $forms_theme_id; ?>" id="information_id" readonly>
                 </div>
                 <div class="form-group">
-                      <label for="group_add">Select Groups For Access</label>
+                      <label for="group_add"><?php echo $_select_group_for_access;?></label>
                   <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -178,18 +177,18 @@ if ($_GET['act'] == 'add') {
 
                     </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Title</label>
+                  <label for="formGroupExampleInput"><?php echo $_title;?></label>
                   <input type="text" name="information_title" class="form-control" id="information_title">
                 </div>
                 
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Content</label>
+                  <label for="formGroupExampleInput"><?php echo $_content;?></label>
                   <textarea id="summernote" name="editordata"></textarea>
                 </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_add;?>>
                 </div>
    
               </form>

@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 function convert_document($_path_to_document) {
        
@@ -55,11 +58,22 @@ function convert_document($_path_to_document) {
                 ' --outdir "'.$_file_dir.'" ' . 
                 ' ' . 
                 '"'.$_path_to_document.'"';
-
-        shell_exec($command); 
+        $command=$command.' 2>&1';//2 & 1 for error showing 
+        echo $command;
+        putenv('PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin');
+putenv('HOME=/tmp'); 
+       echo shell_exec($command); 
+        // if ($shellresult == null) {
+        //     echo "Error";
+        // } else {
+        //     echo "ShellResult: ".$shellresult."";
+        // }
+        
     
     }
        
+
+
     $img = new Imagick();               
     $img->readImage($_file_without_extension.".pdf"."[0]");                
     $img->setimageformat('jpeg');

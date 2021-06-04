@@ -9,6 +9,36 @@ include 'db_connect.php';
     $theme_id=$_GET['theme_id'];  
     $theme_type="video"; 
     $item_id=$_GET['item_id'];
+    if ($db_connection)  {
+        
+      // prepare title
+      $theme_name = "Thema nicht vorhanden.";
+      $type_name = "Typ unbekannt.";
+      
+      if ($theme_type == "handbook") { $type_name = "Handbücher"; }
+      if ($theme_type == "video") { $type_name = "Videos"; }
+      
+      
+      $sql = "select theme from media where id = ".$theme_id;
+      
+      $db_result = pg_query($db_connection, $sql);
+      
+      if ($db_result) {
+          
+          $db_recordcount = pg_num_rows($db_result);
+          
+          if ($db_recordcount > 0) {
+              
+              $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+              
+              $theme_name = $db_record["theme"];
+              
+          }
+       
+          pg_free_result($db_result);
+          
+      }
+      }
     if($_GET['act']=='delete'){
   //$id=$_GET['theme_id'];
   $sql2="DELETE from media where  id=".$item_id."";
@@ -29,13 +59,11 @@ include 'db_connect.php';
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?>">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php?app=default">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training;?></a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=dafult">Training</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Video </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"> <?php echo $theme_name;?> / Video  </a>
             </nav>
     </div>
     <?php
@@ -53,11 +81,11 @@ include 'db_connect.php';
     <div class="text-center mb-4">
         <a href="video_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>"  class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
-          Add New Item</a>
+          <?php echo $_add_new_item;?></a>
       </div>
 
       <div class="container">
-        <h1><a href=""> List</a></h1>
+        <h1><a href=""> <?php echo $_list;?></a></h1>
         <hr>
         <?php
         //$theme_type="video";
@@ -114,11 +142,11 @@ include 'db_connect.php';
 
 <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name;?>')" href="video_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type;?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text" type="button">
        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span><strong>Delete</strong></span>            
+        <span><strong><?php echo $_delete;?></strong></span>            
     </a>
     <a href="video_item_edit.php?theme_id=<?php echo $theme_id;?>&type=<?php echo $theme_type;?>&item_id=<?php echo $item_id;?>&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong>Edit</strong></span>            
+        <span><strong><?php echo $_edit;?></strong></span>            
     </a>
             </div><?php }?>
         </div>

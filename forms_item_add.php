@@ -1,4 +1,8 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 session_start();
 include('paginator.class.php');
 ?>
@@ -7,7 +11,17 @@ include 'db_connect.php';
 ?>
 <?php
 $parent_id = $_GET['forms_id'];
-$theme_id = $_GET['forms_id'];        
+$theme_id = $_GET['forms_id'];    
+
+$forms_item_id = $_GET['forms_item_id'];
+
+
+
+$redirect_from = $_GET['origin'];
+
+if ($redirect_from >= $forms_item_id)
+    $redirect_from = 1;
+
 ?>
 <?php
 
@@ -18,6 +32,7 @@ if ($_GET['act'] == 'add') {
     if (isset($_POST["template_document_item_id"])) {  $item_id = $_POST["template_document_item_id"]; } 
     if (isset($_POST["template_document_item_name_old"])) {  $item_name_old = trim($_POST["template_document_item_name_old"]); }
     if (isset($_POST["template_document_item_name_new"])) {  $item_name_new = trim($_POST["template_document_item_name_new"]); }
+    //$forms_item_id=$_GET['forms_item_id'];
     $group_id_array=array();
       foreach ($_POST['group_id'] AS $key => $value) {
         array_push($group_id_array,$value);
@@ -112,7 +127,7 @@ if ($_GET['act'] == 'add') {
         convert_document($homebase_path.$file_dst_path);
         
         pg_close($db_connection);
- header("location: forms_item_list.php?forms_id=".$parent_id."");       
+ header("location: forms_item_list.php?forms_id=$parent_id&forms_item_id=$forms_item_id&origin=$redirect_from");       
     }
  
 }
@@ -132,11 +147,45 @@ if ($_GET['act'] == 'add') {
     <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
-                <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
-                <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="forms_item_list.php">Form</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
+                <?php      
+                    foreach($_SESSION['bc'] as $x=>$x_value)
+  {
+ // echo "Key=" . $x . ", Value=" . $x_value;
+ $querybc=pg_query("select theme from forms where id=".$x."");
+ while($parentsbc=pg_fetch_array($querybc)){
+     $name_bc=$parentsbc['theme'];
+ }
+ 
+ echo " / ";
+  echo "<a style='1px solid #000000; padding: 0 5px' href='.$x_value.'>$name_bc </a>";
+  
+  }
+     //print_r($_SESSION['bc']);
+      ?>
+               
+                <?php $query3 = pg_query("Select theme from forms where id=" . $parent_id . "");
+                while ($parents = pg_fetch_array($query3)) { ?>
+
+                    <!-- <a style="1px solid #000000; padding: 0 5px" href=<?php echo $_SERVER['HTTP_REFERER']; ?>> <?php echo $parents["theme"];//leaf ?></a>  -->
+
+                <?php
+                    // $arr=array();
+                    // if(!array_key_exists($forms_item_id, $_SESSION['m'])){
+                    // $_SESSION['m'] += [$forms_item_id => $redirect_from];
+                    // }
+                    // else{
+                    //     foreach($subarray as $_SESSION['m'] ){
+                    //         if(isset($subarray[$redirect_from])){
+                    //             $redirect_from=$subarray[$redirect_from];
+                    //         }
+                    //     }
+                    // }
+                //    print_r($_SESSION['m']);
+                //     array_push($_SESSION['m'], [$forms_item_id=>$redirect_from]);
+                //     print_r($_SESSION['m']);
+                //    echo ".$forms_id.' '.$forms_item_id.' '.$redirect_from. ' '.$_SESSION[m]";
+                } ?>
                 <a>/</a>
                 <a style="1px solid #000000; padding: 0 5px" class=" active">Add</a>
             </nav>
@@ -158,7 +207,7 @@ if ($_GET['act'] == 'add') {
 
 
       <div class="container">
-              <form method="POST" action="forms_item_add.php?act=add&forms_id=<?php echo $parent_id; ?>" enctype="multipart/form-data">
+              <form method="POST" action="forms_item_add.php?act=add&forms_id=<?php echo $parent_id; ?>&forms_item_id=<?php echo $forms_item_id;?>" enctype="multipart/form-data">
 
 <input type="text" name="training_document_theme_id" value="<?php echo $forms_id; ?>" readonly="true" style="display:none">
 
@@ -206,10 +255,12 @@ if ($_GET['act'] == 'add') {
 
                     </div>
 <label for="formGroupExampleInput"></label>
-            <div class="file-loading">
+            <!-- <div class="file-loading"> -->
+                <div>
          <input id="kv-explorer" name="file_name" type="file" multiple>
       </div>
-                <div id="loader" class="loader"></div>
+                <div id="loader" style="display: none;" class="loader"></div>
+                <div id="upload-progress"><div class="progress-bar"></div></div> <!-- Progress bar added -->
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -322,6 +373,7 @@ if ($_GET['act'] == 'add') {
             //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload:false,
         });
                 $("#kv-explorer2").fileinput({
             'theme': 'explorer-fas',
@@ -341,15 +393,51 @@ if ($_GET['act'] == 'add') {
          });
          */
     });
-    $(document).ready(function() 
-{
-    $('#loader').hide();
+//     $(document).ready(function() 
+// {
+//     $('#loader').hide();
 
-    $('form').submit(function() 
-    {
-        $('#loader').show();
-    }) 
-});
+//     $('form').submit(function() 
+//     {
+//         $('#loader').show();
+//     }) 
+// });
+$("#my_form").submit(function(event){
+    event.preventDefault(); //prevent default action .
+    $('#loader').show();
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $.ajax({
+        url : post_url,
+        type: request_method,
+        data : form_data,
+		contentType: false,
+		processData:false,
+		xhr: function(){
+		//upload Progress
+		var xhr = $.ajaxSettings.xhr();
+		if (xhr.upload) {
+			xhr.upload.addEventListener('progress', function(event) {
+				var percent = 0;
+				var position = event.loaded || event.position;
+				var total = event.total;
+				if (event.lengthComputable) {
+					percent = Math.ceil(position / total * 100);
+				}
+				//update progressbar
+				$("#upload-progress .progress-bar").css("width", + percent +"%");
+			}, true);
+		}
+		return xhr;
+	}
+    }).done(function(response){ //
+        $('#loader').hide();
+        $('#upload-progress .progress-bar').hide();
+        $("#server-results").html(response);
+    });
+});     
 </script>
 
 </body>

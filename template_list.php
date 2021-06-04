@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION['menu']='template';
+$_SESSION['bc']=[];
 include('paginator.class.php');
 ?>
 <?php
@@ -7,6 +9,24 @@ include 'db_connect.php';
 ?>
 <?php
 $parent_id=NULL;
+$lang = "en";
+
+
+if (isset($_GET['lang'])) {
+    if ($_GET['lang'] == "en") {
+        $ck = "checked";
+    } else if ($_GET['lang'] == "de") {
+        $ck2 = "checked";
+        $lang = "de";
+    } else if ($_GET['lang'] == "pol") {
+        $ck3 = "checked";
+        $lang = "pol";
+    } else {
+        $ck = "checked";
+    }
+} else {
+    $ck = "checked";
+}
 if($_GET['act']=='delete'){
   $id=$_GET['forms_id'];
   $sql2="DELETE from forms where id=".$id." ";
@@ -28,12 +48,9 @@ if($_GET['act']=='delete'){
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?> ">Home</a> 
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
-               
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Template</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_templates;?></a>
             </nav>
     </div>
     <?php
@@ -52,7 +69,7 @@ if($_GET['act']=='delete'){
       <div class="text-center mb-4">
         <a href="template_list_add.php" class="btn btn-blue px-45 py-2 text-105 radius-2">
           <i class="fa fa-pencil-alt mr-1"></i>
-          Add New Folder</a>
+          <?php echo $_add_new_folder;?></a>
       </div>
 
 
@@ -62,9 +79,41 @@ if($_GET['act']=='delete'){
 
 
       <div class="container">
-        <h1><a href=""> List</a></h1>
+      <form action="template_list.php?act=search&lang=<?php echo $lang; ?>" method="POST">
+
+                    <input type="text" name="query" class="form-control" value="<?php echo $_POST['query']?>" />
+                    <input type="submit" value=<?php echo $_search;?> class="form-control" />
+
+                </form>
+        <h1><a href=""><?php echo $_list;?></a></h1>
         <hr>
         <?php
+        if ($_GET['act'] == 'search') {
+          $pages = new Paginator;
+          $pages->default_ipp = 15;
+          $string = implode(',', $_SESSION['user_in_groups']);
+          $query = $_POST['query'];
+         // echo $query;
+
+          $query = htmlspecialchars($query);
+          $query = pg_escape_string($query);
+          // echo $query;
+          // $sql_formsx = pg_query("select * from information where inhalt_de LIKE '%" . $query . "%'");
+          // print_r($sql_formsx);
+          // $n = 0;
+          // while ($t = pg_fetch_array($sql_formsx)) {
+          //     echo "<p>" . ++$n . "" . $t['inhalt'] . "</p>";
+         // }
+
+          $sql_forms = pg_query("select id, theme, name, path, iconpath, timestamp from forms where themeid is null  AND (theme LIKE '%" . $query . "%' ) order by theme");
+          $pages->items_total = pg_num_rows($sql_forms);
+          $pages->mid_range = 9;
+          $pages->paginate();
+          //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
+          //echo $pages->limit;
+          $result = pg_query("select id, theme, name, path, iconpath, timestamp from forms where themeid is null  AND (theme LIKE '%" . $query . "%' ) order by theme " . $pages->limit . "");
+      }
+      else{
         $pages = new Paginator;
         $pages->default_ipp = 15;
         $sql_forms = pg_query( "select id, theme, name, path, iconpath, timestamp from forms where themeid is null order by theme");
@@ -74,6 +123,7 @@ if($_GET['act']=='delete'){
         //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
         //echo $pages->limit;
         $result = pg_query("select id, theme, name, path, iconpath, timestamp from forms where themeid is null order by theme " . $pages->limit . "");
+      }
         ?>
         <div class="clearfix"></div>
 
@@ -110,7 +160,7 @@ if($_GET['act']=='delete'){
                  <center>
                 <h4 class="text-120 mb-0">
                  
- <a href="forms_item_list.php?forms_id=<?php echo $forms_id; ?>" class="forms_themes_box_cell_1 forms_themes_link">
+ <a href="forms_item_list.php?forms_id=<?php echo $forms_id; ?>&forms_item_id=1" class="forms_themes_box_cell_1 forms_themes_link">
         
             <!-- theme - title -->
             <?php echo $forms_theme; ?>
@@ -126,11 +176,11 @@ if($_GET['act']=='delete'){
       
       <td><a onClick="return confirm('Are you sure you want to delete training data <?php echo $theme_name; ?>')" href="template_list.php?act=delete&forms_id=<?php echo $val['id']; ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    <span><strong>Delete</strong></span>
+                    <span><strong><?php echo $_delete;?></strong></span>
                   </a></td>
-      <td><a href="template_list_edit.php?forms_id=<?php echo $forms_id; ?>" class="btn btn-primary a-btn-slide-text">
+      <td><a href="template_list_edit.php?forms_id=<?php echo $forms_id; ?>&app=default&lang=<?php echo detect_language(); ?>" class="btn btn-primary a-btn-slide-text">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    <span><strong>Edit</strong></span>
+                    <span><strong><?php echo $_edit;?></strong></span>
                   </a></td>
     </tr>
   </table>
