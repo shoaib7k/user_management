@@ -20,24 +20,11 @@ $redirect_from = $_GET['origin'];
 
 if ($redirect_from >= $forms_item_id)
     $redirect_from = 1;
-if(array_key_exists($forms_id,$_SESSION['bc'])){
-    foreach($_SESSION['bc'] as $key=>$value){
-        if($key>$forms_id){
-        array_pop($_SESSION['bc']);
-        
-        }
+    $query = $_POST['query'];
+    // echo $query;
 
-       // 
-       
-    }
-    }
-     //print_r($_SESSION['bc']);
-    else{
-        //array_pop($_SESSION['bc']);
-        
-        $_SESSION['bc']+=[$forms_id => $_SERVER['REQUEST_URI']];
-        //header("Refresh:0");
-    }
+     $query = htmlspecialchars($query);
+     $query = pg_escape_string($query);
     function objectToArray($d) 
     {
         if (is_object($d)) {
@@ -81,80 +68,7 @@ if (isset($_GET['act']))
     <div class="page-content container container-plus">
         <!-- page header and toolbox -->
         <div class="page-header pb-2">
-            <nav class="breadcrumb">
-     
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
-                <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
-                <?php      
-                    foreach($_SESSION['bc'] as $x=>$x_value)
-  {
- // echo "Key=" . $x . ", Value=" . $x_value;
- $querybc=pg_query("select theme from forms where id=".$x."");
- while($parentsbc=pg_fetch_array($querybc)){
-     $name_bc=$parentsbc['theme'];
- }
- 
- echo " / ";
-  echo "<a style='1px solid #000000; padding: 0 5px' href='.$x_value.'>$name_bc </a>";
-  
-  }
-     print_r($_SESSION['bc']);
-      ?>
-                <!-- <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
-                <a>/</a> -->
-                <?php
-                if ($_GET['forms_item_id'] != 1) {
-                    $query2 = pg_query("Select theme from forms where id=" . $forms_item_id . "");
-                    while ($parents2 = pg_fetch_array($query2)) {
-                ?>
-
-                        <!-- <a style="1px solid #000000; padding: 0 5px" href="forms_item_list.php?forms_id=<?php echo $forms_item_id; ?>&forms_item_id=<?php echo $redirect_from; ?>&origin=<?php echo $redirect_from; ?>"> <?php echo $parents2["theme"]; ?></a> -->
-                <?php
-                        // if (!empty($parents2["theme"])) {
-                        //     echo "/";
-                        // }
-                    }
-                } ?>
-            <?php $query3 = pg_query("Select theme from forms where id=" . $parent_id . "");
-                while ($parents = pg_fetch_array($query3)) { ?>
-
-                    <!-- <a style="1px solid #000000; padding: 0 5px" class=" active"> <?php echo $parents["theme"];//leaf ?></a>  -->
-
-                <?php
-                    // $arr=array();
-
-                    // echo "<br>";
-                    // echo "<a>/</a>";
-                    // if(!array_key_exists($forms_item_id, $_SESSION['m'])){
-                    // $_SESSION['m'] += [$forms_item_id => $redirect_from];
-                    // }
-                    // else{
-                    //     foreach($subarray as $_SESSION['m'] ){
-                    //         if(isset($subarray[$redirect_from])){
-                    //             $redirect_from=$subarray[$redirect_from];
-                    //         }
-                    //     }
-                    // }
-            //         if(!array_key_exists($forms_item_id,$_SESSION['bc'])){
-            //             $_SESSION['bc']+=[$forms_item_id => $_SERVER['REQUEST_URI']];
-            //         }
-            //        // print_r($_SESSION['bc']);
-
-            //         foreach($_SESSION['bc'] as $key => $value) {
-            //             echo '<a style="1px solid #000000; padding: 0 5px href='.$value.'> kkkkk</a>';
-            //    echo  "<a>/</a>";
-            //           }
-
-
-
-                //print_r($_SESSION['m']);
-                //     array_push($_SESSION['m'], [$forms_item_id=>$redirect_from]);
-                //     print_r($_SESSION['m']);
-                //    echo ".$forms_id.' '.$forms_item_id.' '.$redirect_from. ' '.$_SESSION[m]";
-                } ?>
-                
-            </nav>
+            
         </div>
         <?php
         // if ($_SESSION['user_type'] == 'U') {
@@ -188,13 +102,13 @@ if (isset($_GET['act']))
             $pages = new Paginator;
             $pages->default_ipp = 15;
             $string = implode(',', $_SESSION['user_in_groups']);
-            $sql_forms = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
+            $sql_forms = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "]  order by name DESC");
             $pages->items_total = pg_num_rows($sql_forms);
             $pages->mid_range = 9;
             $pages->paginate();
             //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
             //echo $pages->limit;
-            $result = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
+            $result = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "]  order by name DESC");
             ?>
             <div class="clearfix"></div>
 

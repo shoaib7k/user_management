@@ -84,7 +84,7 @@ if ($_GET['act'] == 'add') {
         
         if ($forms_id == "") {
             
-            $sql = "insert into forms (id, name, path, iconpath, timestamp, themeid,access_group) values ((select max(id)+1 from forms),  '".$item_name."', '".$file_dst_path."','".$icon_dst_path."',localtimestamp,'".$parent_id."','{".implode(',',$group_id_array)."}')";
+            $sql = "insert into forms (id, name, path, iconpath, timestamp, themeid,access_group,breadpath) values ((select max(id)+1 from forms),  '".$item_name."', '".$file_dst_path."','".$icon_dst_path."',localtimestamp,'".$parent_id."','{".implode(',',$group_id_array)."}','".json_encode($_SESSION['bc'],JSON_UNESCAPED_SLASHES)."')";
             
         } else {
             
