@@ -1,7 +1,10 @@
+<?php 
+session_start();
+$_SESSION['menu']='home';
+?>
 <body>
     <div class="body-container">
-    	<?php
-      include 'left_menu.php'; ?>
+    	<?php include 'left_menu.php';?>
     	    <div role="main" class="main-content">
 
           <div class="page-content container container-plus">

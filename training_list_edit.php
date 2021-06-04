@@ -189,7 +189,9 @@ $theme_id = $_GET['theme_id'];
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
 
-                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_training; ?></a>
+                <a style="1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training; ?></a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_update;?> </a>
             </nav>
         </div>
     <?php
@@ -206,15 +208,7 @@ $theme_id = $_GET['theme_id'];
     ?>
 
      
-<h1><a href=""> List <?php foreach ($access_group_explode as $key => $value) {
-                                            echo $key;
-                                            echo "->";
-                                            echo "$value";
-                                            echo "\n";
-                                        }
-                                        // foreach($ss as $_SESSION['user_in_groups'])
-                                        // echo $ss; 
-                                        ?></a></h1>
+<h1><a href=""></a></h1>
                 <hr>
 
             <form method="POST" action="training_list_edit.php?act=edit" enctype="multipart/form-data">
@@ -223,14 +217,14 @@ $theme_id = $_GET['theme_id'];
                               <input type="text" name="training_theme_id" class="form-control" value="<?php echo $theme_id; ?>" id="theme_id" readonly>
                             </div>
                             <div class="form-group">
-                              <label for="formGroupExampleInput">Current Theme Name</label>
+                              <label for="formGroupExampleInput"><?php echo $_current_theme_name;?></label>
                               <input type="text" name="training_theme_name_old" class="form-control" value="<?php echo $theme_name; ?>" id="current_theme" readonly>
                             </div>
                             <div class="form-group">
-                              <label for="formGroupExampleInput">New Theme Name</label>
+                              <label for="formGroupExampleInput"><?php echo $_new_theme_name;?></label>
                               <input type="text" name="training_theme_name_new" class="form-control" id="new_theme">
                             </div>
-                         <label for="group_add">Select Groups</label>     
+                         <label for="group_add"><?php echo $_select_group_for_access;?></label>     
                       <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -277,8 +271,8 @@ $theme_id = $_GET['theme_id'];
                             </div> -->
                         <div id="loader" class="loader"></div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <input type="submit" class="btn btn-primary" value="Update">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
+                              <input type="submit" class="btn btn-primary" value=<?php echo $_update;?>>
                             </div>
                           </form>
           

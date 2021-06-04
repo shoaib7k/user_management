@@ -1,8 +1,8 @@
 {
     "remotePath": "/var/www/webtest5",
-    "host": "192.168.107.12",
+    "host": "12.0.1.115",
     "username": "steffen",
-    "password": "steffen",
+    "password": "intra2021",
     "port": 21,
     "secure": false,
     "protocol": "ftp",

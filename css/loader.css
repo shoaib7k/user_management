@@ -1,3 +1,30 @@
+/* #progress {
+    width: 500px;
+    border: 1px solid #aaa;
+    height: 20px;
+}
+
+#progress .bar {
+    background-color: #ccc;
+    height: 20px;
+} */
+
+
+/*Progress Bar*/
+
+#upload-progress {
+    position: relative;
+    height: 20px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+#upload-progress .progress-bar {
+    background: #bde1ff;
+    width: 0;
+    height: 20px;
+}
+
 .loader {
     position: absolute;
     left: 50%;

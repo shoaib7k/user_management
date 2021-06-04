@@ -59,6 +59,8 @@ if ($_GET['act'] == 'add') {
     if (isset($_POST["training_document_item_id"])) {  $item_id = $_POST["training_document_item_id"]; } 
     if (isset($_POST["training_document_item_name_old"])) {  $item_name_old = trim($_POST["training_document_item_name_old"]); }
     if (isset($_POST["training_document_item_name_new"])) {  $item_name_new = trim($_POST["training_document_item_name_new"]); }
+    if (isset($_POST["training_document_item_name_new_de"])) {  $item_name_new_de = trim($_POST["training_document_item_name_new_de"]); }
+    if (isset($_POST["training_document_item_name_new_pol"])) {  $item_name_new_pol = trim($_POST["training_document_item_name_new_pol"]); }
     
     $group_id_array=array();
       foreach ($_POST['group_id'] AS $key => $value) {
@@ -243,7 +245,7 @@ if ($_GET['act'] == 'add') {
                 
                 if ($file_dst_path != "" || $file_dst_path2 != ""  || $file_dst_path3 != "") {
                     
-                    $sql = "insert into media (name,type,path,iconpath,themeid,path2,iconpath2,path3,iconpath3,access_group) values ('".$item_name_new."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.",'".$file_dst_path2."','".$icon_dst_path2."','".$file_dst_path3."','".$icon_dst_path3."','{".implode(',',$group_id_array)."}')";
+                    $sql = "insert into media (name,name2,name3,type,path,iconpath,themeid,path2,iconpath2,path3,iconpath3,access_group) values ('".$item_name_new."','".$item_name_new_de."','".$item_name_new_pol."','handbook','".$file_dst_path."','".$icon_dst_path."',".$theme_id.",'".$file_dst_path2."','".$icon_dst_path2."','".$file_dst_path3."','".$icon_dst_path3."','{".implode(',',$group_id_array)."}')";
                     $db_result = pg_query($db_connection, $sql);
                     
                     if($db_result) {
@@ -327,7 +329,7 @@ if ($_GET['act'] == 'add') {
                 
             }
     //header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook&lang='".detect_language()."'");
-    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");
+    header("location: handbook_list.php?theme_id=".$theme_id."&type=handbook");//correct
         }
         
         
@@ -353,13 +355,11 @@ if ($_GET['act'] == 'add') {
     <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?> ">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php?app=default&lang=<?php echo detect_language(); ?>">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training;?></a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="handbook_list.php?theme_id=<?php echo $theme_id;?>&type=handbook"><?php echo ' '.$_manual.'- '.$theme_name.'';?></a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>">Handbook</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_add;?> </a>
             </nav>
     </div>
     <?php
@@ -383,20 +383,28 @@ if ($_GET['act'] == 'add') {
 
 <input type="text" name="training_document_theme_id" value="<?php echo $theme_id; ?>" readonly="true" style="display:none">
 
-      <div class="form-group">
+      <!-- <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
                   <input type="text" name="training_document_item_id" class="form-control" id="theme_id" readonly>
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput">Current Item Name</label>
                   <input type="text" name="training_document_item_name_old" class="form-control"  id="current_theme" readonly>
-                </div>
+                </div> -->
                 <div class="form-group">
-                  <label for="formGroupExampleInput">New Item Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_title;?>-En</label>
          <input type="text" name="training_document_item_name_new" class="form-control" id="new_theme">
+                </div> 
+                <div class="form-group">
+                  <label for="formGroupExampleInput"><?php echo $_title;?>-De</label>
+         <input type="text" name="training_document_item_name_new_de" class="form-control" id="new_theme_de">
                 </div>
                 <div class="form-group">
-                      <label for="group_add">Select Groups For Access</label>
+                  <label for="formGroupExampleInput"><?php echo $_title;?>-Pl</label>
+         <input type="text" name="training_document_item_name_new_pol" class="form-control" id="new_theme_pol">
+                </div>
+                <div class="form-group">
+                      <label for="group_add"><?php echo $_select_group_for_access;?></label>
                   <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -428,23 +436,23 @@ if ($_GET['act'] == 'add') {
                     </div>
 <label for="formGroupExampleInput">Select English</label>
             <div class="file-loading">
-         <input id="kv-explorer" name="file_name" type="file" multiple>
+         <input id="kv-explorer" name="file_name" type="file" >
       </div>
       <label for="formGroupExampleInput">Select Deutsch</label>
             <div class="file-loading">
-         <input id="kv-explorer2" name="file_name2" type="file" multiple>
+         <input id="kv-explorer2" name="file_name2" type="file" >
       </div>
       <label for="formGroupExampleInput">Select Polish</label>
             <!-- <div class="file-loading"> -->
                 <div>
-         <input id="kv-explorer3" name="file_name3" type="file" multiple>
+         <input id="kv-explorer3" name="file_name3" type="file" >
       </div>
 
-              <div id="loader" class="loader"></div>  
-
+              <div id="loader" style="display: none;" class="loader"></div>  
+              <div id="upload-progress"><div class="progress-bar"></div></div> <!-- Progress bar added -->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_add;?>>
                 </div>
               </form>
             
@@ -553,18 +561,21 @@ if ($_GET['act'] == 'add') {
             //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload:false,
         });
                 $("#kv-explorer2").fileinput({
             'theme': 'explorer-fas',
             //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload:false,
         });
                         $("#kv-explorer3").fileinput({
             'theme': 'explorer-fas',
             //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload:false,
         });
         /*
          $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
@@ -572,15 +583,51 @@ if ($_GET['act'] == 'add') {
          });
          */
     });
-    $(document).ready(function() 
-{
-    $('#loader').hide();
+//     $(document).ready(function() 
+// {
+//     $('#loader').hide();
 
-    $('form').submit(function() 
-    {
-        $('#loader').show();
-    }) 
-});
+//     $('form').submit(function() 
+//     {
+//         $('#loader').show();
+//     }) 
+// });
+$("#my_form").submit(function(event){
+    event.preventDefault(); //prevent default action .
+    $('#loader').show();
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $.ajax({
+        url : post_url,
+        type: request_method,
+        data : form_data,
+		contentType: false,
+		processData:false,
+		xhr: function(){
+		//upload Progress
+		var xhr = $.ajaxSettings.xhr();
+		if (xhr.upload) {
+			xhr.upload.addEventListener('progress', function(event) {
+				var percent = 0;
+				var position = event.loaded || event.position;
+				var total = event.total;
+				if (event.lengthComputable) {
+					percent = Math.ceil(position / total * 100);
+				}
+				//update progressbar
+				$("#upload-progress .progress-bar").css("width", + percent +"%");
+			}, true);
+		}
+		return xhr;
+	}
+    }).done(function(response){ //
+        $('#loader').hide();
+        $('#upload-progress .progress-bar').hide();
+        $("#server-results").html(response);
+    });
+});     
 </script>
 
 </body>

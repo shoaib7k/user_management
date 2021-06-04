@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include('paginator.class.php');
 ?>
 <?php
@@ -8,7 +8,10 @@ include 'db_connect.php';
 <?php
 $parent_id = $_GET['forms_id'];
 $theme_id = $_GET['forms_id'];
-$forms_item_id = $_GET['forms_item_id'];        
+$forms_item_id = $_GET['forms_item_id'];   
+$redirect_from = $_GET['origin'];    
+if ($redirect_from >= $forms_item_id)
+$redirect_from = 1;
 ?>
 <?php
         $sql = "select name,access_group from forms where id = ".$forms_item_id;
@@ -124,7 +127,7 @@ if ($_GET['act'] == 'edit') {
            convert_document($homebase_path.$file_dst_path);
             
             pg_close($db_connection);
-     header("location: forms_item_list.php?forms_id=".$parent_id."");
+            // header("location: forms_item_list.php?forms_id=".$parent_id."&forms_item_id=1");      
           }else{
             $sql = "update forms set name = '".$item_name."', timestamp = localtimestamp, access_group='{".implode(',',$group_id_array)."}' where id = ".$item_id;
             
@@ -141,13 +144,13 @@ if ($_GET['act'] == 'edit') {
       //  convert_document($homebase_path.$file_dst_path);
         
         pg_close($db_connection);
- header("location: forms_item_list.php?forms_id=".$parent_id."");      
+//  header("location: forms_item_list.php?forms_id=".$parent_id."&forms_item_id=1");      
           } 
     }
  
 }
 
-//header("location: handbook_list.php?theme_id=".$theme_id."");
+//header("location: forms_item_list.php?forms_id=".$parent_id."&forms_item_id=1");
  
 
 ?>
@@ -162,13 +165,47 @@ if ($_GET['act'] == 'edit') {
     <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
+                <?php      
+                    foreach($_SESSION['bc'] as $x=>$x_value)
+  {
+ // echo "Key=" . $x . ", Value=" . $x_value;
+ $querybc=pg_query("select theme from forms where id=".$x."");
+ while($parentsbc=pg_fetch_array($querybc)){
+     $name_bc=$parentsbc['theme'];
+ }
+ 
+ echo " / ";
+  echo "<a style='1px solid #000000; padding: 0 5px' href='.$x_value.'>$name_bc </a>";
+  
+  }
+    // print_r($_SESSION['bc']);
+      ?>
+                
+                <?php $query3 = pg_query("Select theme from forms where id=" . $parent_id . "");
+                while ($parents = pg_fetch_array($query3)) { ?>
+
+                    <!-- <a style="1px solid #000000; padding: 0 5px" href=<?php echo $_SERVER['HTTP_REFERER']; ?>> <?php echo $parents["theme"];//leaf ?></a>  -->
+
+                <?php
+                    // $arr=array();
+                    // if(!array_key_exists($forms_item_id, $_SESSION['m'])){
+                    // $_SESSION['m'] += [$forms_item_id => $redirect_from];
+                    // }
+                    // else{
+                    //     foreach($subarray as $_SESSION['m'] ){
+                    //         if(isset($subarray[$redirect_from])){
+                    //             $redirect_from=$subarray[$redirect_from];
+                    //         }
+                    //     }
+                    // }
+                  //  print_r($_SESSION['m']);
+                  //   array_push($_SESSION['m'], [$forms_item_id=>$redirect_from]);
+                  //   print_r($_SESSION['m']);
+                  //  echo ".$forms_id.' '.$forms_item_id.' '.$redirect_from. ' '.$_SESSION[m]";
+                } ?>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
-                <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Handbook</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_edit;?> </a>
             </nav>
     </div>
     <?php
@@ -188,7 +225,7 @@ if ($_GET['act'] == 'edit') {
 
 
       <div class="container">
-              <form method="POST" action="forms_item_edit.php?act=edit&forms_id=<?php echo $parent_id; ?>&forms_item_id=<?php echo $forms_item_id?>" enctype="multipart/form-data">
+              <form method="POST" id="my_form" action="forms_item_edit.php?act=edit&forms_id=<?php echo $parent_id; ?>&forms_item_id=<?php echo $forms_item_id?>" enctype="multipart/form-data">
 
 <input type="text" name="template_document_theme_id" value="<?php echo $forms_id; ?>" readonly="true" style="display:none">
 
@@ -197,15 +234,15 @@ if ($_GET['act'] == 'edit') {
                   <input type="text" name="template_document_item_id" class="form-control" id="theme_id" value="<?php echo $forms_item_id;?>" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Current Item Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_current_item_name;?></label>
                   <input type="text" name="template_document_item_name_old" class="form-control"  id="current_theme" value="<?php echo $item_name; ?>" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">New Item Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_new_item_name;?></label>
          <input type="text" name="template_document_item_name_new" class="form-control" id="new_theme">
                 </div>
                 <div class="form-group">
-                            <label for="group_add">Select Groups</label>     
+                            <label for="group_add"><?php echo $_select_group_for_access;?></label>     
                       <select id="example-getting-started2" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -249,13 +286,14 @@ if ($_GET['act'] == 'edit') {
 <label for="formGroupExampleInput"></label>
             <!-- <div class="file-loading"> -->
               <div>
-         <input id="kv-explorer" name="file_name" type="file" multiple>
+         <input id="kv-explorer" name="file_name" type="file">
       </div>
                 
-    <div id="loader" class="loader"></div>
+    <div id="loader" style="display: none;" class="loader"></div>
+    <div id="upload-progress"><div class="progress-bar"></div></div> <!-- Progress bar added -->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_update;?>>
                 </div>
               </form>
             
@@ -364,6 +402,7 @@ if ($_GET['act'] == 'edit') {
             //'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload: false,
         });
                 $("#kv-explorer2").fileinput({
             'theme': 'explorer-fas',
@@ -383,15 +422,52 @@ if ($_GET['act'] == 'edit') {
          });
          */
     });
-    $(document).ready(function() 
-{
-    $('#loader').hide();
+//     $(document).ready(function() 
+// {
+//     $('#loader').hide();
 
-    $('form').submit(function() 
-    {
-        $('#loader').show();
-    }) 
-});
+//     $('form').submit(function() 
+//     {
+//         $('#loader').show();
+//     }) 
+// });
+$("#my_form").submit(function(event){
+    event.preventDefault(); //prevent default action .
+    $('#loader').show();
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $.ajax({
+        url : post_url,
+        type: request_method,
+        data : form_data,
+		contentType: false,
+		processData:false,
+		xhr: function(){
+		//upload Progress
+		var xhr = $.ajaxSettings.xhr();
+		if (xhr.upload) {
+			xhr.upload.addEventListener('progress', function(event) {
+				var percent = 0;
+				var position = event.loaded || event.position;
+				var total = event.total;
+				if (event.lengthComputable) {
+					percent = Math.ceil(position / total * 100);
+				}
+				//update progressbar
+				$("#upload-progress .progress-bar").css("width", + percent +"%");
+			}, true);
+		}
+		return xhr;
+	}
+    }).done(function(response){ //
+        $('#loader').hide();
+        $('#upload-progress .progress-bar').hide();
+        $("#server-results").html(response);
+        //window.location.href=form_item_list?forms_id=".$parent_id."&forms_item_id=1;
+    });
+});     
 </script>
 
 </body>

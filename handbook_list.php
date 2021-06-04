@@ -283,11 +283,9 @@ if ($_GET['act'] == 'add') {
             <nav class="breadcrumb">
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training;?></a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Handbook List</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo ' '.$theme_name.' / '.$_manual.'';?></a>
             </nav>
         </div>
         <?php
@@ -320,11 +318,11 @@ if ($_GET['act'] == 'add') {
             <div class="text-center mb-4">
                 <a href="handbook_item_add.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-blue px-45 py-2 text-105 radius-2">
                     <i class="fa fa-pencil-alt mr-1"></i>
-                    Add New Item</a>
+                    <?php echo $_add_new_item;?></a>
             </div>
 
             <div class="container">
-                <h1><a href=""> List</a></h1>
+                <h1><a href=""><?php echo $_list;?></a></h1>
                 <hr>
                 <?php
                 $pages = new Paginator;
@@ -336,7 +334,7 @@ if ($_GET['act'] == 'add') {
                 $pages->paginate();
                 //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
                 //echo $pages->limit;
-                $result = pg_query("select id,name, path, iconpath,path2,iconpath2,path3,iconpath3 from media where access_group && ARRAY[".$string."] and themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name".$pages->limit."");
+                $result = pg_query("select id,name,name2,name3, path, iconpath,path2,iconpath2,path3,iconpath3 from media where access_group && ARRAY[".$string."] and themeid = " . $theme_id . " and type = '" . $theme_type . "' order by name".$pages->limit."");
                 ?>
                 <div class="clearfix"></div>
                 <div class="row marginTop">
@@ -361,6 +359,8 @@ if ($_GET['act'] == 'add') {
                     while ($val  =   pg_fetch_array($result)) {
                         $item_id = $val["id"];
                         $item_name = $val["name"];
+                        $item_name_de=$val["name2"];
+                        $item_name_pol=$val["name3"];
                         $item_path = $val["path"];
                         $item_icon = $val["iconpath"];
                         $item_path2 = $val["path2"];
@@ -384,10 +384,10 @@ if ($_GET['act'] == 'add') {
 
                             <div class="card-header">
                                 <h4 class="text-120 mb-0">
-                                    <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php echo $item_name; ?></a></center>
+                                    <center> <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank" class="training_item_link"><?php if($lang=="de") { echo $item_name_de;  } else if($lang=="pol") { echo $item_name_pol;  } else { echo $item_name;} ?></a></center>
                                 </h4>
                                 <div >                                
-                                <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" class="border border-secondary">
+                              <a href="<?php if($lang=="de") { echo $item_path2;  } else if($lang=="pol") { echo $item_path3;  } else { echo $item_path;} ?>" target="_blank">  <img src="<?php if($lang=="de") { echo $item_icon2;  } else if($lang=="pol") { echo $item_icon3;  } else { echo $item_icon;} ?>" alt="preview" class="border border-secondary"> </a>
         </div>
         <?php if ($_SESSION['user_type'] == 'A')
                 {?>
@@ -395,11 +395,11 @@ if ($_GET['act'] == 'add') {
 
                                     <a onClick="return confirm('Are you sure you want to delete item <?php echo $item_name; ?>')" href="handbook_list.php?act=delete&theme_id=<?php echo $theme_id; ?>&item_id=<?php echo $item_id; ?>&type=<?php echo $theme_type; ?>" class="btn btn-primary a-btn-slide-text" type="button">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        <span><strong>Delete</strong></span>
+                                        <span><strong><?php echo $_delete;?></strong></span>
                                     </a>
                                     <a href="handbook_item_edit.php?theme_id=<?php echo $theme_id; ?>&type=<?php echo $theme_type; ?>&item_id=<?php echo $item_id; ?>" class="btn btn-primary a-btn-slide-text">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        <span><strong>Edit</strong></span>
+                                        <span><strong><?php echo $_edit;?></strong></span>
                                     </a>
                                 </div>
                                 <?php } ?>

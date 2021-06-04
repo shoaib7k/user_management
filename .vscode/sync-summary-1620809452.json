@@ -1,0 +1,34 @@
+{
+    "_readMe": "Review list of sync operations, then use Ftp-sync: Commit command to accept changes. Note that if you're not in your root directory then all the parent directories will also be uploaded",
+    "_warning": "This file should not be saved, reopened review file won't work!",
+    "filesToUpdate": [
+        "contact_list.php",
+        "forms_item_list.php",
+        "forms_item_edit.php",
+        "group_list.php",
+        "handbook_item_edit.php",
+        "handbook_list.php",
+        "information_item_edit.php",
+        "information_item_add.php",
+        "information_list.php",
+        "information_item_read.php",
+        "left_menu.php",
+        "login.php",
+        "paginator.class.php",
+        "template_list.php",
+        "template_list_edit.php",
+        "training_list.php",
+        "training_list_add.php",
+        "training_list_edit.php",
+        "user_list.php",
+        "language/lang_en.php",
+        "language/lang_pol.php",
+        "language/lang_de.php"
+    ],
+    "filesToAdd": [
+       
+    ],
+    "dirsToAdd": [],
+    "filesToRemove": [],
+    "dirsToRemove": []
+}

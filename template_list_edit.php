@@ -1,10 +1,44 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 session_start();
 include('paginator.class.php');
 ?>
 
 <?php
 include 'db_connect.php';
+$parent_id = $_GET['forms_id'];
+$theme_id = $_GET['forms_id'];
+$forms_item_id=$_GET['forms_item_id'];  
+$redirect_from = $_GET['origin'];
+if ($db_connection)  {
+        
+  // prepare title
+  $theme_name = "Thema nicht vorhanden.";
+
+  
+  
+  $sql = "select theme from forms where id = ".$theme_id;
+  
+  $db_result = pg_query($db_connection, $sql);
+  
+  if ($db_result) {
+      
+      $db_recordcount = pg_num_rows($db_result);
+      
+      if ($db_recordcount > 0) {
+          
+          $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+          
+          $theme_name = $db_record["theme"];
+          
+      }
+   
+      pg_free_result($db_result);
+      
+  }
+  }
 if ($_GET['act'] == 'edit') {
   if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } 
     if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } 
@@ -112,13 +146,32 @@ if ($forms_active_theme_id != "") {
   <div class="page-content container container-plus">
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-          <li class="breadcrumb-item"><a href="settings.php">Admin</a></li>
-          <li class="breadcrumb-item active">Training</li>
-        </ol>
-      </nav>
+    <nav class="breadcrumb">
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?> ">Home</a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
+                <?php if(isset($parent_id)){
+                    include 'db_connect.php';
+                    foreach($_SESSION['bc'] as $x=>$x_value)
+  {
+ // echo "Key=" . $x . ", Value=" . $x_value;
+ $querybc=pg_query("select theme from forms where id=".$x."");
+// echo $querybc;
+ while($parentsbc=pg_fetch_array($querybc)){
+     $name_bc=$parentsbc['theme'];
+ }
+ 
+ echo " / ";
+  echo "<a style='1px solid #000000; padding: 0 5px' href='.$x_value.'>$name_bc </a>";
+  
+  }
+     //print_r($_SESSION['bc']);
+    
+                }?>
+                <a>/</a>
+                
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_update;?> </a>
+            </nav>
     </div>
     <?php
     if ($_SESSION['user_type'] == 'U') {
@@ -144,15 +197,15 @@ if ($forms_active_theme_id != "") {
                   <input type="text" name="forms_theme_id" class="form-control" value="<?php  echo $forms_active_theme_id; ?>" id="forms_theme_id" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Current Form Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_current_folder_name;?></label>
                   <input type="text" name="forms_theme_old" class="form-control" value="<?php echo $forms_theme; ?>" id="current_theme" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">New Form Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_new_folder_name;?></label>
                   <input type="text" name="forms_theme_new" class="form-control" id="new_theme">
                 </div>
                 <div class="form-group">
-                            <label for="group_add">Select Groups</label>   
+                            <label for="group_add"><?php echo $_select_group_for_access;?></label>   
 
 
                               
@@ -196,8 +249,8 @@ if ($forms_active_theme_id != "") {
                     </div>
                 <div id="loader" class="loader"></div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_update;?>>
                 </div>
               </form>
 

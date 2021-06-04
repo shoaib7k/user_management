@@ -295,15 +295,15 @@ $_homebase_path="";
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+    <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?>">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training;?></a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="training_list.php">Training</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="video_list.php?theme_id=<?php echo $theme_id;?>&type=handbook"><?php echo $theme_name;?> </a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="video_list.php">Video</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active">Video </a>
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_add?> </a>
             </nav>
     </div>
     <?php
@@ -323,25 +323,25 @@ $_homebase_path="";
 
 
       <div class="container">
-              <form method="POST" action="video_item_add.php?act=add&theme_id=<?php echo $theme_id; ?>&type=video" enctype="multipart/form-data">
+              <form method="POST" id=my_form action="video_item_add.php?act=add&theme_id=<?php echo $theme_id; ?>&type=video" enctype="multipart/form-data">
 
 <input type="text" name="training_video_theme_id" value="<?php echo $theme_id; ?>" readonly="true" style="display:none">
 
-      <div class="form-group">
+      <!-- <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
                   <input type="text" name="training_video_item_id" class="form-control" id="theme_id" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Current Item Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_current_item_name;?></label>
                   <input type="text" name="training_video_item_name_old" class="form-control"  id="current_theme" readonly>
-                </div>
+                </div> -->
                 <div class="form-group">
-                  <label for="formGroupExampleInput">New Item Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_title;?></label>
          <input type="text" name="training_video_item_name_new" class="form-control" id="new_theme">
                 </div>
 
                 <div class="form-group">
-                      <label for="group_add">Select Groups For Access</label>
+                      <label for="group_add"><?php echo $_select_group_for_access;?></label>
                   <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -372,14 +372,15 @@ $_homebase_path="";
 
                     </div>
             <div class="file-loading">
-         <input id="kv-explorer" name="file_name" type="file" multiple>
+         <input id="kv-explorer" name="file_name" type="file" >
       </div>
  
-      <div id="loader" class="loader" ></div>
+      <div id="loader" style="display: none;" class="loader" ></div>
+      <div id="upload-progress"><div class="progress-bar"></div></div> <!-- Progress bar added -->
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_add;?>>
                 </div>
               </form>
             
@@ -488,6 +489,13 @@ $_homebase_path="";
             'uploadUrl': '#',
             overwriteInitial: false,
             initialPreviewAsData: true,
+            showUpload: false,
+            fileActionSettings : {
+// Disable
+ showUpload : false,
+showRemove:false,
+},
+ 
         });
         /*
          $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
@@ -496,15 +504,52 @@ $_homebase_path="";
          */
     });
 
-    $(document).ready(function() 
-{
-    $('#loader').hide();
+//     $(document).ready(function() 
+// {
+//     $('#loader').hide();
 
-    $('form').submit(function() 
-    {
-        $('#loader').show();
-    }) 
-});
+//     $('form').submit(function() 
+//     {
+//         $('#loader').show();
+//     }) 
+// });
+
+$("#my_form").submit(function(event){
+    event.preventDefault(); //prevent default action .
+    $('#loader').show();
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $.ajax({
+        url : post_url,
+        type: request_method,
+        data : form_data,
+		contentType: false,
+		processData:false,
+		xhr: function(){
+		//upload Progress
+		var xhr = $.ajaxSettings.xhr();
+		if (xhr.upload) {
+			xhr.upload.addEventListener('progress', function(event) {
+				var percent = 0;
+				var position = event.loaded || event.position;
+				var total = event.total;
+				if (event.lengthComputable) {
+					percent = Math.ceil(position / total * 100);
+				}
+				//update progressbar
+				$("#upload-progress .progress-bar").css("width", + percent +"%");
+			}, true);
+		}
+		return xhr;
+	}
+    }).done(function(response){ //
+        $('#loader').hide();
+        $('#upload-progress .progress-bar').hide();
+        $("#server-results").html(response);
+    });
+});   
 </script>
 
 </body>

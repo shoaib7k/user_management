@@ -108,8 +108,8 @@ if (isset($_SESSION['lang'])) {
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                    
                     <span class="d-inline-block d-lg-none d-xl-inline-block">
-                              <span class="text-90" id="id-user-welcome">Welcome,</span>
-                    <span class="nav-user-name"><?php echo $_SESSION['login_name'];?></span>
+                              <span class="text-90" id="id-user-welcome"><?php echo $_welcome;?>,</span>
+                    <span class="nav-user-name" style="max-width:400px;"><?php echo $_SESSION['full_name'];?></span>
                     </span>
 
                     <!-- <i class="caret fa fa-angle-down d-none d-xl-block"></i> -->
@@ -119,14 +119,14 @@ if (isset($_SESSION['lang'])) {
                   <div class="dropdown-menu dropdown-caret dropdown-menu-right dropdown-animated brc-primary-m3 py-1">
                     <div class="d-none d-lg-block d-xl-none">
                       <div class="dropdown-header">
-                        Welcome, <?php echo $_SESSION['login_name'];?>
+                        <?php echo $_welcome;?>, <?php echo $_SESSION['full_name'];?>
                       </div>
                       <div class="dropdown-divider"></div>
                     </div>
 
                     
 
-                    <a class="mt-1 dropdown-item btn btn-outline-grey bgc-h-primary-l3 btn-h-light-primary btn-a-light-primary" href="html/page-profile.html">
+                    <!-- <a class="mt-1 dropdown-item btn btn-outline-grey bgc-h-primary-l3 btn-h-light-primary btn-a-light-primary" href="html/page-profile.html">
                       <i class="fa fa-user text-primary-m1 text-105 mr-1"></i>
                       Profile
                     </a>
@@ -134,7 +134,7 @@ if (isset($_SESSION['lang'])) {
                     <a class="dropdown-item btn btn-outline-grey bgc-h-success-l3 btn-h-light-success btn-a-light-success" href="#" data-toggle="modal" data-target="#id-ace-settings-modal">
                       <i class="fa fa-cog text-success-m1 text-105 mr-1"></i>
                       Settings
-                    </a>
+                    </a> -->
 
                     <div class="dropdown-divider brc-primary-l2"></div>
 
@@ -168,7 +168,7 @@ if (isset($_SESSION['lang'])) {
               
 
 
-                <li class="nav-item active">
+                <li class="nav-item <?php if($_SESSION['menu']=='home') echo 'active';?>">
 
                   <a href="home.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-home"></i>
@@ -191,7 +191,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li> -->
-                <li class="nav-item">
+                <li class="nav-item <?php if($_SESSION['menu']=='information') echo 'active'; ?>">
                   <a href="information_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-info-circle"></i>
                     <span class="nav-text fadeable">
@@ -200,7 +200,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php if($_SESSION['menu']=='contacts') echo 'active'; ?>">
                   <a href="contact_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-address-card"></i>
                     <span class="nav-text fadeable">
@@ -209,7 +209,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                 <li class="nav-item">
+                 <li class="nav-item <?php if($_SESSION['menu']=='users') echo 'active';?>">
                   <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="nav-text fadeable">
@@ -290,7 +290,7 @@ if (isset($_SESSION['lang'])) {
 
                 </li>
               -->
-               <li class="nav-item">
+               <li class="nav-item <?php if($_SESSION['menu']=='groups') echo 'active'; ?>">
                   <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-object-group"></i>
                     <span class="nav-text fadeable">
@@ -299,7 +299,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php if($_SESSION['menu']=='training') echo 'active';?>">
                   <a href="training_list.php?app=default&app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
@@ -308,7 +308,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php if($_SESSION['menu']=='template') echo 'active';?>">
                   <a href="template_list.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <span class="nav-text fadeable">
@@ -317,7 +317,7 @@ if (isset($_SESSION['lang'])) {
                   </a>
                   <b class="sub-arrow"></b>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="settings.php?app=default&lang=<?php echo detect_language(); ?>" class="nav-link">
                     <i class="nav-icon fa fa-cog"></i>
                     <span class="nav-text fadeable">
@@ -325,7 +325,7 @@ if (isset($_SESSION['lang'])) {
                     </span>
                   </a>
                   <b class="sub-arrow"></b>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="logout.php" class="nav-link">
                    <i class="nav-icon fa fa-power-off"></i>

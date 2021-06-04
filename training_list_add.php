@@ -195,7 +195,9 @@ echo "failed";
                 <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
                 <a>/</a>
 
-                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_training; ?></a>
+                <a style="1px solid #000000; padding: 0 5px" href="training_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_training; ?></a>
+                <a>/</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_add;?> </a>
             </nav>
         </div>
     <?php
@@ -223,15 +225,15 @@ echo "failed";
                   <input type="text" name="training_theme_id" class="form-control" value="<?php echo $theme_id; ?>" id="theme_id" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">Current Theme Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_current_theme_name;?></label>
                   <input type="text" name="training_theme_name_old" class="form-control" value="<?php echo $theme_name; ?>" id="current_theme" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="formGroupExampleInput">New Theme Name</label>
+                  <label for="formGroupExampleInput"><?php echo $_new_theme_name;?></label>
                   <input type="text" name="training_theme_name_new" class="form-control" id="new_theme">
                 </div>
                 <div class="form-group">
-                      <label for="group_add">Select Groups For Access</label>
+                      <label for="group_add"><?php echo $_select_group_for_access;?></label>
                   <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -268,8 +270,8 @@ echo "failed";
       <div id="loader" class="loader"></div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_add;?>>
                 </div>
               </form>
 

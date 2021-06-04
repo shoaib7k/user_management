@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 include 'db_connect.php';
 session_start();
 $_SESSION['user_in_groups'] = array();
@@ -10,13 +13,18 @@ if ($login_result && pg_num_rows($login_result) == 1) {
 	while ($val  =   pg_fetch_array($login_result)) {
 		$_SESSION['logged_in'] = 1;
 		$_SESSION['login_name'] = $val['login_name'];
+		$fn=$val['first_name'];
+		$ln=$val['last_name'];
+		$_SESSION['full_name']=$fn.' '.$ln;
 		$_SESSION['user_type'] = $val['user_type'];
 		$_SESSION['userid'] = $val['id'];
 		$user_id = $val['id'];
 
 		$sql_forms2 = pg_query("SELECT * FROM user_groups WHERE user_id='" . $user_id . "'"); //test for finding group
 		$gN = 0;
-
+		//$_Session['arr']=array();
+		$_SESSION['m']=[];
+		$_SESSION['bc']=[];
 		while ($val2 = pg_fetch_array($sql_forms2)) {
 			$gN = $gN + 1;
 			$_SESSION['total_groups'] = $gN; //finding total group

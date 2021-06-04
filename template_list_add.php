@@ -1,5 +1,7 @@
 <?php
-
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 session_start();
 include('paginator.class.php');
 ?>
@@ -7,13 +9,45 @@ include('paginator.class.php');
 <?php
 include 'db_connect.php';
 $parent_id = $_GET['forms_id'];
-$theme_id = $_GET['forms_id'];  
+$theme_id = $_GET['forms_id'];
+$forms_item_id=$_GET['forms_item_id'];  
+$redirect_from = $_GET['origin'];
+
+// if ($redirect_from >= $forms_item_id)
+//     $redirect_from = 1;
 $all_groups=array();
         $sql3=pg_query("select * from groups");
         while($val3=pg_fetch_array($sql3)){
           array_push($all_groups,$val3['id']);
         }
         print_r($all_groups);
+if ($db_connection)  {
+        
+          // prepare title
+          $theme_name = "Thema nicht vorhanden.";
+
+          
+          
+          $sql = "select theme from forms where id = ".$theme_id;
+          
+          $db_result = pg_query($db_connection, $sql);
+          
+          if ($db_result) {
+              
+              $db_recordcount = pg_num_rows($db_result);
+              
+              if ($db_recordcount > 0) {
+                  
+                  $db_record = pg_fetch_array($db_result, 0, PGSQL_BOTH );
+                  
+                  $theme_name = $db_record["theme"];
+                  
+              }
+           
+              pg_free_result($db_result);
+              
+          }
+          }
 if ($_GET['act'] == 'add') {
   if (isset( $_POST['forms_theme_id'] ))  { $forms_theme_id = trim($_POST['forms_theme_id']); } else { $forms_theme_id = ""; }
     if (isset( $_POST['forms_theme_old'] )) { $forms_theme_old = trim($_POST['forms_theme_old']); } else { $forms_theme_old = ""; }
@@ -26,11 +60,11 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
      
         if($parent_id!==""){
         $sql = "insert into forms (id, theme, timestamp,themeid,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'".$parent_id."','{".implode(',',$all_groups)."}')"; 
-        header("location: template_list.php");
+        header("location: forms_item_list.php?forms_id=$parent_id&forms_item_id=$forms_item_id");
         }
         else{
           $sql = "insert into forms (id, theme, timestamp,access_group) values ((select max(id) from forms) + 1, '".$forms_theme_new."', localtimestamp,'{".implode(',',$all_groups)."}')"; 
-          header("location: template_list.php");
+          header("location: template_list.php?app=default&lang=de");
         }
     }
     
@@ -60,13 +94,28 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
     <!-- page header and toolbox -->
     <div class="page-header pb-2">
     <nav class="breadcrumb">
-                <a style="1px solid #000000; padding: 0 5px" href="home.php">Home</a>
+                <a style="1px solid #000000; padding: 0 5px" href="home.php?app=default&lang=<?php echo detect_language(); ?> ">Home</a>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
+                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php?app=default&lang=<?php echo detect_language(); ?>"><?php echo $_templates;?></a>
+                <?php if(isset($parent_id)){
+                    
+                    foreach($_SESSION['bc'] as $x=>$x_value)
+  {
+ // echo "Key=" . $x . ", Value=" . $x_value;
+ $querybc=pg_query("select theme from forms where id=".$x."");
+ while($parentsbc=pg_fetch_array($querybc)){
+     $name_bc=$parentsbc['theme'];
+ }
+ 
+ echo " / ";
+  echo "<a style='1px solid #000000; padding: 0 5px' href='.$x_value.'>$name_bc </a>";
+  
+  }
+    // print_r($_SESSION['bc']);
+    
+                }?>
                 <a>/</a>
-                <a style=" 1px solid #000000; padding: 0 5px" href="template_list.php">Template</a>
-                <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">Add </a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo $_add;?> </a>
             </nav>
     </div>
     <?php
@@ -87,7 +136,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
 
 
      
-              <form method="POST" action="template_list_add.php?act=add&forms_id=<?php echo $parent_id;?>" enctype="multipart/form-data">
+              <form method="POST" action="template_list_add.php?act=add&forms_id=<?php echo $parent_id;?>&forms_item_id=<?php echo $forms_item_id;?>" enctype="multipart/form-data">
 
                 <div class="form-group">
                   <label for="formGroupExampleInput">ID</label>
@@ -103,7 +152,7 @@ if (($forms_theme_old != $forms_theme_new) && ($forms_theme_old != "")) {
                 </div>
                 <div id="loader" class="loader"></div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;"><?php echo $_close;?></button>
                   <input type="submit" class="btn btn-primary" value="Add">
                 </div>
               </form>

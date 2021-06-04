@@ -41,11 +41,11 @@ $lang_location_title="Location";
       <div class="container">
        <div class="card" >
   <ul class="list-group list-group-flush">
-    <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $lang_users_title; ?></li></a>
-    <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $lang_groups_title; ?></li></a>
-    <a href=""><li class="list-group-item"><?php echo $lang_group_structure_title; ?></li></a>
+    <a href="user_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $_user; ?></li></a>
+    <a href="group_list.php?app=default&lang=<?php echo detect_language(); ?>"><li class="list-group-item"><?php echo $_groups; ?></li></a>
+    <!-- <a href=""><li class="list-group-item"><?php echo $lang_group_structure_title; ?></li></a>
     <a href=""><li class="list-group-item"><?php echo $lang_department_title; ?></li></a>
-    <a href=""><li class="list-group-item"><?php echo $lang_location_title; ?></li></a>
+    <a href=""><li class="list-group-item"><?php echo $lang_location_title; ?></li></a> -->
   </ul>
 </div>
       </div>

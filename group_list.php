@@ -1,5 +1,6 @@
 <?php 
 session_start();
+$_SESSION['menu']='groups';
 include('paginator.class.php'); 
  ?>
 <?php
@@ -106,8 +107,8 @@ if($_GET['act']=='delete'){
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_add;?>>
                 </div>
                 </form>
               </div>
@@ -197,7 +198,7 @@ if($_GET['act']=='delete'){
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit Group</h5>
+                  <h5 class="modal-title" id="exampleModalLabel"><?php echo ''.$_edit.' '.$_groups.'ss';?></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -206,15 +207,15 @@ if($_GET['act']=='delete'){
                   <form method="POST" action="group_list.php?act=update_group">
                    <input type="hidden" name="id"  class="form-control" value="<?php echo $val['id']; ?>" >
                     <div class="form-group row">
-                      <label for="groupName" class="col-sm-4 col-form-label"><?php echo $lang_group_name; ?></label>
+                      <label for="groupName" class="col-sm-4 col-form-label"><?php echo $_group_name; ?></label>
                       <div class="col-sm-8">
                         <input type="text" name="group_name" id="group_name" class="form-control" value="<?php echo $val['group_name']; ?>">
                       </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Update">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $_close;?></button>
+                  <input type="submit" class="btn btn-primary" value=<?php echo $_update;?>>
                 </div>
                 </form>
               </div>

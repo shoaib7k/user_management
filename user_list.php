@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['menu']='users';
 include('paginator.class.php'); 
  ?>
 <?php
@@ -144,7 +145,7 @@ if ($_GET['act'] == 'update_user') {
                             }
                           }
                         }
-      header("location: user_list.php");
+      header("location: user_list.php?app=default&lang=de");
     }
   }
 }
@@ -164,7 +165,7 @@ if($_GET['act']=='delete'){
   $db_resultd3=pg_query($db_connection,$sqld3);
  if($db_resultd3){
     pg_free_result($db_resultd3);
-    header("location: user_list.php");
+    header("location: user_list.php?app=default&lang=de");
   }
   }
 }
@@ -182,7 +183,7 @@ if($_GET['act']=='delete'){
                 <a style=" 1px solid #000000; padding: 0 5px" href="settings.php">Admin</a>
                
                 <a>/</a>
-                <a style="1px solid #000000; padding: 0 5px" class=" active">User List</a>
+                <a style="1px solid #000000; padding: 0 5px" class=" active"><?php echo ''.$_user. ' '.$_list.''?></a>
             </nav>
             </div>
             <?php 
@@ -434,7 +435,7 @@ if($_GET['act']=='delete'){
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                  <h5 class="modal-title" id="exampleModalLabel"><?php echo ''.$_edit.' '.$_user.'';?></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -445,13 +446,13 @@ if($_GET['act']=='delete'){
                     <div class="form-group row">
                       <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">First Name</label>
+                      <label for="formGroupExampleInput"><?php echo $_first_name;?></label>
                       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="<?php echo $val['first_name']; ?>">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput2">Last Name</label>
+                      <label for="formGroupExampleInput2"><?php echo $_last_name;?></label>
                       <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name" value="<?php echo $val['last_name']; ?>">
                     </div>
                   </div>
@@ -459,14 +460,14 @@ if($_GET['act']=='delete'){
                   <div class="form-group row">
                     <div class="col">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Login Name</label>
+                      <label for="exampleInputEmail1"><?php echo $_lang_login;?></label>
                       <input type="text" name="login_name" class="form-control" id="login_name"  value="<?php echo $val['login_name']; ?>" aria-describedby="emailHelp" placeholder="Login Name">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                      <label for="exampleInputPassword1"><?php echo $_lang_password;?></label>
+                      <input type="password" name="password" class="form-control" id="password" placeholder=<?php echo $_lang_password;?>>
                     </div>
                   </div>
                 </div>
@@ -495,19 +496,19 @@ if($_GET['act']=='delete'){
                    
                     <div class="col">
                       <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-1</label>
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-1</label>
                       <input type="text" name="telephone1" class="form-control" id="telephone1" value="<?php echo $val['telephone1']; ?>" placeholder="Telephone-1">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-2</label>
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-2</label>
                       <input type="text" name="telephone2" class="form-control" id="telephone2" value="<?php echo $val['telephone2']; ?>" placeholder="Telephone-2">
                     </div>
                     </div>
                     <div class="col">
                     <div class="form-group">
-                      <label for="formGroupExampleInput">Telephone-3</label>
+                      <label for="formGroupExampleInput"><?php echo $_telephone;?>-3</label>
                       <input type="text" name="telephone3" class="form-control" id="telephone3" value="<?php echo $val['telephone3']; ?>" placeholder="Telephone-3">
                     </div>
                     </div>
@@ -515,13 +516,13 @@ if($_GET['act']=='delete'){
                                     <div class="form-group row">
                     <div class="col">
                     <div class="form-group">
-                      <label for="user_type">User Type</label>
+                      <label for="user_type"><?php echo $_user_type;?></label>
                       <select class="form-control" id="user_type" name="user_type">
                     <?php 
-                if($val['user_type']=='U') { echo '<option value="U">User</option>'; }
+                if($val['user_type']=='U') { echo '<option value="U">'.$_user.'</option>'; }
                 else { echo '<option value="A">Admin</option>';}
                       ?>
-                        <option value="U">User</option>
+                        <option value="U"><?php echo $_user;?></option>
                         <option value="A">Admin</option>
                       </select>
                     </div>
@@ -534,7 +535,7 @@ if($_GET['act']=='delete'){
                     </div>
                     <div class="col">
                       <div class="form-group">
-                      <label for="group_add">Select Groups</label>
+                      <label for="group_add"><?php echo $_select_group_for_access;?></label>
                       <select id="example-getting-started" class="form-control selectpicker" name="group_id[]" multiple="multiple" data-show-subtext="true" data-live-search="true">
 
                         <?php
@@ -585,8 +586,8 @@ if($_GET['act']=='delete'){
                   <div class="form-group">
                       <div class="card-body">
                       <input type="checkbox" name="show_to_contact" class="form-check-input" id="exampleCheck1" value="<?php echo $showing; ?>" <?php if($showing==1) { echo "checked"; } ?> />
-                      <label class="form-check-label" for="exampleCheck1"><?php if($showing==0) { echo "This user is in contact list but not showing. Want to show in contact list ? If yes then checked else unchecked."; } else{
-                        echo "This user is in contact list. Want to show in contact list ? If not then unchecked else checked.";
+                      <label class="form-check-label" for="exampleCheck1"><?php if($showing==0) { echo $_contact_list_not_showing; } else{
+                        echo $_contact_list;
                       }
                         ?></label>
                     </div>
@@ -596,13 +597,13 @@ if($_GET['act']=='delete'){
 <div class="form-group">
                       <div class="card-body">
                       <input type="checkbox" name="add_to_contact" class="form-check-input" id="exampleCheck1" value="1" />
-                      <label class="form-check-label" for="exampleCheck1">This user is not in contact list. Want to add it in contact list ? If not then unchecked else checked.</label>
+                      <label class="form-check-label" for="exampleCheck1"><?php echo $_not_contact_list;?></label>
                     </div>
                     </div>
                   <?php } ?>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <input type="submit" class="btn btn-primary" value="Add">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $_close;?></button>
+                      <input type="submit" class="btn btn-primary" value=<?php echo $_update;?>>
                     </div>
                   </form>
               </div>
