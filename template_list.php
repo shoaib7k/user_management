@@ -31,6 +31,8 @@ if($_GET['act']=='delete'){
   $id=$_GET['forms_id'];
   $sql2="DELETE from forms where id=".$id." ";
   $db_result2=pg_query($db_connection,$sql2);
+  $sql22="DELETE from forms where themeid=".$id." ";
+  $db_result22=pg_query($db_connection,$sql22);
   if($db_result2){
     pg_free_result($db_result2);
     header("location: template_list.php");

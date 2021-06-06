@@ -63,6 +63,8 @@ if (isset($_GET['act']))
         //$id=$_GET['theme_id'];
         $sql2 = "DELETE from forms where  id=" . $forms_item_id . "";
         $db_result2 = pg_query($db_connection, $sql2);
+        $sql22 = "DELETE from forms where  themeid=" . $forms_item_id . "";
+        $db_result22 = pg_query($db_connection, $sql22);
         if ($db_result2) {
             pg_free_result($db_result2);
             //  header("location: forms_item_list.php?theme_id=" . $theme_id . "&type=" . $theme_type . "");
@@ -188,14 +190,16 @@ if (isset($_GET['act']))
             $pages = new Paginator;
             $pages->default_ipp = 15;
             $string = implode(',', $_SESSION['user_in_groups']);
-            $sql_forms = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
+//            $sql_forms = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
+            $sql_forms = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC " . $pages->limit . "");
             $pages->items_total = pg_num_rows($sql_forms);
             $pages->mid_range = 9;
             $pages->paginate();
             //echo "SELECT * FROM groups ORDER BY id ASC '".$pages->limit."'";
             //echo $pages->limit;
-            $result = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
-            ?>
+            //$result = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC");
+
+$result = pg_query("select id,name,path,iconpath,theme,breadpath from forms where access_group &&  ARRAY[" . $string . "] and themeid = " . $forms_id . " order by name DESC " . $pages->limit . "");            ?>
             <div class="clearfix"></div>
 
             <div class="row marginTop">
